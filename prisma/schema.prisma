@@ -18,6 +18,14 @@ model Example {
     text String?
 }
 
+model Pomodoro {
+    id            String   @id @default(cuid())
+    createdAt     DateTime @default(now())
+    workDuration  Int
+    breakDuration Int
+    //userId        String
+}
+
 // Necessary for Next auth
 model Account {
     id                String  @id @default(cuid())
