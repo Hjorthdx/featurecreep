@@ -18,13 +18,22 @@ model Example {
     text String?
 }
 
-model Pomodoro {
-    id            String   @id @default(cuid())
-    createdAt     DateTime @default(now())
-    workDuration  Int
-    breakDuration Int
-    //userId        String
+model PomodoroTimer {
+    id        String   @id @default(cuid())
+    mode      String   @default("work")
+    createdAt DateTime @default(now())
+    duration  Int      @default(25)
 }
+
+//model PomodoroFormat {
+//    id                String @id @default(cuid())
+//    userId            String
+//    name              String
+//    workDuration      Int
+//    breakDuration     Int
+//    longBreakDuration Int
+//    user              User   @relation(fields: [userId], references: [id])
+// }
 
 // Necessary for Next auth
 model Account {
@@ -61,6 +70,7 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
+    //PomodoroFormat PomodoroFormat[]
 }
 
 model VerificationToken {

@@ -3,6 +3,7 @@ import PomodoroTimer from '../components/pomodoro/pomodoroTimer';
 import { trpc } from '../utils/trpc';
 
 function Pomodoro() {
+    /*
     const client = trpc.useContext();
     const { mutate } = trpc.useMutation('pomodoro.startPomodoro', {
         onSuccess(data, variables, context) {
@@ -11,7 +12,7 @@ function Pomodoro() {
         },
     });
     const { data: pomodoros } = trpc.useQuery(['pomodoro.getAll']);
-
+*/
     return (
         <div className='flex flex-col items-center min-h-screen p-10 px-0 mx-auto md:py-20 md:p-10 md:px-0 bg-zinc-300 '>
             <PomodoroTimer />

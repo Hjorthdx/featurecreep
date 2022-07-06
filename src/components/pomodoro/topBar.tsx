@@ -3,17 +3,17 @@ import SettingsButton from '../buttons/settingsButton';
 import { PomodoroModes } from './pomodoroModes';
 
 interface Props {
-    setSelectedMode: (mode: PomodoroModes) => void;
+    onClick: (mode: PomodoroModes) => void;
 }
 
-function Topbar({ setSelectedMode }: Props) {
+function Topbar({ onClick }: Props) {
     return (
         <div className='p-5 py-5 inline-flex'>
             <SettingsButton onClick={() => console.log('Settings button!')} />
             <ElevatedButton
                 onClick={() => {
                     console.log('Work button!');
-                    setSelectedMode('work');
+                    onClick('work');
                 }}
             >
                 Work button
@@ -21,7 +21,7 @@ function Topbar({ setSelectedMode }: Props) {
             <ElevatedButton
                 onClick={() => {
                     console.log('Break button!');
-                    setSelectedMode('break');
+                    onClick('break');
                 }}
             >
                 Break button
@@ -29,7 +29,7 @@ function Topbar({ setSelectedMode }: Props) {
             <ElevatedButton
                 onClick={() => {
                     console.log('Long break button!');
-                    setSelectedMode('longBreak');
+                    onClick('longBreak');
                 }}
             >
                 Long break button

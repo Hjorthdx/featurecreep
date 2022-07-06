@@ -17,7 +17,6 @@ function CountdownClock({ isPlaying, duration, onComplete, selectedMode }: Props
             colors={['#004777', '#F7B801', '#A30000', '#A30000']}
             colorsTime={[7, 5, 2, 0]}
             onComplete={onComplete}
-            onUpdate={() => console.log('onUpdate')}
         >
             {/* ({ remainingTime }) => remainingTime */}
             {({ remainingTime }) => `${selectedMode} - ${remainingTime}`}

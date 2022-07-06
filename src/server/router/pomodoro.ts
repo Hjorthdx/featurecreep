@@ -1,8 +1,25 @@
 import { createRouter } from './context';
 import { z } from 'zod';
 
-export const pomodoroRouter = createRouter()
-    .query('getAll', {
+export const pomodoroRouter = createRouter().mutation('createTimer', {
+    input: z.object({
+        mode: z.string(), // How can I make this my custom type? 'work' | 'break' | 'longBreak'
+        createdAt: z.date(),
+        duration: z.number(),
+    }),
+    async resolve({ input, ctx }) {
+        return await ctx.prisma.pomodoroTimer.create({
+            data: {
+                mode: input.mode,
+                createdAt: input.createdAt,
+                duration: input.duration,
+            },
+        });
+    },
+});
+
+/*
+.query('getAll', {
         async resolve({ ctx }) {
             return await ctx.prisma.pomodoro.findMany();
         },
@@ -19,18 +36,4 @@ export const pomodoroRouter = createRouter()
             });
         },
     })
-    .mutation('startPomodoro', {
-        input: z.object({
-            workDuration: z.number(),
-            breakDuration: z.number(),
-        }),
-        async resolve({ input, ctx }) {
-            return await ctx.prisma.pomodoro.create({
-                data: {
-                    createdAt: new Date(),
-                    workDuration: input.workDuration,
-                    breakDuration: input.breakDuration,
-                },
-            });
-        },
-    });
+    */
