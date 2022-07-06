@@ -1,8 +1,9 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
-import CredentialsProvider from 'next-auth/providers/credentials';
+import TwitterProvider from 'next-auth/providers/twitter';
 
 // Prisma adapter for NextAuth, optional and can be removed
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
@@ -24,7 +25,12 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET,
         }),
-        // ...add more providers here
+        TwitterProvider({
+            clientId: process.env.TWITTER_ID ?? '',
+            clientSecret: process.env.TWITTER_SECRET ?? '',
+            version: '2.0', // opt-in to Twitter OAuth 2.0
+        }),
+        // Not done...
         CredentialsProvider({
             name: 'Credentials',
             credentials: {
@@ -33,6 +39,11 @@ export const authOptions: NextAuthOptions = {
                     type: 'text',
                     placeholder: 'Enter your name',
                 },
+                password: {
+                    label: 'Password',
+                    type: 'password',
+                    placeholder: 'Enter your password',
+                },
             },
             async authorize(credentials, _req) {
                 const user = { id: 1, name: credentials?.name ?? 'J Smith' };
@@ -40,8 +51,6 @@ export const authOptions: NextAuthOptions = {
             },
         }),
     ],
-    secret: process.env.SECRET,
-
     debug: true,
 };
 
