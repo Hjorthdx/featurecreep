@@ -1,9 +1,11 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
+import EmailProvider from 'next-auth/providers/email';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
 import RedditProvider from 'next-auth/providers/reddit';
+import TwitchProvider from 'next-auth/providers/twitch';
 import TwitterProvider from 'next-auth/providers/twitter';
 
 // Prisma adapter for NextAuth, optional and can be removed
@@ -30,11 +32,16 @@ export const authOptions: NextAuthOptions = {
             clientId: process.env.REDDIT_ID,
             clientSecret: process.env.REDDIT_SECRET,
         }),
+        TwitchProvider({
+            clientId: process.env.TWITCH_ID ?? '',
+            clientSecret: process.env.TWITCH_SECRET ?? '',
+        }),
         TwitterProvider({
             clientId: process.env.TWITTER_ID ?? '',
             clientSecret: process.env.TWITTER_SECRET ?? '',
             version: '2.0', // opt-in to Twitter OAuth 2.0
         }),
+        /*
         // Not done...
         CredentialsProvider({
             name: 'Credentials',
@@ -55,6 +62,17 @@ export const authOptions: NextAuthOptions = {
                 return user;
             },
         }),
+        EmailProvider({
+            server: {
+                host: process.env.EMAIL_SERVER_HOST,
+                port: process.env.EMAIL_SERVER_PORT,
+                auth: {
+                    user: process.env.EMAIL_SERVER_USER,
+                    pass: process.env.EMAIL_SERVER_PASSWORD,
+                },
+            },
+            from: process.env.EMAIL_FROM,
+        }),*/
     ],
     debug: true,
 };
