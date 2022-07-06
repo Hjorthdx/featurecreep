@@ -3,6 +3,7 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
+import RedditProvider from 'next-auth/providers/reddit';
 import TwitterProvider from 'next-auth/providers/twitter';
 
 // Prisma adapter for NextAuth, optional and can be removed
@@ -24,6 +25,10 @@ export const authOptions: NextAuthOptions = {
         GithubProvider({
             clientId: process.env.GITHUB_ID,
             clientSecret: process.env.GITHUB_SECRET,
+        }),
+        RedditProvider({
+            clientId: process.env.REDDIT_ID,
+            clientSecret: process.env.REDDIT_SECRET,
         }),
         TwitterProvider({
             clientId: process.env.TWITTER_ID ?? '',
