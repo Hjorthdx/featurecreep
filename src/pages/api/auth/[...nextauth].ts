@@ -46,6 +46,17 @@ export const authOptions: NextAuthOptions = {
             clientSecret: process.env.TWITTER_SECRET ?? '',
             version: '2.0', // opt-in to Twitter OAuth 2.0
         }),
+        EmailProvider({
+            server: {
+                host: process.env.EMAIL_SERVER_HOST,
+                port: process.env.EMAIL_SERVER_PORT,
+                auth: {
+                    user: process.env.EMAIL_SERVER_USER,
+                    pass: process.env.EMAIL_SERVER_PASSWORD,
+                },
+            },
+            from: process.env.EMAIL_FROM,
+        }),
         /*
         // Not done...
         CredentialsProvider({
@@ -67,17 +78,7 @@ export const authOptions: NextAuthOptions = {
                 return user;
             },
         }),
-        EmailProvider({
-            server: {
-                host: process.env.EMAIL_SERVER_HOST,
-                port: process.env.EMAIL_SERVER_PORT,
-                auth: {
-                    user: process.env.EMAIL_SERVER_USER,
-                    pass: process.env.EMAIL_SERVER_PASSWORD,
-                },
-            },
-            from: process.env.EMAIL_FROM,
-        }),*/
+        */
     ],
     debug: true,
 };
