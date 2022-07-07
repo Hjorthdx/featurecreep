@@ -20,6 +20,7 @@ function PomodoroTimer() {
         setDuration(mode === 'work' ? 25 * 60 : mode === 'break' ? 5 * 60 : 15 * 60);
         setIsPlaying(false);
         setStartedAt(undefined);
+        setPomodoroCount(0);
     }
 
     function onComplete() {
