@@ -32,9 +32,10 @@ function pomodoroMethodReducer(state: TopbarState, action: PomodoroMethodAction)
 
 interface Props {
     onClick: (mode: PomodoroModes) => void;
+    setShow: () => void;
 }
 
-function Topbar({ onClick }: Props) {
+function Topbar({ onClick, setShow }: Props) {
     const [state, dispatch] = useReducer(pomodoroMethodReducer, initialState);
 
     function onPress(mode: PomodoroModes) {
@@ -44,7 +45,7 @@ function Topbar({ onClick }: Props) {
 
     return (
         <div className='p-5 py-5 inline-flex'>
-            <SettingsButton onClick={() => console.log('Settings button!')} />
+            <SettingsButton onClick={setShow} />
             <ElevatedButton
                 enabled={state.workBool}
                 onClick={() => {

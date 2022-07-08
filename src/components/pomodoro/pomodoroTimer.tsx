@@ -5,8 +5,12 @@ import BottomBar from './bottomBar';
 import Topbar from './topBar';
 import { trpc } from '../../utils/trpc';
 
+interface Props {
+    setShow: () => void;
+}
+
 // TODO: Make reducer for this component
-function PomodoroTimer() {
+function PomodoroTimer({ setShow }: Props) {
     const { mutate } = trpc.useMutation('pomodoro.createTimer');
     const [selectedMode, setSelectedMode] = useState<PomodoroModes>('work');
     const [isPlaying, setIsPlaying] = useState(false);
@@ -56,7 +60,7 @@ function PomodoroTimer() {
 
     return (
         <div className='flex flex-col items-center bg-white rounded-2xl border-2 border-neutral-800'>
-            <Topbar onClick={handleChangeSelectedMode} />
+            <Topbar onClick={handleChangeSelectedMode} setShow={setShow} />
             <audio ref={audioRef}>
                 <source src='/alarm.mp3' type='audio/mp3' />
             </audio>
