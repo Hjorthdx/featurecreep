@@ -4,7 +4,7 @@ import { trpc } from '../utils/trpc';
 import Head from '../components/head';
 
 import { signIn, signOut, useSession } from 'next-auth/react';
-import FeatureGrid from '../components/grid/featureGrid';
+import FeatureGrid from '../components/grids/featureGrid';
 
 const Home: NextPage = () => {
     const hello = trpc.useQuery(['example.hello', { text: 'from tRPC' }]);
