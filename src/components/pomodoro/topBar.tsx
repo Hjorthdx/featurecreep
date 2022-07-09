@@ -1,8 +1,8 @@
 import { useReducer } from 'react';
-import { trpc } from '../../utils/trpc';
 import ElevatedButton from '../buttons/elevatedButton';
 import SettingsButton from '../buttons/settingsButton';
 import { PomodoroModes } from './pomodoroModes';
+import useCreatePomodoroFormat from '../../hooks/useCreatePomodoroFormat';
 
 // Could this be done in a nicer way? Currently just setting all booleans everytime a button is clicked.
 
@@ -38,7 +38,7 @@ interface Props {
 
 function Topbar({ onClick, setShow }: Props) {
     const [state, dispatch] = useReducer(pomodoroMethodReducer, initialState);
-    const { mutate: create } = trpc.useMutation('pomodoro.createPomodoroFormat');
+    const { create } = useCreatePomodoroFormat();
 
     function onPress(mode: PomodoroModes) {
         dispatch({ type: mode });
