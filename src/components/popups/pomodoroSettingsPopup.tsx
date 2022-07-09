@@ -1,13 +1,16 @@
-import { Formik, Form, Field, ErrorMessage } from 'formik';
+import { Formik, Form } from 'formik';
 import Popup from './popup';
 import PopupFooter from './popupFooter';
 import PopupHeader from './popupHeader';
 import { trpc } from '../../utils/trpc';
 import { useSession } from 'next-auth/react';
 import { PomodoroFormat } from '@prisma/client';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import FormTextField from '../formTextField';
 import FormSelectField from '../formSelectField';
+import useCreatePomodoroFormat from '../../hooks/useCreatePomodoroFormat';
+import useGetUsersPomodoroFormats from '../../hooks/useGetUsersPomodoroFormats';
+import useSelectedPomodoroFormat from '../../hooks/useSelectedPomodoroFormat';
 
 interface Props {
     show: boolean;
@@ -15,28 +18,51 @@ interface Props {
 }
 
 export default function PomodoroSettingsPopup({ show, handleClose }: Props) {
-    const [initialValues, setinitialValues] = useState({
-        formatName: 'Default name',
-        workDuration: '25',
-        breakDuration: '5',
-        longBreakDuration: '15',
-    });
-
-    const { mutate } = trpc.useMutation('pomodoro.createPomodoroFormat');
+    const { create } = useCreatePomodoroFormat();
     const { data: session } = useSession();
-    const { data: options } = trpc.useQuery([
-        'pomodoro.getPomodoroOptionsFromUser',
-        {
-            userId: session?.user?.id ?? '',
-        },
-    ]);
+    const { formats } = useGetUsersPomodoroFormats({
+        userId: session?.user?.id ?? '',
+    });
+    const { selectedPomodoroFormat, setSelectedPomodoroFormat } = useSelectedPomodoroFormat({
+        formats: formats ?? [],
+        selectedId: session?.user?.selectedPomodoroFormatId ?? '',
+    });
 
     function handleSave() {
         console.log('handleSave');
+
+        // if new mutate (POST)
+        // if existing mutate (PUT)
+        create({
+            name: selectedPomodoroFormat.name,
+            workDuration: selectedPomodoroFormat.workDuration,
+            breakDuration: selectedPomodoroFormat.breakDuration,
+            longBreakDuration: selectedPomodoroFormat.longBreakDuration,
+        });
+        handleClose();
+    }
+
+    function onOptionChange(label: string, id: string) {
+        const foundFormat = formats?.find((option) => {
+            console.log('option', option);
+            if (option.id === id) {
+                return option;
+            }
+        });
+        // Have to check for null because find can return undefined, even though it will never happen here
+        // Because we are searching through the dropdown options that we have created.
+        setSelectedPomodoroFormat(
+            foundFormat ?? {
+                name: 'New Pomodoro Format',
+                workDuration: 25,
+                breakDuration: 5,
+                longBreakDuration: 15,
+            }
+        );
     }
 
     function onChange(name: string, value: any) {
-        setinitialValues({ ...initialValues, [name]: value });
+        setSelectedPomodoroFormat({ ...selectedPomodoroFormat, [name]: value });
     }
 
     function validationSchema() {
@@ -49,29 +75,33 @@ export default function PomodoroSettingsPopup({ show, handleClose }: Props) {
             <div className='relative p-6 flex-auto'>
                 <Formik
                     enableReinitialize={true}
-                    initialValues={initialValues}
+                    initialValues={selectedPomodoroFormat}
                     valudationSchema={validationSchema}
-                    onSubmit={() =>
-                        mutate({
-                            name: initialValues.formatName,
-                            workDuration: parseInt(initialValues.workDuration),
-                            breakDuration: parseInt(initialValues.breakDuration),
-                            longBreakDuration: parseInt(initialValues.longBreakDuration),
-                        })
-                    }
+                    onSubmit={handleSave}
                 >
                     <Form>
-                        <FormSelectField name='savedPomodoroFormats' label='Pre-saved formats' onChange={onChange}>
-                            {options &&
-                                options.map((option: PomodoroFormat, index) => {
-                                    return (
-                                        <option key={index} value={option.id}>
-                                            {option.name}
-                                        </option>
-                                    );
+                        <FormSelectField name='savedPomodoroFormats' label='Pre-saved formats' onChange={onOptionChange}>
+                            {formats &&
+                                formats.map((option: PomodoroFormat, index) => {
+                                    if (option.id === session?.user?.selectedPomodoroFormatId) {
+                                        return (
+                                            <option key={index} value={option.id} selected>
+                                                {option.name}
+                                            </option>
+                                        );
+                                    } else {
+                                        return (
+                                            <option key={index} value={option.id}>
+                                                {option.name}
+                                            </option>
+                                        );
+                                    }
                                 })}
+                            <option key='newPomodoroFormat' value='new'>
+                                New Pomodoro Format
+                            </option>
                         </FormSelectField>
-                        <FormTextField name='formatName' label='New format name' onChange={onChange} />
+                        <FormTextField name='name' label='Format name' onChange={onChange} />
                         <FormTextField name='workDuration' label='Work duration' onChange={onChange} />
                         <FormTextField name='breakDuration' label='Break duration' onChange={onChange} />
                         <FormTextField name='longBreakDuration' label='Long break duration' onChange={onChange} />

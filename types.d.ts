@@ -11,6 +11,12 @@ declare module 'next-auth' {
     // in [...nextauth].ts fails.
     // This seems to work though.
     interface User<User> {
+        //id: string;
+        //name: string | null;
+        //email: string | null;
+        //emailVerified: Date | null;
+        //image: string | null;
+        //selectedPomodoroFormatId: string | null;
         [Key in User]: User[key];
     }
     interface Session {

@@ -30,7 +30,7 @@ export const pomodoroRouter = createRouter()
     .query('getUsersSelectedPomodoroFormat', {
         async resolve({ ctx }) {},
     })
-    .query('getPomodoroOptionsFromUser', {
+    .query('getUsersPomodoroFormats', {
         input: z.object({
             userId: z.string(),
         }),
