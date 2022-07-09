@@ -1,4 +1,5 @@
 import { useReducer } from 'react';
+import { trpc } from '../../utils/trpc';
 import ElevatedButton from '../buttons/elevatedButton';
 import SettingsButton from '../buttons/settingsButton';
 import { PomodoroModes } from './pomodoroModes';
@@ -37,6 +38,7 @@ interface Props {
 
 function Topbar({ onClick, setShow }: Props) {
     const [state, dispatch] = useReducer(pomodoroMethodReducer, initialState);
+    const { mutate: create } = trpc.useMutation('pomodoro.createPomodoroFormat');
 
     function onPress(mode: PomodoroModes) {
         dispatch({ type: mode });
@@ -72,6 +74,18 @@ function Topbar({ onClick, setShow }: Props) {
                 }}
             >
                 Long break button
+            </ElevatedButton>
+            <ElevatedButton
+                onClick={() =>
+                    create({
+                        name: 'initialValues.formatName',
+                        workDuration: 50,
+                        breakDuration: 10,
+                        longBreakDuration: 30,
+                    })
+                }
+            >
+                Create
             </ElevatedButton>
         </div>
     );

@@ -80,7 +80,60 @@ export const authOptions: NextAuthOptions = {
         }),
         */
     ],
+    callbacks: {
+        session: async ({ session, token }) => {
+            session.user = token.user;
+            return session;
+        },
+        jwt: async ({ token, user }) => {
+            user && (token.user = user);
+            return token;
+        },
+    },
+    session: {
+        strategy: 'jwt',
+    },
+    secret: process.env.SECRET,
     debug: true,
 };
 
 export default NextAuth(authOptions);
+
+/*
+
+callbacks: {
+        session: async ({ session, token }) => {
+            console.log('session', session);
+            console.log('token', token);
+            if (session.user && token.sub) {
+                session.user.id = token.sub;
+                console.log('session2', session);
+                const dbPomodoroFormat = await prisma.pomodoroFormat.findFirst({ where: { userId: session.user.id } });
+                console.log('dbPomodoroFormat', dbPomodoroFormat);
+                if (!dbPomodoroFormat) {
+                    await prisma.pomodoroFormat.create({
+                        data: {
+                            name: 'Default',
+                            userId: session.user.id,
+                            workDuration: 25,
+                            breakDuration: 5,
+                            longBreakDuration: 15,
+                        },
+                    });
+                }
+            }
+            return session;
+        },
+        signIn: async ({ user, account, profile, credentials }) => {
+            console.log('user', user);
+            console.log('account', account);
+            console.log('profile', profile);
+            console.log('credentials', credentials);
+            return true;
+        },
+    },
+    session: {
+        strategy: 'jwt',
+    },
+
+    */
