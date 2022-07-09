@@ -2,15 +2,14 @@ import { Formik, Form } from 'formik';
 import Popup from './popup';
 import PopupFooter from './popupFooter';
 import PopupHeader from './popupHeader';
-import { trpc } from '../../utils/trpc';
 import { useSession } from 'next-auth/react';
 import { PomodoroFormat } from '@prisma/client';
-import { useEffect, useState } from 'react';
 import FormTextField from '../formTextField';
 import FormSelectField from '../formSelectField';
 import useCreatePomodoroFormat from '../../hooks/useCreatePomodoroFormat';
 import useGetUsersPomodoroFormats from '../../hooks/useGetUsersPomodoroFormats';
 import useSelectedPomodoroFormat from '../../hooks/useSelectedPomodoroFormat';
+import useUpdatePomodoroFormat from '../../hooks/useUpdatePomodoroFormat';
 
 interface Props {
     show: boolean;
@@ -19,6 +18,7 @@ interface Props {
 
 export default function PomodoroSettingsPopup({ show, handleClose }: Props) {
     const { create } = useCreatePomodoroFormat();
+    const { update } = useUpdatePomodoroFormat();
     const { data: session } = useSession();
     const { formats } = useGetUsersPomodoroFormats({
         userId: session?.user?.id ?? '',
@@ -29,34 +29,36 @@ export default function PomodoroSettingsPopup({ show, handleClose }: Props) {
     });
 
     function handleSave() {
-        console.log('handleSave');
-
-        // if new mutate (POST)
-        // if existing mutate (PUT)
-        create({
-            name: selectedPomodoroFormat.name,
-            workDuration: selectedPomodoroFormat.workDuration,
-            breakDuration: selectedPomodoroFormat.breakDuration,
-            longBreakDuration: selectedPomodoroFormat.longBreakDuration,
-        });
+        // Checking against the id being -1 means that it is a new format
+        // Cannot get -1 from db, so it has to be the one we made.
+        if (selectedPomodoroFormat.id === '-1') {
+            create({
+                name: selectedPomodoroFormat.name,
+                workDuration: selectedPomodoroFormat.workDuration,
+                breakDuration: selectedPomodoroFormat.breakDuration,
+                longBreakDuration: selectedPomodoroFormat.longBreakDuration,
+            });
+        } else {
+            update(selectedPomodoroFormat);
+        }
         handleClose();
     }
 
     function onOptionChange(label: string, id: string) {
         const foundFormat = formats?.find((option) => {
-            console.log('option', option);
             if (option.id === id) {
                 return option;
             }
         });
-        // Have to check for null because find can return undefined, even though it will never happen here
-        // Because we are searching through the dropdown options that we have created.
+
         setSelectedPomodoroFormat(
             foundFormat ?? {
+                id: '-1',
+                userId: '-1',
                 name: 'New Pomodoro Format',
-                workDuration: 25,
-                breakDuration: 5,
-                longBreakDuration: 15,
+                workDuration: '25',
+                breakDuration: '5',
+                longBreakDuration: '15',
             }
         );
     }

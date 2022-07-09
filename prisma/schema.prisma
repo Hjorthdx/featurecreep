@@ -29,9 +29,9 @@ model PomodoroFormat {
     id                String @id @default(cuid())
     userId            String
     name              String
-    workDuration      Int
-    breakDuration     Int
-    longBreakDuration Int
+    workDuration      String
+    breakDuration     String
+    longBreakDuration String
     user              User   @relation(fields: [userId], references: [id])
 }
 

@@ -8,10 +8,12 @@ interface Props {
 
 export default function useSelectedPomodoroFormat({ formats, selectedId }: Props) {
     const [selectedPomodoroFormat, setSelectedPomodoroFormat] = useState({
+        id: '-1',
+        userId: '-1',
         name: 'New Pomodoro Format',
-        workDuration: 25,
-        breakDuration: 5,
-        longBreakDuration: 15,
+        workDuration: '25',
+        breakDuration: '5',
+        longBreakDuration: '15',
     });
 
     useEffect(() => {
@@ -24,19 +26,24 @@ export default function useSelectedPomodoroFormat({ formats, selectedId }: Props
                 });
                 return (
                     foundFormat ?? {
+                        id: '-1',
+                        userId: '-1',
                         name: 'New Pomodoro Format',
-                        workDuration: 25,
-                        breakDuration: 5,
-                        longBreakDuration: 15,
+                        workDuration: '25',
+                        breakDuration: '5',
+                        longBreakDuration: '15',
                     }
                 );
-            } else
+            } else {
                 return {
+                    id: '-1',
+                    userId: '-1',
                     name: 'New Pomodoro Format',
-                    workDuration: 25,
-                    breakDuration: 5,
-                    longBreakDuration: 15,
+                    workDuration: '25',
+                    breakDuration: '5',
+                    longBreakDuration: '15',
                 };
+            }
         });
     }, [formats, selectedId]);
 

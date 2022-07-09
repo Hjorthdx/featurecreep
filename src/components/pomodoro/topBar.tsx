@@ -2,7 +2,6 @@ import { useReducer } from 'react';
 import ElevatedButton from '../buttons/elevatedButton';
 import SettingsButton from '../buttons/settingsButton';
 import { PomodoroModes } from './pomodoroModes';
-import useCreatePomodoroFormat from '../../hooks/useCreatePomodoroFormat';
 
 // Could this be done in a nicer way? Currently just setting all booleans everytime a button is clicked.
 
@@ -38,7 +37,6 @@ interface Props {
 
 function Topbar({ onClick, setShow }: Props) {
     const [state, dispatch] = useReducer(pomodoroMethodReducer, initialState);
-    const { create } = useCreatePomodoroFormat();
 
     function onPress(mode: PomodoroModes) {
         dispatch({ type: mode });
@@ -74,18 +72,6 @@ function Topbar({ onClick, setShow }: Props) {
                 }}
             >
                 Long break button
-            </ElevatedButton>
-            <ElevatedButton
-                onClick={() =>
-                    create({
-                        name: 'initialValues.formatName',
-                        workDuration: 50,
-                        breakDuration: 10,
-                        longBreakDuration: 30,
-                    })
-                }
-            >
-                Create
             </ElevatedButton>
         </div>
     );

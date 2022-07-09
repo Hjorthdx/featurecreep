@@ -25,10 +25,42 @@ export const pomodoroRouter = createRouter()
         if (!ctx.session) {
             throw new TRPCError({ code: 'UNAUTHORIZED' });
         }
-        return next();
+        if (!ctx.session.user) {
+            throw new TRPCError({ code: 'UNAUTHORIZED' });
+        }
+
+        // We need to do this because else TS won't understand that the middleware have now ensured that session and session user it not null.
+        return next({
+            ctx: {
+                ...ctx,
+                session: {
+                    ...ctx.session,
+                    user: {
+                        ...ctx.session.user,
+                    },
+                },
+            },
+        });
     })
-    .query('getUsersSelectedPomodoroFormat', {
-        async resolve({ ctx }) {},
+    .mutation('updatePomodoroFormat', {
+        input: z.object({
+            id: z.string(),
+            name: z.string(),
+            workDuration: z.string(),
+            breakDuration: z.string(),
+            longBreakDuration: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+            return await ctx.prisma.pomodoroFormat.update({
+                where: { id: input.id },
+                data: {
+                    name: input.name,
+                    workDuration: input.workDuration,
+                    breakDuration: input.breakDuration,
+                    longBreakDuration: input.longBreakDuration,
+                },
+            });
+        },
     })
     .query('getUsersPomodoroFormats', {
         input: z.object({
@@ -41,30 +73,20 @@ export const pomodoroRouter = createRouter()
     .mutation('createPomodoroFormat', {
         input: z.object({
             name: z.string(),
-            workDuration: z.number(),
-            breakDuration: z.number(),
-            longBreakDuration: z.number(),
+            workDuration: z.string(),
+            breakDuration: z.string(),
+            longBreakDuration: z.string(),
         }),
         async resolve({ input, ctx }) {
-            console.log('resolve');
-            // I'm pretty sure this can't be undefined because of the middleware above
-            // But I don't think trpc can determine that ?? I guess idk.
-            if (ctx.session && ctx.session.user) {
-                console.log('in if statement');
-                console.log('name', input.name);
-                console.log('workDuration', input.workDuration);
-                console.log('breakDuration', input.breakDuration);
-                console.log('longBreakDuration', input.longBreakDuration);
-                return await ctx.prisma.pomodoroFormat.create({
-                    data: {
-                        userId: ctx.session.user.id,
-                        name: input.name,
-                        workDuration: input.workDuration,
-                        breakDuration: input.breakDuration,
-                        longBreakDuration: input.longBreakDuration,
-                    },
-                });
-            }
+            return await ctx.prisma.pomodoroFormat.create({
+                data: {
+                    userId: ctx.session.user.id,
+                    name: input.name,
+                    workDuration: input.workDuration,
+                    breakDuration: input.breakDuration,
+                    longBreakDuration: input.longBreakDuration,
+                },
+            });
         },
     });
 
