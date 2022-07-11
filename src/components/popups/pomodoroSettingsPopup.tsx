@@ -8,6 +8,7 @@ import useSelectedPomodoroFormat from '../../hooks/pomodoro/useSelectedPomodoroF
 import useUpdatePomodoroFormat from '../../hooks/pomodoro/useUpdatePomodoroFormat';
 import useUpdateUsersSelectedPomodoroFormat from '../../hooks/pomodoro/useUpdateUsersSelectedPomodoroFormat';
 import PomodoroSettingsForm from '../forms/pomodoroSettingsForm';
+import useGetSelectedPomodoroFormat from '../../hooks/pomodoro/useGetSelectedPomodoroFormat';
 
 interface Props {
     show: boolean;
@@ -23,27 +24,36 @@ export default function PomodoroSettingsPopup({ show, handleClose }: Props) {
         userId: session?.user.id ?? '',
     });
     const { selectedPomodoroFormat, setSelectedPomodoroFormat } = useSelectedPomodoroFormat({
-        formats: formats ?? [],
+        formats: formats,
         selectedId: session?.user?.selectedPomodoroFormatId ?? '',
     });
 
     function handleSave() {
-        // Checking against the id being -1 means that it is a new format
-        // Cannot get -1 from db, so it has to be the one we made.
-        if (selectedPomodoroFormat.id === '-1') {
-            create({
-                name: selectedPomodoroFormat.name,
-                workDuration: selectedPomodoroFormat.workDuration,
-                breakDuration: selectedPomodoroFormat.breakDuration,
-                longBreakDuration: selectedPomodoroFormat.longBreakDuration,
-                autoStartTimer: selectedPomodoroFormat.autoStartTimer,
-            });
-        } else {
-            update(selectedPomodoroFormat);
-        }
-        updateUsersSelectedPomodoroFormat({ pomodoroFormatId: selectedPomodoroFormat.id });
-        if (session) {
-            session.user.selectedPomodoroFormatId = selectedPomodoroFormat.id;
+        if (session?.user) {
+            if (selectedPomodoroFormat.id === 'NEW_POMODORO_FORMAT_ID') {
+                create(
+                    {
+                        name: selectedPomodoroFormat.name,
+                        workDuration: selectedPomodoroFormat.workDuration,
+                        breakDuration: selectedPomodoroFormat.breakDuration,
+                        longBreakDuration: selectedPomodoroFormat.longBreakDuration,
+                        autoStartTimer: selectedPomodoroFormat.autoStartTimer,
+                    },
+                    {
+                        onSuccess: (data) => {
+                            updateUsersSelectedPomodoroFormat({ pomodoroFormatId: data.id });
+                            session.user.selectedPomodoroFormatId = data.id;
+                        },
+                    }
+                );
+            } else {
+                update(selectedPomodoroFormat, {
+                    onSuccess: (data) => {
+                        updateUsersSelectedPomodoroFormat({ pomodoroFormatId: data.id });
+                        session.user.selectedPomodoroFormatId = data.id;
+                    },
+                });
+            }
         }
         handleClose();
     }

@@ -11,6 +11,5 @@ export default function useGetAllOfUsersPomodoroFormats({ userId }: Props) {
             userId: userId,
         },
     ]);
-
-    return { formats };
+    return { formats: formats ?? [] };
 }

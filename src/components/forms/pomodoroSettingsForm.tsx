@@ -4,6 +4,7 @@ import { PomodoroFormat } from 'prisma/prisma-client';
 import FormSelectField from './formSelectField';
 import FormTextField from './formTextField';
 import FormToggleField from './formToggleField';
+import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME } from '../../constants';
 
 interface Props {
     pomodoroFormats: PomodoroFormat[];
@@ -26,7 +27,7 @@ export default function PomodoroSettingsForm({
     }
 
     function onOptionChange(label: string, id: string) {
-        const foundFormat = pomodoroFormats?.find((option) => {
+        const foundFormat = pomodoroFormats.find((option) => {
             if (option.id === id) {
                 return option;
             }
@@ -34,12 +35,12 @@ export default function PomodoroSettingsForm({
 
         setSelectedPomodoroFormat(
             foundFormat ?? {
-                id: '-1',
+                id: 'NEW_POMODORO_FORMAT_ID',
                 userId: '-1',
                 name: 'New Pomodoro Format',
-                workDuration: '25',
-                breakDuration: '5',
-                longBreakDuration: '15',
+                workDuration: `${DEFAULT_WORK_TIME}`,
+                breakDuration: `${DEFAULT_BREAK_TIME}`,
+                longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
                 autoStartTimer: false,
             }
         );
@@ -52,6 +53,7 @@ export default function PomodoroSettingsForm({
     function onToggleClick() {
         setSelectedPomodoroFormat({ ...selectedPomodoroFormat, autoStartTimer: !selectedPomodoroFormat.autoStartTimer });
     }
+
     return (
         <Formik
             enableReinitialize={true}
@@ -61,22 +63,21 @@ export default function PomodoroSettingsForm({
         >
             <Form>
                 <FormSelectField name='savedPomodoroFormats' label='Pre-saved formats' onChange={onOptionChange}>
-                    {pomodoroFormats &&
-                        pomodoroFormats.map((option: PomodoroFormat, index) => {
-                            if (option.id === session?.user?.selectedPomodoroFormatId) {
-                                return (
-                                    <option key={index} value={option.id} selected>
-                                        {option.name}
-                                    </option>
-                                );
-                            } else {
-                                return (
-                                    <option key={index} value={option.id}>
-                                        {option.name}
-                                    </option>
-                                );
-                            }
-                        })}
+                    {pomodoroFormats.map((option: PomodoroFormat, index) => {
+                        if (option.id === session?.user?.selectedPomodoroFormatId) {
+                            return (
+                                <option key={index} value={option.id} selected>
+                                    {option.name}
+                                </option>
+                            );
+                        } else {
+                            return (
+                                <option key={index} value={option.id}>
+                                    {option.name}
+                                </option>
+                            );
+                        }
+                    })}
                     <option key='newPomodoroFormat' value='new'>
                         New Pomodoro Format
                     </option>

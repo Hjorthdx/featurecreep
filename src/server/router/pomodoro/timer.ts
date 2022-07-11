@@ -1,4 +1,3 @@
-import { TRPCError } from '@trpc/server';
 import { createRouter } from '../context';
 import { z } from 'zod';
 

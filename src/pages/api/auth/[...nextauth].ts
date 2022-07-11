@@ -1,5 +1,4 @@
 import NextAuth, { type NextAuthOptions } from 'next-auth';
-import CredentialsProvider from 'next-auth/providers/credentials';
 import DiscordProvider from 'next-auth/providers/discord';
 import EmailProvider from 'next-auth/providers/email';
 import FacebookProvider from 'next-auth/providers/facebook';
@@ -57,45 +56,56 @@ export const authOptions: NextAuthOptions = {
             },
             from: process.env.EMAIL_FROM,
         }),
-        /*
-        // Not done...
-        CredentialsProvider({
-            name: 'Credentials',
-            credentials: {
-                name: {
-                    label: 'Name',
-                    type: 'text',
-                    placeholder: 'Enter your name',
-                },
-                password: {
-                    label: 'Password',
-                    type: 'password',
-                    placeholder: 'Enter your password',
-                },
-            },
-            async authorize(credentials, _req) {
-                const user = { id: 1, name: credentials?.name ?? 'J Smith' };
-                return user;
-            },
-        }),
-        */
     ],
     callbacks: {
-        session: async ({ session, token }) => {
+        // Currently gets called twice in a row, meaning that two default pomodoro formats are created
+        // TODO: Figure out how to solve this
+        session: async ({ session, user, token }) => {
             console.log('session session', session);
+            console.log('session user', user);
             console.log('session token', token);
-            session.user = token.user;
+            if (!user) {
+                return session;
+            }
+            if (user.selectedPomodoroFormatId === 'DEFAULT_POMODORO_FORMAT_ID') {
+                const newDefaultPomodoroFormat = await prisma.pomodoroFormat.create({
+                    data: {
+                        name: 'Default 25/5/15',
+                        userId: user.id,
+                        workDuration: '25',
+                        breakDuration: '5',
+                        longBreakDuration: '15',
+                        autoStartTimer: false,
+                    },
+                });
+                user.selectedPomodoroFormatId = newDefaultPomodoroFormat.id;
+                await prisma.user.updateMany({
+                    where: { id: session.user.id },
+                    data: {
+                        selectedPomodoroFormatId: newDefaultPomodoroFormat.id,
+                    },
+                });
+            }
+            session.user = user;
             return session;
-        },
-        jwt: async ({ token, user }) => {
-            console.log('jwt token', token);
-            console.log('jwt user', user);
-            user && (token.user = user);
-            return token;
         },
     },
     session: {
-        strategy: 'jwt',
+        // Choose how you want to save the user session.
+        // The default is `"jwt"`, an encrypted JWT (JWE) stored in the session cookie.
+        // If you use an `adapter` however, we default it to `"database"` instead.
+        // You can still force a JWT session by explicitly defining `"jwt"`.
+        // When using `"database"`, the session cookie will only contain a `sessionToken` value,
+        // which is used to look up the session in the database.
+        strategy: 'database',
+
+        // Seconds - How long until an idle session expires and is no longer valid.
+        maxAge: 30 * 24 * 60 * 60, // 30 days
+
+        // Seconds - Throttle how frequently to write to database to extend a session.
+        // Use it to limit write operations. Set to 0 to always update the database.
+        // Note: This option is ignored if using JSON Web Tokens
+        updateAge: 30, //24 * 60 * 60, // 24 hours
     },
     secret: process.env.SECRET,
     debug: true,

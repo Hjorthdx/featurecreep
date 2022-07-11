@@ -5,6 +5,7 @@ export default function useCreatePomodoroFormat() {
     const { mutate: create } = trpc.useMutation('pomodoro.format.createPomodoroFormat', {
         onSuccess(data) {
             context.invalidateQueries(['pomodoro.format.getSelectedPomodoroFormat']);
+            context.invalidateQueries(['pomodoro.format.getAllOfUsersPomodoroFormats']);
         },
     });
     return { create };

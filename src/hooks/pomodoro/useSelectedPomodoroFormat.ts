@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { PomodoroFormat } from '@prisma/client';
 import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME } from '../../constants';
 
@@ -8,15 +8,18 @@ interface Props {
 }
 
 export default function useSelectedPomodoroFormat({ formats, selectedId }: Props) {
-    const [selectedPomodoroFormat, setSelectedPomodoroFormat] = useState({
-        id: '-1',
-        userId: '-1',
-        name: 'New Pomodoro Format',
-        workDuration: `${DEFAULT_WORK_TIME}`,
-        breakDuration: `${DEFAULT_BREAK_TIME}`,
-        longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
-        autoStartTimer: false,
-    });
+    const defaultNewPomodoroFormat = useMemo(() => {
+        return {
+            id: 'NEW_POMODORO_FORMAT_ID',
+            userId: '-1',
+            name: 'New Pomodoro Format',
+            workDuration: `${DEFAULT_WORK_TIME}`,
+            breakDuration: `${DEFAULT_BREAK_TIME}`,
+            longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
+            autoStartTimer: false,
+        };
+    }, []);
+    const [selectedPomodoroFormat, setSelectedPomodoroFormat] = useState(defaultNewPomodoroFormat);
 
     useEffect(() => {
         setSelectedPomodoroFormat(() => {
@@ -26,30 +29,12 @@ export default function useSelectedPomodoroFormat({ formats, selectedId }: Props
                         return option;
                     }
                 });
-                return (
-                    foundFormat ?? {
-                        id: '-1',
-                        userId: '-1',
-                        name: 'New Pomodoro Format',
-                        workDuration: `${DEFAULT_WORK_TIME}`,
-                        breakDuration: `${DEFAULT_BREAK_TIME}`,
-                        longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
-                        autoStartTimer: false,
-                    }
-                );
+                return foundFormat ?? defaultNewPomodoroFormat;
             } else {
-                return {
-                    id: '-1',
-                    userId: '-1',
-                    name: 'New Pomodoro Format',
-                    workDuration: `${DEFAULT_WORK_TIME}`,
-                    breakDuration: `${DEFAULT_BREAK_TIME}`,
-                    longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
-                    autoStartTimer: false,
-                };
+                return defaultNewPomodoroFormat;
             }
         });
-    }, [formats, selectedId]);
+    }, [defaultNewPomodoroFormat, formats, selectedId]);
 
     return { selectedPomodoroFormat, setSelectedPomodoroFormat };
 }
