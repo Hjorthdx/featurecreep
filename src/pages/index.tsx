@@ -7,16 +7,14 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import FeatureGrid from '../components/grids/featureGrid';
 
 const Home: NextPage = () => {
-    const { data: session, status } = useSession();
-    const loading = status === 'loading';
-    if (loading) return <p>Loading...</p>;
-    if (!session) {
-        return (
-            <>
-                <button onClick={() => signIn()}>Sign in</button>
-            </>
-        );
+    const { status } = useSession({
+        required: true,
+    });
+
+    if (status === 'loading') {
+        return <div>loading</div>;
     }
+
     return (
         <div className='bg-zinc-300'>
             <Head />
