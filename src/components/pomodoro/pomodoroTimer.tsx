@@ -1,34 +1,71 @@
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
+import { useSession } from 'next-auth/react';
 import CountdownClock from './countdownClock';
-import { PomodoroModes } from './pomodoroModes';
+import { PomodoroModes } from '../../types/pomodoroModes';
 import BottomBar from './bottomBar';
 import Topbar from './topBar';
-import { trpc } from '../../utils/trpc';
+import useCreateTimer from '../../hooks/pomodoro/useCreateTimer';
+import useGetSelectedPomodoroFormat from '../../hooks/pomodoro/useGetSelectedPomodoroFormat';
+import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, SECONDS_IN_A_MINUTE } from '../../constants';
 
 interface Props {
     setShow: () => void;
 }
 
 // TODO: Make reducer for this component
-function PomodoroTimer({ setShow }: Props) {
-    const { mutate } = trpc.useMutation('pomodoro.createTimer');
+export default function PomodoroTimer({ setShow }: Props) {
+    const { data: session } = useSession();
+    const { create } = useCreateTimer();
+    const { selectedPomodoroFormat } = useGetSelectedPomodoroFormat({
+        pomodoroFormatId: session?.user.selectedPomodoroFormatId,
+    });
     const [selectedMode, setSelectedMode] = useState<PomodoroModes>('work');
     const [isPlaying, setIsPlaying] = useState(false);
     const [startedAt, setStartedAt] = useState<Date>();
-    const [duration, setDuration] = useState(25 * 60);
+    const [duration, setDuration] = useState(() =>
+        selectedPomodoroFormat
+            ? Number(selectedPomodoroFormat?.workDuration) * SECONDS_IN_A_MINUTE
+            : DEFAULT_WORK_TIME * SECONDS_IN_A_MINUTE
+    );
+    useEffect(() => {
+        setDuration(
+            selectedPomodoroFormat
+                ? Number(selectedPomodoroFormat?.workDuration) * SECONDS_IN_A_MINUTE
+                : DEFAULT_WORK_TIME * SECONDS_IN_A_MINUTE
+        );
+    }, [selectedPomodoroFormat]);
     const [pomodoroCount, setPomodoroCount] = useState(1);
     const audioRef = useRef<HTMLAudioElement>(null);
 
     function handleChangeSelectedMode(mode: PomodoroModes) {
+        if (mode === selectedMode) {
+            return;
+        }
         setSelectedMode(mode);
-        setDuration(mode === 'work' ? 25 * 60 : mode === 'break' ? 5 * 60 : 15 * 60);
-        setIsPlaying(false);
+        if (selectedPomodoroFormat) {
+            setDuration(
+                mode === 'work'
+                    ? Number(selectedPomodoroFormat.workDuration) * SECONDS_IN_A_MINUTE
+                    : mode === 'break'
+                    ? Number(selectedPomodoroFormat.breakDuration) * SECONDS_IN_A_MINUTE
+                    : Number(selectedPomodoroFormat.longBreakDuration) * SECONDS_IN_A_MINUTE
+            );
+            setIsPlaying(false);
+        } else {
+            setDuration(
+                mode === 'work'
+                    ? DEFAULT_WORK_TIME * SECONDS_IN_A_MINUTE
+                    : mode === 'break'
+                    ? DEFAULT_BREAK_TIME * SECONDS_IN_A_MINUTE
+                    : DEFAULT_LONG_BREAK_TIME * SECONDS_IN_A_MINUTE
+            );
+            setIsPlaying(false);
+        }
         setStartedAt(undefined);
-        setPomodoroCount(0);
+        setPomodoroCount(1);
     }
 
     function onComplete() {
-        console.log('onComplete', pomodoroCount, selectedMode);
         if (pomodoroCount === 4 && selectedMode === 'work') {
             setSelectedMode('longBreak');
             setPomodoroCount(1);
@@ -39,11 +76,11 @@ function PomodoroTimer({ setShow }: Props) {
             setSelectedMode('work');
         }
         audioRef.current?.play();
-        setIsPlaying(false);
+        setIsPlaying(selectedPomodoroFormat?.autoStartTimer ?? false);
         // I don't think it's possible for startedAt to be undefined at this point,
         // but not sure how to tell TS right now that that is the case.
         if (startedAt) {
-            mutate({
+            create({
                 mode: selectedMode,
                 createdAt: startedAt,
                 duration: duration,
@@ -52,6 +89,9 @@ function PomodoroTimer({ setShow }: Props) {
     }
 
     function onClick(isPlaying: boolean) {
+        if (isPlaying) {
+            audioRef.current?.pause();
+        }
         setIsPlaying(isPlaying);
         if (isPlaying && !startedAt) {
             setStartedAt(new Date());
@@ -60,7 +100,7 @@ function PomodoroTimer({ setShow }: Props) {
 
     return (
         <div className='flex flex-col items-center bg-white rounded-2xl border-2 border-neutral-800'>
-            <Topbar onClick={handleChangeSelectedMode} setShow={setShow} />
+            <Topbar selectedMode={selectedMode} onClick={handleChangeSelectedMode} setShow={setShow} />
             <audio ref={audioRef}>
                 <source src='/alarm.mp3' type='audio/mp3' />
             </audio>
@@ -69,6 +109,3 @@ function PomodoroTimer({ setShow }: Props) {
         </div>
     );
 }
-
-export default PomodoroTimer;
-// <button onClick={() => toggle()}>{isPlaying ? 'Pause' : 'Play'}</button>

@@ -1,24 +1,8 @@
 import { TRPCError } from '@trpc/server';
-import { createRouter } from './context';
+import { createRouter } from '../context';
 import { z } from 'zod';
 
-export const pomodoroRouter = createRouter()
-    .mutation('createTimer', {
-        input: z.object({
-            mode: z.string(), // How can I make this my custom type? 'work' | 'break' | 'longBreak'
-            createdAt: z.date(),
-            duration: z.number(),
-        }),
-        async resolve({ input, ctx }) {
-            return await ctx.prisma.pomodoroTimer.create({
-                data: {
-                    mode: input.mode,
-                    createdAt: input.createdAt,
-                    duration: input.duration,
-                },
-            });
-        },
-    })
+export const pomodoroFormatRouter = createRouter()
     .middleware(async ({ ctx, next }) => {
         // Any queries or mutations after this middleware will
         // raise an error unless there is a current session
@@ -42,32 +26,20 @@ export const pomodoroRouter = createRouter()
             },
         });
     })
-    .mutation('updatePomodoroFormat', {
-        input: z.object({
-            id: z.string(),
-            name: z.string(),
-            workDuration: z.string(),
-            breakDuration: z.string(),
-            longBreakDuration: z.string(),
-        }),
-        async resolve({ input, ctx }) {
-            return await ctx.prisma.pomodoroFormat.update({
-                where: { id: input.id },
-                data: {
-                    name: input.name,
-                    workDuration: input.workDuration,
-                    breakDuration: input.breakDuration,
-                    longBreakDuration: input.longBreakDuration,
-                },
-            });
-        },
-    })
-    .query('getUsersPomodoroFormats', {
+    .query('getAllOfUsersPomodoroFormats', {
         input: z.object({
             userId: z.string(),
         }),
         async resolve({ input, ctx }) {
             return await ctx.prisma.pomodoroFormat.findMany({ where: { userId: input.userId } });
+        },
+    })
+    .query('getSelectedPomodoroFormat', {
+        input: z.object({
+            pomodoroFormatId: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+            return await ctx.prisma.pomodoroFormat.findFirst({ where: { id: input.pomodoroFormatId } });
         },
     })
     .mutation('createPomodoroFormat', {
@@ -76,6 +48,7 @@ export const pomodoroRouter = createRouter()
             workDuration: z.string(),
             breakDuration: z.string(),
             longBreakDuration: z.string(),
+            autoStartTimer: z.boolean(),
         }),
         async resolve({ input, ctx }) {
             return await ctx.prisma.pomodoroFormat.create({
@@ -85,27 +58,43 @@ export const pomodoroRouter = createRouter()
                     workDuration: input.workDuration,
                     breakDuration: input.breakDuration,
                     longBreakDuration: input.longBreakDuration,
+                    autoStartTimer: input.autoStartTimer,
+                },
+            });
+        },
+    })
+    .mutation('updatePomodoroFormat', {
+        input: z.object({
+            id: z.string(),
+            name: z.string(),
+            workDuration: z.string(),
+            breakDuration: z.string(),
+            longBreakDuration: z.string(),
+            autoStartTimer: z.boolean(),
+        }),
+        async resolve({ input, ctx }) {
+            return await ctx.prisma.pomodoroFormat.update({
+                where: { id: input.id },
+                data: {
+                    name: input.name,
+                    workDuration: input.workDuration,
+                    breakDuration: input.breakDuration,
+                    longBreakDuration: input.longBreakDuration,
+                    autoStartTimer: input.autoStartTimer,
+                },
+            });
+        },
+    })
+    .mutation('updateUsersSelectedPomodoroFormat', {
+        input: z.object({
+            pomodoroFormatId: z.string(),
+        }),
+        async resolve({ input, ctx }) {
+            return await ctx.prisma.user.updateMany({
+                where: { id: ctx.session.user.id },
+                data: {
+                    selectedPomodoroFormatId: input.pomodoroFormatId,
                 },
             });
         },
     });
-
-/*
-.query('getAll', {
-        async resolve({ ctx }) {
-            return await ctx.prisma.pomodoro.findMany();
-        },
-    })
-    .query('getById', {
-        input: z.object({
-            id: z.string(),
-        }),
-        async resolve({ input, ctx }) {
-            return await ctx.prisma.pomodoro.findFirst({
-                where: {
-                    id: input.id,
-                },
-            });
-        },
-    })
-    */

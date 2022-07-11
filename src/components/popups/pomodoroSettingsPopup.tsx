@@ -1,15 +1,13 @@
-import { Formik, Form } from 'formik';
+import { useSession } from 'next-auth/react';
 import Popup from './popup';
 import PopupFooter from './popupFooter';
 import PopupHeader from './popupHeader';
-import { useSession } from 'next-auth/react';
-import { PomodoroFormat } from '@prisma/client';
-import FormTextField from '../formTextField';
-import FormSelectField from '../formSelectField';
-import useCreatePomodoroFormat from '../../hooks/useCreatePomodoroFormat';
-import useGetUsersPomodoroFormats from '../../hooks/useGetUsersPomodoroFormats';
-import useSelectedPomodoroFormat from '../../hooks/useSelectedPomodoroFormat';
-import useUpdatePomodoroFormat from '../../hooks/useUpdatePomodoroFormat';
+import useCreatePomodoroFormat from '../../hooks/pomodoro/useCreatePomodoroFormat';
+import useGetAllOfUsersPomodoroFormats from '../../hooks/pomodoro/useGetUsersPomodoroFormats';
+import useSelectedPomodoroFormat from '../../hooks/pomodoro/useSelectedPomodoroFormat';
+import useUpdatePomodoroFormat from '../../hooks/pomodoro/useUpdatePomodoroFormat';
+import useUpdateUsersSelectedPomodoroFormat from '../../hooks/pomodoro/useUpdateUsersSelectedPomodoroFormat';
+import PomodoroSettingsForm from '../forms/pomodoroSettingsForm';
 
 interface Props {
     show: boolean;
@@ -19,9 +17,10 @@ interface Props {
 export default function PomodoroSettingsPopup({ show, handleClose }: Props) {
     const { create } = useCreatePomodoroFormat();
     const { update } = useUpdatePomodoroFormat();
+    const { updateUsersSelectedPomodoroFormat } = useUpdateUsersSelectedPomodoroFormat();
     const { data: session } = useSession();
-    const { formats } = useGetUsersPomodoroFormats({
-        userId: session?.user?.id ?? '',
+    const { formats } = useGetAllOfUsersPomodoroFormats({
+        userId: session?.user.id ?? '',
     });
     const { selectedPomodoroFormat, setSelectedPomodoroFormat } = useSelectedPomodoroFormat({
         formats: formats ?? [],
@@ -37,78 +36,28 @@ export default function PomodoroSettingsPopup({ show, handleClose }: Props) {
                 workDuration: selectedPomodoroFormat.workDuration,
                 breakDuration: selectedPomodoroFormat.breakDuration,
                 longBreakDuration: selectedPomodoroFormat.longBreakDuration,
+                autoStartTimer: selectedPomodoroFormat.autoStartTimer,
             });
         } else {
             update(selectedPomodoroFormat);
         }
+        updateUsersSelectedPomodoroFormat({ pomodoroFormatId: selectedPomodoroFormat.id });
+        if (session) {
+            session.user.selectedPomodoroFormatId = selectedPomodoroFormat.id;
+        }
         handleClose();
-    }
-
-    function onOptionChange(label: string, id: string) {
-        const foundFormat = formats?.find((option) => {
-            if (option.id === id) {
-                return option;
-            }
-        });
-
-        setSelectedPomodoroFormat(
-            foundFormat ?? {
-                id: '-1',
-                userId: '-1',
-                name: 'New Pomodoro Format',
-                workDuration: '25',
-                breakDuration: '5',
-                longBreakDuration: '15',
-            }
-        );
-    }
-
-    function onChange(name: string, value: any) {
-        setSelectedPomodoroFormat({ ...selectedPomodoroFormat, [name]: value });
-    }
-
-    function validationSchema() {
-        return true;
     }
 
     return (
         <Popup show={show}>
             <PopupHeader title='Pomodoro settings' handleClose={handleClose} />
-            <div className='relative p-6 flex-auto'>
-                <Formik
-                    enableReinitialize={true}
-                    initialValues={selectedPomodoroFormat}
-                    valudationSchema={validationSchema}
+            <div className='relative px-5 py-4 flex-auto'>
+                <PomodoroSettingsForm
+                    pomodoroFormats={formats ?? []}
+                    selectedPomodoroFormat={selectedPomodoroFormat}
+                    setSelectedPomodoroFormat={setSelectedPomodoroFormat}
                     onSubmit={handleSave}
-                >
-                    <Form>
-                        <FormSelectField name='savedPomodoroFormats' label='Pre-saved formats' onChange={onOptionChange}>
-                            {formats &&
-                                formats.map((option: PomodoroFormat, index) => {
-                                    if (option.id === session?.user?.selectedPomodoroFormatId) {
-                                        return (
-                                            <option key={index} value={option.id} selected>
-                                                {option.name}
-                                            </option>
-                                        );
-                                    } else {
-                                        return (
-                                            <option key={index} value={option.id}>
-                                                {option.name}
-                                            </option>
-                                        );
-                                    }
-                                })}
-                            <option key='newPomodoroFormat' value='new'>
-                                New Pomodoro Format
-                            </option>
-                        </FormSelectField>
-                        <FormTextField name='name' label='Format name' onChange={onChange} />
-                        <FormTextField name='workDuration' label='Work duration' onChange={onChange} />
-                        <FormTextField name='breakDuration' label='Break duration' onChange={onChange} />
-                        <FormTextField name='longBreakDuration' label='Long break duration' onChange={onChange} />
-                    </Form>
-                </Formik>
+                />
             </div>
             <PopupFooter handleClose={handleClose} handleSave={handleSave} />
         </Popup>

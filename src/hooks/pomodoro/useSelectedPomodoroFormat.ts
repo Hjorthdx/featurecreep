@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { PomodoroFormat } from '@prisma/client';
+import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME } from '../../constants';
 
 interface Props {
     formats: PomodoroFormat[];
@@ -11,9 +12,10 @@ export default function useSelectedPomodoroFormat({ formats, selectedId }: Props
         id: '-1',
         userId: '-1',
         name: 'New Pomodoro Format',
-        workDuration: '25',
-        breakDuration: '5',
-        longBreakDuration: '15',
+        workDuration: `${DEFAULT_WORK_TIME}`,
+        breakDuration: `${DEFAULT_BREAK_TIME}`,
+        longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
+        autoStartTimer: false,
     });
 
     useEffect(() => {
@@ -29,9 +31,10 @@ export default function useSelectedPomodoroFormat({ formats, selectedId }: Props
                         id: '-1',
                         userId: '-1',
                         name: 'New Pomodoro Format',
-                        workDuration: '25',
-                        breakDuration: '5',
-                        longBreakDuration: '15',
+                        workDuration: `${DEFAULT_WORK_TIME}`,
+                        breakDuration: `${DEFAULT_BREAK_TIME}`,
+                        longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
+                        autoStartTimer: false,
                     }
                 );
             } else {
@@ -39,9 +42,10 @@ export default function useSelectedPomodoroFormat({ formats, selectedId }: Props
                     id: '-1',
                     userId: '-1',
                     name: 'New Pomodoro Format',
-                    workDuration: '25',
-                    breakDuration: '5',
-                    longBreakDuration: '15',
+                    workDuration: `${DEFAULT_WORK_TIME}`,
+                    breakDuration: `${DEFAULT_BREAK_TIME}`,
+                    longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
+                    autoStartTimer: false,
                 };
             }
         });

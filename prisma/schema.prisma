@@ -26,13 +26,14 @@ model PomodoroTimer {
 }
 
 model PomodoroFormat {
-    id                String @id @default(cuid())
+    id                String  @id @default(cuid())
     userId            String
     name              String
     workDuration      String
     breakDuration     String
     longBreakDuration String
-    user              User   @relation(fields: [userId], references: [id])
+    autoStartTimer    Boolean @default(false)
+    user              User    @relation(fields: [userId], references: [id])
 }
 
 // Necessary for Next auth

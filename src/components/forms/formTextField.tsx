@@ -8,7 +8,7 @@ interface Props {
 
 export default function FormTextField({ name, label, onChange }: Props) {
     return (
-        <div>
+        <div className='mb-2'>
             <label htmlFor={name}>{label}: </label>
             <Field
                 className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'

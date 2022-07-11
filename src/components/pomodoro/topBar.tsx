@@ -1,45 +1,51 @@
-import { useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import ElevatedButton from '../buttons/elevatedButton';
 import SettingsButton from '../buttons/settingsButton';
-import { PomodoroModes } from './pomodoroModes';
+import { PomodoroModes } from '../../types/pomodoroModes';
 
-// Could this be done in a nicer way? Currently just setting all booleans everytime a button is clicked.
+// Could this be done in a nicer way? Currently just setting all booleans everytime a button is clicked...
 
 interface PomodoroMethodAction {
-    type: PomodoroModes;
+    type: 'updateLastClicked';
+    payload: PomodoroModes;
 }
 
 interface TopbarState {
-    workBool: boolean;
-    breakBool: boolean;
-    longBreakBool: boolean;
+    work: boolean;
+    break: boolean;
+    longBreak: boolean;
 }
-
-const initialState: TopbarState = { workBool: true, breakBool: false, longBreakBool: false };
 
 function pomodoroMethodReducer(state: TopbarState, action: PomodoroMethodAction): TopbarState {
     switch (action.type) {
-        case 'work':
-            return { ...state, workBool: true, breakBool: false, longBreakBool: false };
-        case 'break':
-            return { ...state, workBool: false, breakBool: true, longBreakBool: false };
-        case 'longBreak':
-            return { ...state, workBool: false, breakBool: false, longBreakBool: true };
+        case 'updateLastClicked':
+            const temp = { work: false, break: false, longBreak: false };
+            return { ...temp, [action.payload]: true };
         default:
             return state;
     }
 }
 
 interface Props {
+    selectedMode: PomodoroModes;
     onClick: (mode: PomodoroModes) => void;
     setShow: () => void;
 }
 
-function Topbar({ onClick, setShow }: Props) {
-    const [state, dispatch] = useReducer(pomodoroMethodReducer, initialState);
+function Topbar({ selectedMode, onClick, setShow }: Props) {
+    const [state, dispatch] = useReducer(pomodoroMethodReducer, {
+        work: false,
+        break: false,
+        longBreak: false,
+        [selectedMode]: true,
+    });
+
+    useEffect(() => {
+        dispatch({ type: 'updateLastClicked', payload: selectedMode });
+    }, [selectedMode]);
 
     function onPress(mode: PomodoroModes) {
-        dispatch({ type: mode });
+        dispatch({ type: 'updateLastClicked', payload: mode });
         onClick(mode);
     }
 
@@ -47,7 +53,7 @@ function Topbar({ onClick, setShow }: Props) {
         <div className='p-5 py-5 inline-flex'>
             <SettingsButton onClick={setShow} />
             <ElevatedButton
-                enabled={state.workBool}
+                enabled={state.work}
                 onClick={() => {
                     console.log('Work button!');
                     onPress('work');
@@ -56,7 +62,7 @@ function Topbar({ onClick, setShow }: Props) {
                 Work button
             </ElevatedButton>
             <ElevatedButton
-                enabled={state.breakBool}
+                enabled={state.break}
                 onClick={() => {
                     console.log('Break button!');
                     onPress('break');
@@ -65,7 +71,7 @@ function Topbar({ onClick, setShow }: Props) {
                 Break button
             </ElevatedButton>
             <ElevatedButton
-                enabled={state.longBreakBool}
+                enabled={state.longBreak}
                 onClick={() => {
                     console.log('Long break button!');
                     onPress('longBreak');
