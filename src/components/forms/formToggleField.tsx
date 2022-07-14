@@ -1,5 +1,5 @@
 import { ErrorMessage } from 'formik';
-import Toggle from '../toggle';
+import Toggle from '../buttons/toggle';
 
 interface Props {
     name: string;
@@ -8,7 +8,6 @@ interface Props {
     onChange: () => void;
 }
 
-// VI STOPPEDE HER: FIND UD AF HVORFOR TOGGLE IKKE SKIFTER NÅR DU SKRIFTER ROLLE!
 export default function FormToggleField({ name, label, enabled, onChange }: Props) {
     return (
         <div className='mb-2'>

@@ -23,6 +23,9 @@ model PomodoroTimer {
     mode      String   @default("work")
     createdAt DateTime @default(now())
     duration  Int      @default(25)
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+    Tasks     Task[]
 }
 
 model PomodoroFormat {
@@ -34,6 +37,16 @@ model PomodoroFormat {
     longBreakDuration String
     autoStartTimer    Boolean @default(false)
     user              User    @relation(fields: [userId], references: [id])
+}
+
+model Task {
+    id              String         @id @default(cuid())
+    name            String         @unique
+    completed       Boolean        @default(false)
+    userId          String
+    user            User           @relation(fields: [userId], references: [id])
+    pomodoroTimerId String?
+    pomodoroTimer   PomodoroTimer? @relation(fields: [pomodoroTimerId], references: [id])
 }
 
 // Necessary for Next auth
@@ -64,15 +77,18 @@ model Session {
 }
 
 model User {
-    id                       String           @id @default(cuid())
-    name                     String?
-    email                    String?          @unique
-    emailVerified            DateTime?
-    image                    String?
-    accounts                 Account[]
-    sessions                 Session[]
+    id            String    @id @default(cuid())
+    name          String?
+    email         String?   @unique
+    emailVerified DateTime?
+    image         String?
+    accounts      Account[]
+    sessions      Session[]
+
     pomodoroFormats          PomodoroFormat[]
     selectedPomodoroFormatId String           @default("DEFAULT_POMODORO_FORMAT_ID")
+    Task                     Task[]
+    PomodoroTimers           PomodoroTimer[]
 }
 
 model VerificationToken {

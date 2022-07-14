@@ -13,6 +13,7 @@ interface Props {
 }
 
 // TODO: Make reducer for this component
+// Do something about this. This component is way too complex
 export default function PomodoroTimer({ setShow }: Props) {
     const { data: session } = useSession();
     const { create } = useCreateTimer();

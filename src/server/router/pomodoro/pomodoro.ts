@@ -2,8 +2,11 @@ import { TRPCError } from '@trpc/server';
 import { createRouter } from '../context';
 import { timerRouter } from './timer';
 import { pomodoroFormatRouter } from './pomodoroFormat';
+import { taskRouter } from './task';
 
 export const pomodoroRouter = createRouter()
+    // Figure out how to actually make this middleware work.
+    // Currently still have to insert it in all al the merged routers beneath to tell ts that it cant be null...
     .middleware(async ({ ctx, next }) => {
         // Any queries or mutations after this middleware will
         // raise an error unless there is a current session
@@ -28,4 +31,5 @@ export const pomodoroRouter = createRouter()
         });
     })
     .merge('timer.', timerRouter)
-    .merge('format.', pomodoroFormatRouter);
+    .merge('format.', pomodoroFormatRouter)
+    .merge('task.', taskRouter);
