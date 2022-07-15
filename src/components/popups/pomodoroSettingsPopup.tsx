@@ -8,7 +8,6 @@ import useSelectedPomodoroFormat from '../../hooks/pomodoro/useSelectedPomodoroF
 import useUpdatePomodoroFormat from '../../hooks/pomodoro/useUpdatePomodoroFormat';
 import useUpdateUsersSelectedPomodoroFormat from '../../hooks/pomodoro/useUpdateUsersSelectedPomodoroFormat';
 import PomodoroSettingsForm from '../forms/pomodoroSettingsForm';
-import useGetSelectedPomodoroFormat from '../../hooks/pomodoro/useGetSelectedPomodoroFormat';
 
 interface Props {
     show: boolean;

@@ -49,13 +49,12 @@ export const taskRouter = createRouter()
     })
     .mutation('createTask', {
         input: z.object({
-            name: z.string(),
+            name: z.string().min(1, 'Task name must be at least 1 character long'),
         }),
         async resolve({ input, ctx }) {
             return await ctx.prisma.task.create({
                 data: {
                     name: input.name,
-                    completed: false,
                     userId: ctx.session.user.id,
                 },
             });

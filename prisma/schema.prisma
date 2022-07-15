@@ -41,7 +41,7 @@ model PomodoroFormat {
 
 model Task {
     id              String         @id @default(cuid())
-    name            String         @unique
+    name            String
     completed       Boolean        @default(false)
     userId          String
     user            User           @relation(fields: [userId], references: [id])
