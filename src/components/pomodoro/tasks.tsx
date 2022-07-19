@@ -29,7 +29,6 @@ function Tasks() {
             if (inputRef.current?.value.length <= 1) {
                 return;
             }
-        prompt('called after');
 
         setTasks((tasks) => [
             ...tasks,
