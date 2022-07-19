@@ -1,10 +1,17 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
 // Perhabs group hooks together to get something like this?
 // import { useCreateTask, useGetTasks } from '../../hooks/pomodoro';
-import Task from './task';
+import TaskItem from './taskItem';
+import useLocalStorage from '../../hooks/useLocalStorage';
+
+export interface Task {
+    id: string;
+    label: string;
+    checked: boolean;
+}
 
 function Tasks() {
-    const [tasks, setTasks] = useState<string[]>([]);
+    const { value: tasks, setValue: setTasks } = useLocalStorage<Task[]>({ key: 'tasks', defaultValue: [] });
     const inputRef = useRef<HTMLInputElement>(null);
 
     if (!tasks) {
@@ -18,7 +25,32 @@ function Tasks() {
     }
 
     function handleNewTaskClick() {
-        setTasks((tasks) => [...tasks, inputRef.current?.value ?? '']);
+        if (inputRef.current?.value.length)
+            if (inputRef.current?.value.length <= 1) {
+                return;
+            }
+        prompt('called after');
+
+        setTasks((tasks) => [
+            ...tasks,
+            {
+                id: inputRef.current?.value + new Date().toLocaleDateString() ?? '' + new Date().toLocaleDateString(),
+                label: inputRef.current?.value ?? '',
+                checked: false,
+            },
+        ]);
+    }
+
+    function onTaskClick(task: Task, checked: boolean) {
+        setTasks((tasks) =>
+            tasks.map((existingTask) => {
+                if (existingTask.id === task.id) {
+                    return { ...task, checked: checked };
+                } else {
+                    return existingTask;
+                }
+            })
+        );
     }
 
     return (
@@ -28,7 +60,7 @@ function Tasks() {
             <button onClick={handleNewTaskClick}>Click me to add task!</button>
             <div className='p-5 py-5'>
                 {tasks.map((task, index) => (
-                    <Task key={index} task={task} />
+                    <TaskItem key={index} task={task} onClick={onTaskClick} />
                 ))}
             </div>
         </div>
