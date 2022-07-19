@@ -2,11 +2,11 @@ import { useSession } from 'next-auth/react';
 import Popup from './popup';
 import PopupFooter from './popupFooter';
 import PopupHeader from './popupHeader';
-import useCreatePomodoroFormat from '../../hooks/pomodoro/useCreatePomodoroFormat';
-import useGetAllOfUsersPomodoroFormats from '../../hooks/pomodoro/useGetUsersPomodoroFormats';
-import useSelectedPomodoroFormat from '../../hooks/pomodoro/useSelectedPomodoroFormat';
-import useUpdatePomodoroFormat from '../../hooks/pomodoro/useUpdatePomodoroFormat';
-import useUpdateUsersSelectedPomodoroFormat from '../../hooks/pomodoro/useUpdateUsersSelectedPomodoroFormat';
+import useCreatePomodoroFormat from '../../hooks/pomodoro/format/useCreatePomodoroFormat';
+import useGetAllOfUsersPomodoroFormats from '../../hooks/pomodoro/format/useGetUsersPomodoroFormats';
+import useSelectedPomodoroFormat from '../../hooks/pomodoro/format/useSelectedPomodoroFormat';
+import useUpdatePomodoroFormat from '../../hooks/pomodoro/format/useUpdatePomodoroFormat';
+import useUpdateUsersSelectedPomodoroFormat from '../../hooks/pomodoro/format/useUpdateUsersSelectedPomodoroFormat';
 import PomodoroSettingsForm from '../forms/pomodoroSettingsForm';
 
 interface Props {

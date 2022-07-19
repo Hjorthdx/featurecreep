@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { PomodoroFormat } from '@prisma/client';
-import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME } from '../../constants';
+import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME } from '../../../constants';
 
 interface Props {
     formats: PomodoroFormat[];

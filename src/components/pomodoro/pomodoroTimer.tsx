@@ -1,12 +1,12 @@
-import { useRef, useState, useEffect } from 'react';
+import { useRef, useState } from 'react';
 import { useSession } from 'next-auth/react';
 import CountdownClock from './countdownClock';
 import { PomodoroModes } from '../../types/pomodoroModes';
 import BottomBar from './bottomBar';
 import Topbar from './topBar';
-import useCreateTimer from '../../hooks/pomodoro/useCreateTimer';
-import useGetSelectedPomodoroFormat from '../../hooks/pomodoro/useGetSelectedPomodoroFormat';
-import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME, SECONDS_IN_A_MINUTE } from '../../constants';
+import useCreateTimer from '../../hooks/pomodoro/timer/useCreateTimer';
+import useGetSelectedPomodoroFormat from '../../hooks/pomodoro/format/useGetSelectedPomodoroFormat';
+import usePomodoroDuration from '../../hooks/pomodoro/usePomodoroDuration';
 
 interface Props {
     setShow: () => void;
@@ -16,25 +16,15 @@ interface Props {
 // Do something about this. This component is way too complex
 export default function PomodoroTimer({ setShow }: Props) {
     const { data: session } = useSession();
-    const { create } = useCreateTimer();
+    const { create: createTimer } = useCreateTimer();
     const { selectedPomodoroFormat } = useGetSelectedPomodoroFormat({
         pomodoroFormatId: session?.user.selectedPomodoroFormatId,
     });
     const [selectedMode, setSelectedMode] = useState<PomodoroModes>('work');
     const [isPlaying, setIsPlaying] = useState(false);
     const [startedAt, setStartedAt] = useState<Date>();
-    const [duration, setDuration] = useState(() =>
-        selectedPomodoroFormat
-            ? Number(selectedPomodoroFormat?.workDuration) * SECONDS_IN_A_MINUTE
-            : DEFAULT_WORK_TIME * SECONDS_IN_A_MINUTE
-    );
-    useEffect(() => {
-        setDuration(
-            selectedPomodoroFormat
-                ? Number(selectedPomodoroFormat?.workDuration) * SECONDS_IN_A_MINUTE
-                : DEFAULT_WORK_TIME * SECONDS_IN_A_MINUTE
-        );
-    }, [selectedPomodoroFormat]);
+    const { duration } = usePomodoroDuration({ selectedMode: selectedMode });
+
     const [pomodoroCount, setPomodoroCount] = useState(1);
     const audioRef = useRef<HTMLAudioElement>(null);
 
@@ -43,25 +33,7 @@ export default function PomodoroTimer({ setShow }: Props) {
             return;
         }
         setSelectedMode(mode);
-        if (selectedPomodoroFormat) {
-            setDuration(
-                mode === 'work'
-                    ? Number(selectedPomodoroFormat.workDuration) * SECONDS_IN_A_MINUTE
-                    : mode === 'break'
-                    ? Number(selectedPomodoroFormat.breakDuration) * SECONDS_IN_A_MINUTE
-                    : Number(selectedPomodoroFormat.longBreakDuration) * SECONDS_IN_A_MINUTE
-            );
-            setIsPlaying(false);
-        } else {
-            setDuration(
-                mode === 'work'
-                    ? DEFAULT_WORK_TIME * SECONDS_IN_A_MINUTE
-                    : mode === 'break'
-                    ? DEFAULT_BREAK_TIME * SECONDS_IN_A_MINUTE
-                    : DEFAULT_LONG_BREAK_TIME * SECONDS_IN_A_MINUTE
-            );
-            setIsPlaying(false);
-        }
+        setIsPlaying(false);
         setStartedAt(undefined);
         setPomodoroCount(1);
     }
@@ -81,7 +53,7 @@ export default function PomodoroTimer({ setShow }: Props) {
         // I don't think it's possible for startedAt to be undefined at this point,
         // but not sure how to tell TS right now that that is the case.
         if (startedAt) {
-            create({
+            createTimer({
                 mode: selectedMode,
                 createdAt: startedAt,
                 duration: duration,

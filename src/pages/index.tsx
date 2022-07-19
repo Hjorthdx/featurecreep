@@ -7,6 +7,7 @@ import { signIn, signOut, useSession } from 'next-auth/react';
 import FeatureGrid from '../components/grids/featureGrid';
 
 const Home: NextPage = () => {
+    // Should not be required to log in to see?
     const { status } = useSession({
         required: true,
     });

@@ -1,14 +1,11 @@
 import { useState, useEffect, useRef, ChangeEvent } from 'react';
 // Perhabs group hooks together to get something like this?
 // import { useCreateTask, useGetTasks } from '../../hooks/pomodoro';
-import useCreateTask from '../../hooks/pomodoro/useCreateTask';
-import useGetTasks from '../../hooks/pomodoro/useGetTasks';
-import TaskItem from './taskItem';
+import Task from './task';
 
 function Tasks() {
-    const { tasks } = useGetTasks();
+    const [tasks, setTasks] = useState<string[]>([]);
     const inputRef = useRef<HTMLInputElement>(null);
-    const { create } = useCreateTask();
 
     if (!tasks) {
         return null;
@@ -21,16 +18,7 @@ function Tasks() {
     }
 
     function handleNewTaskClick() {
-        create(
-            { name: inputRef.current?.value ?? '' },
-            {
-                onSuccess: (data) => {
-                    if (inputRef.current) {
-                        inputRef.current.value = '';
-                    }
-                },
-            }
-        );
+        setTasks((tasks) => [...tasks, inputRef.current?.value ?? '']);
     }
 
     return (
@@ -39,8 +27,8 @@ function Tasks() {
             <input ref={inputRef} type='text' onChange={onChange} placeholder='Please insert task name' />
             <button onClick={handleNewTaskClick}>Click me to add task!</button>
             <div className='p-5 py-5'>
-                {tasks.map((task) => (
-                    <TaskItem key={task.id} task={task} />
+                {tasks.map((task, index) => (
+                    <Task key={index} task={task} />
                 ))}
             </div>
         </div>

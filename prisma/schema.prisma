@@ -13,11 +13,6 @@ datasource db {
     referentialIntegrity = "prisma"
 }
 
-model Example {
-    id   String  @id @default(cuid())
-    text String?
-}
-
 model PomodoroTimer {
     id        String   @id @default(cuid())
     mode      String   @default("work")
@@ -25,7 +20,6 @@ model PomodoroTimer {
     duration  Int      @default(25)
     userId    String
     user      User     @relation(fields: [userId], references: [id])
-    Tasks     Task[]
 }
 
 model PomodoroFormat {
@@ -37,16 +31,6 @@ model PomodoroFormat {
     longBreakDuration String
     autoStartTimer    Boolean @default(false)
     user              User    @relation(fields: [userId], references: [id])
-}
-
-model Task {
-    id              String         @id @default(cuid())
-    name            String
-    completed       Boolean        @default(false)
-    userId          String
-    user            User           @relation(fields: [userId], references: [id])
-    pomodoroTimerId String?
-    pomodoroTimer   PomodoroTimer? @relation(fields: [pomodoroTimerId], references: [id])
 }
 
 // Necessary for Next auth
@@ -87,7 +71,6 @@ model User {
 
     pomodoroFormats          PomodoroFormat[]
     selectedPomodoroFormatId String           @default("DEFAULT_POMODORO_FORMAT_ID")
-    Task                     Task[]
     PomodoroTimers           PomodoroTimer[]
 }
 

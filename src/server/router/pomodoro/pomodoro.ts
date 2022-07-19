@@ -2,7 +2,6 @@ import { TRPCError } from '@trpc/server';
 import { createRouter } from '../context';
 import { timerRouter } from './timer';
 import { pomodoroFormatRouter } from './pomodoroFormat';
-import { taskRouter } from './task';
 
 export const pomodoroRouter = createRouter()
     // Figure out how to actually make this middleware work.
@@ -31,5 +30,4 @@ export const pomodoroRouter = createRouter()
         });
     })
     .merge('timer.', timerRouter)
-    .merge('format.', pomodoroFormatRouter)
-    .merge('task.', taskRouter);
+    .merge('format.', pomodoroFormatRouter);
