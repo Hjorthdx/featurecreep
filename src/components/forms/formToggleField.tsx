@@ -1,5 +1,5 @@
 import { ErrorMessage } from 'formik';
-import Toggle from '../buttons/toggle';
+import Toggle from '../interactables/toggle';
 
 interface Props {
     name: string;

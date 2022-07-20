@@ -1,4 +1,4 @@
-import ElevatedButton from '../buttons/elevatedButton';
+import ElevatedButton from '../interactables/elevatedButton';
 
 interface Props {
     isPlaying: boolean;

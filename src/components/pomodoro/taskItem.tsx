@@ -1,4 +1,4 @@
-import Checkbox from '../buttons/checkbox';
+import Checkbox from '../interactables/checkbox';
 import { Task } from './tasks';
 
 interface Props {
