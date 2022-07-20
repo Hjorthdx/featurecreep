@@ -18,7 +18,7 @@ const Home: NextPage = () => {
 
     return (
         <div className='bg-zinc-300'>
-            <Head />
+            <Head title='FeatureCreep' />
             <div className='container flex flex-col items-center justify-center min-h-screen p-10 px-0 mx-auto md:py-20 md:p-10 md:px-0'>
                 <h1 className='font-extrabold text-center text-7xl'>Welcome!</h1>
 
