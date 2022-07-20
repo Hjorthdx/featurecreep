@@ -32,7 +32,7 @@ interface Props {
     setShow: () => void;
 }
 
-function Topbar({ selectedMode, onClick, setShow }: Props) {
+export default function Topbar({ selectedMode, onClick, setShow }: Props) {
     const [state, dispatch] = useReducer(pomodoroMethodReducer, {
         work: false,
         break: false,
@@ -82,5 +82,3 @@ function Topbar({ selectedMode, onClick, setShow }: Props) {
         </div>
     );
 }
-
-export default Topbar;

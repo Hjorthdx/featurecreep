@@ -8,7 +8,7 @@ interface Props {
     selectedMode: string;
 }
 
-function CountdownClock({ isPlaying, duration, onComplete, selectedMode }: Props) {
+export default function CountdownClock({ isPlaying, duration, onComplete, selectedMode }: Props) {
     return (
         <CountdownCircleTimer
             key={selectedMode}
@@ -23,5 +23,3 @@ function CountdownClock({ isPlaying, duration, onComplete, selectedMode }: Props
         </CountdownCircleTimer>
     );
 }
-
-export default CountdownClock;

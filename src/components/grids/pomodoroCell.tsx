@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import GridCell from './gridCell';
 
-function PomodoroCell() {
+export default function PomodoroCell() {
     return (
         <GridCell>
             <Link href='/pomodoro'>
@@ -16,5 +16,3 @@ function PomodoroCell() {
         </GridCell>
     );
 }
-
-export default PomodoroCell;

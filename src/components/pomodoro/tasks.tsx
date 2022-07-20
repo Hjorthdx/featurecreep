@@ -1,10 +1,12 @@
-import { useState, useEffect, useRef, ChangeEvent } from 'react';
+import { useState, useEffect, useRef, ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react';
 // Perhabs group hooks together to get something like this?
 // import { useCreateTask, useGetTasks } from '../../hooks/pomodoro';
 import TaskItem from './taskItem';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import Dropdown from '../interactables/dropdown';
 import TaskDropdown from '../interactables/taskDropdown';
+import { PlusIcon } from '@heroicons/react/solid';
+import ElevatedButton from '../interactables/elevatedButton';
+import AddButton from '../interactables/addButton';
 
 export interface Task {
     id: string;
@@ -12,7 +14,7 @@ export interface Task {
     checked: boolean;
 }
 
-function Tasks() {
+export default function Tasks() {
     const { value: tasks, setValue: setTasks } = useLocalStorage<Task[]>({ key: 'tasks', defaultValue: [] });
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -27,19 +29,22 @@ function Tasks() {
     }
 
     function handleNewTaskClick() {
-        if (inputRef.current?.value.length)
-            if (inputRef.current?.value.length <= 1) {
-                return;
-            }
+        if (!inputRef.current) {
+            return;
+        }
+        const newTask = {
+            id: inputRef.current.value + new Date().toLocaleDateString(),
+            label: inputRef.current.value,
+            checked: false,
+        };
+        setTasks((tasks) => [...tasks, newTask]);
+        inputRef.current.value = '';
+    }
 
-        setTasks((tasks) => [
-            ...tasks,
-            {
-                id: inputRef.current?.value + new Date().toLocaleDateString() ?? '' + new Date().toLocaleDateString(),
-                label: inputRef.current?.value ?? '',
-                checked: false,
-            },
-        ]);
+    function handleKeyDown(e: DetailedHTMLProps<InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>) {
+        if (e.key === 'Enter') {
+            handleNewTaskClick();
+        }
     }
 
     function onTaskClick(task: Task, checked: boolean) {
@@ -56,10 +61,20 @@ function Tasks() {
 
     return (
         <div className='flex flex-col items-center bg-white rounded-2xl border-2 border-neutral-800'>
-            <label>Tasks</label>
-            <TaskDropdown />
-            <input ref={inputRef} type='text' onChange={onChange} placeholder='Please insert task name' />
-            <button onClick={handleNewTaskClick}>Click me to add task!</button>
+            <div className='p-5 py-5 inline-flex justify-between w-full'>
+                <input
+                    ref={inputRef}
+                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mx-3'
+                    type='text'
+                    onChange={onChange}
+                    onKeyDown={handleKeyDown}
+                    placeholder='Please insert task name'
+                />
+                {/* Should this add button even be here?
+                 Or do I only accept enter as a way to add? */}
+                <AddButton onClick={handleNewTaskClick} />
+                <TaskDropdown />
+            </div>
             <div className='p-5 py-5'>
                 {tasks.map((task, index) => (
                     <TaskItem key={index} task={task} onClick={onTaskClick} />
@@ -68,5 +83,3 @@ function Tasks() {
         </div>
     );
 }
-
-export default Tasks;

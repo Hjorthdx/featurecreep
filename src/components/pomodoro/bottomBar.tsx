@@ -5,34 +5,20 @@ interface Props {
     onClick: (isPlaying: boolean) => void;
 }
 
-function BottomBar({ isPlaying, onClick }: Props) {
+export default function BottomBar({ isPlaying, onClick }: Props) {
     return (
         <div className='p-5 py-5'>
-            {isPlaying && (
-                <ElevatedButton
-                    onClick={() => {
-                        console.log('Pause button!');
-                        onClick(false);
-                    }}
-                >
-                    Pause
-                </ElevatedButton>
-            )}
-            {!isPlaying && (
-                <ElevatedButton
-                    onClick={() => {
-                        console.log('Start button!');
-                        onClick(true);
-                    }}
-                >
-                    Start
-                </ElevatedButton>
-            )}
+            <ElevatedButton
+                onClick={() => {
+                    onClick(isPlaying);
+                }}
+            >
+                Pause
+            </ElevatedButton>
         </div>
     );
 }
 
-export default BottomBar;
 /*
 Reset button perhabs?
 <div>

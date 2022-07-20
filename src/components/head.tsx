@@ -4,7 +4,7 @@ interface Props {
     title: string;
 }
 
-function Head({ title }: Props) {
+export default function Head({ title }: Props) {
     return (
         <NextHead>
             <title>{title}</title>
@@ -13,5 +13,3 @@ function Head({ title }: Props) {
         </NextHead>
     );
 }
-
-export default Head;

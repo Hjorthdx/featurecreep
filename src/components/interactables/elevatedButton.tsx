@@ -4,7 +4,7 @@ interface Props {
     children: React.ReactNode;
 }
 
-function ElevatedButton({ onClick, enabled, children }: Props) {
+export default function ElevatedButton({ onClick, enabled, children }: Props) {
     return (
         <button
             className={`m-2 ${
@@ -16,5 +16,3 @@ function ElevatedButton({ onClick, enabled, children }: Props) {
         </button>
     );
 }
-
-export default ElevatedButton;
