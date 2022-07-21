@@ -1,11 +1,9 @@
-import { useState, useEffect, useRef, ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import { useRef, ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react';
 // Perhabs group hooks together to get something like this?
 // import { useCreateTask, useGetTasks } from '../../hooks/pomodoro';
 import TaskItem from './taskItem';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import TaskDropdown from '../interactables/taskDropdown';
-import { PlusIcon } from '@heroicons/react/solid';
-import ElevatedButton from '../interactables/elevatedButton';
 import AddButton from '../interactables/addButton';
 
 export interface Task {
@@ -30,6 +28,9 @@ export default function Tasks() {
 
     function handleNewTaskClick() {
         if (!inputRef.current) {
+            return;
+        }
+        if (inputRef.current.value.length === 0) {
             return;
         }
         const newTask = {
