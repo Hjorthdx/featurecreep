@@ -34,7 +34,7 @@ export default function Tasks() {
             return;
         }
         const newTask = {
-            id: inputRef.current.value + new Date().toLocaleDateString(),
+            id: inputRef.current.value + '@' + new Date().toLocaleDateString(),
             label: inputRef.current.value,
             checked: false,
         };
@@ -60,6 +60,14 @@ export default function Tasks() {
         );
     }
 
+    function onTaskDelete(filter?: (task: Task) => boolean) {
+        if (!filter) {
+            setTasks([]);
+            return;
+        }
+        setTasks((tasks) => tasks.filter(filter));
+    }
+
     return (
         <div className='flex flex-col items-center bg-white rounded-2xl border-2 border-neutral-800'>
             <div className='p-5 py-5 inline-flex justify-between w-full'>
@@ -74,7 +82,7 @@ export default function Tasks() {
                 {/* Should this add button even be here?
                  Or do I only accept enter as a way to add? */}
                 <AddButton onClick={handleNewTaskClick} />
-                <TaskDropdown />
+                <TaskDropdown onTaskDelete={onTaskDelete} />
             </div>
             <div className='p-5 py-5'>
                 {tasks.map((task, index) => (

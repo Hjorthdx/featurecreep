@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 interface Props {
     label: string;
@@ -14,6 +14,12 @@ export default function Checkbox({ label, onClick, checked = false }: Props) {
         setIsChecked(!isChecked);
         onClick(!isChecked);
     }
+
+    useEffect(() => {
+        return () => {
+            setIsChecked(false);
+        };
+    }, [label]);
 
     return (
         <div className='flex items-center'>
