@@ -3,7 +3,7 @@ import { useRef, ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'rea
 // import { useCreateTask, useGetTasks } from '../../hooks/pomodoro';
 import TaskItem from './taskItem';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import TaskDropdown from '../interactables/taskDropdown';
+import TaskOptionsDropdown from '../interactables/taskOptionsDropdown';
 import AddButton from '../interactables/addButton';
 
 export interface Task {
@@ -82,7 +82,7 @@ export default function Tasks() {
                 {/* Should this add button even be here?
                  Or do I only accept enter as a way to add? */}
                 <AddButton onClick={handleNewTaskClick} />
-                <TaskDropdown onTaskDelete={onTaskDelete} />
+                <TaskOptionsDropdown onTaskDelete={onTaskDelete} />
             </div>
             <div className='p-5 py-5'>
                 {tasks.map((task, index) => (

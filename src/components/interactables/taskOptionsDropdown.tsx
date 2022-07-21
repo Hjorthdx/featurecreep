@@ -7,7 +7,7 @@ interface Props {
     onTaskDelete: (filter?: (task: Task) => boolean) => void;
 }
 
-export default function TaskDropdown({ onTaskDelete }: Props) {
+export default function TaskOptionsDropdown({ onTaskDelete }: Props) {
     function handleDeleteAll() {
         // Should this know if there are any tasks ?
         // No need to ask for confirmation if there are no tasks ?
