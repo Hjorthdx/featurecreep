@@ -1,6 +1,6 @@
 import { useEffect, useReducer, useState } from 'react';
-import ElevatedButton from '../interactables/elevatedButton';
-import SettingsButton from '../interactables/settingsButton';
+import ElevatedButton from '../interactables/buttons/elevatedButton';
+import SettingsButton from '../interactables/buttons/settingsButton';
 import { PomodoroModes } from '../../types/pomodoroModes';
 
 // Could this be done in a nicer way? Currently just setting all booleans everytime a button is clicked...

@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import settingIcon from '../../assets/settings-icon.png';
+import settingIcon from '../../../assets/settings-icon.png';
 
 interface Props {
     onClick: () => void;

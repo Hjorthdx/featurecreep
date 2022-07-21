@@ -1,4 +1,5 @@
 import Checkbox from '../interactables/checkbox';
+import TaskDropdown from '../interactables/dropdowns/taskDropdown';
 import { Task } from './tasks';
 
 interface Props {
@@ -14,6 +15,7 @@ export default function TaskItem({ task, onClick }: Props) {
     return (
         <div className='flex flex-col p-2 items-center bg-white rounded-2xl border-2 border-neutral-800'>
             <Checkbox label={task.label} onClick={handleClick} checked={task.checked} />
+            <TaskDropdown />
         </div>
     );
 }

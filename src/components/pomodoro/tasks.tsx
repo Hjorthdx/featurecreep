@@ -3,8 +3,8 @@ import { useRef, ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'rea
 // import { useCreateTask, useGetTasks } from '../../hooks/pomodoro';
 import TaskItem from './taskItem';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import TaskOptionsDropdown from '../interactables/taskOptionsDropdown';
-import AddButton from '../interactables/addButton';
+import TaskOptionsDropdown from '../interactables/dropdowns/taskOptionsDropdown';
+import AddButton from '../interactables/buttons/addButton';
 
 export interface Task {
     id: string;
