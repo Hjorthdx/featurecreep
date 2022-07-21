@@ -10,10 +10,11 @@ export default function BottomBar({ isPlaying, onClick }: Props) {
         <div className='p-5 py-5'>
             <ElevatedButton
                 onClick={() => {
-                    onClick(isPlaying);
+                    console.log('Pause button!');
+                    onClick(!isPlaying);
                 }}
             >
-                Pause
+                {isPlaying ? 'Pause' : 'Start'}
             </ElevatedButton>
         </div>
     );

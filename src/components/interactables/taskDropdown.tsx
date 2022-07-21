@@ -8,6 +8,11 @@ interface Props {
 }
 
 export default function TaskDropdown({ onTaskDelete }: Props) {
+    function handleDeleteAll() {
+        if (confirm('Are you sure you want to delete all tasks?')) {
+            onTaskDelete();
+        }
+    }
     return (
         <Dropdown dropdownName='Options'>
             <Menu.Items className='origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 divide-y divide-gray-200 focus:outline-none'>
@@ -17,7 +22,7 @@ export default function TaskDropdown({ onTaskDelete }: Props) {
                     </DropdownItem>
                 </div>
                 <div className='py-1'>
-                    <DropdownItem onClick={() => onTaskDelete()}>Delete all tasks</DropdownItem>
+                    <DropdownItem onClick={handleDeleteAll}>Delete all tasks</DropdownItem>
                 </div>
             </Menu.Items>
         </Dropdown>
