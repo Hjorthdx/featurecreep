@@ -13,7 +13,7 @@ export default function TaskItem({ task, onClick }: Props) {
     }
 
     return (
-        <div className='flex flex-col p-2 items-center bg-white rounded-2xl border-2 border-neutral-800'>
+        <div className='flex flex-row px-2 py-1 mb-4 justify-between bg-white rounded-lg border border-gray-800'>
             <Checkbox label={task.label} onClick={handleClick} checked={task.checked} />
             <TaskDropdown />
         </div>

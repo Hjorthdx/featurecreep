@@ -73,7 +73,7 @@ export default function Tasks() {
             <div className='p-5 py-5 inline-flex justify-between w-full'>
                 <input
                     ref={inputRef}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mx-3'
+                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mx-3 border-gray-400'
                     type='text'
                     onChange={onChange}
                     onKeyDown={handleKeyDown}
@@ -84,7 +84,7 @@ export default function Tasks() {
                 <AddButton onClick={handleNewTaskClick} />
                 <TaskOptionsDropdown onTaskDelete={onTaskDelete} />
             </div>
-            <div className='p-5 py-5'>
+            <div className='p-5 py-5 w-full'>
                 {tasks.map((task, index) => (
                     <TaskItem key={index} task={task} onClick={onTaskClick} />
                 ))}
