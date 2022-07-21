@@ -9,6 +9,8 @@ interface Props {
 
 export default function TaskDropdown({ onTaskDelete }: Props) {
     function handleDeleteAll() {
+        // Should this know if there are any tasks ?
+        // No need to ask for confirmation if there are no tasks ?
         if (confirm('Are you sure you want to delete all tasks?')) {
             onTaskDelete();
         }
