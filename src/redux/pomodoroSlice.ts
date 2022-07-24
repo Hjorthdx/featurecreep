@@ -9,4 +9,3 @@ export const pomodoroSlice = createSlice({
 });
 
 export const PomodoroSliceReducer = pomodoroSlice.reducer;
-export const {} = pomodoroSlice.actions;
