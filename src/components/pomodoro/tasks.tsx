@@ -1,4 +1,5 @@
 import { useRef, ChangeEvent, DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import { useAutoAnimate } from '@formkit/auto-animate/react';
 // Perhabs group hooks together to get something like this?
 // import { useCreateTask, useGetTasks } from '../../hooks/pomodoro';
 import TaskItem from './taskItem';
@@ -15,6 +16,7 @@ export interface Task {
 export default function Tasks() {
     const { value: tasks, setValue: setTasks } = useLocalStorage<Task[]>({ key: 'tasks', defaultValue: [] });
     const inputRef = useRef<HTMLInputElement>(null);
+    const [tasksRef] = useAutoAnimate<HTMLDivElement>(/* optional config */);
 
     if (!tasks) {
         return null;
@@ -48,11 +50,25 @@ export default function Tasks() {
         }
     }
 
+    // Merge these two functions into one ?
+    // Any suggestions for nice ways of doing this?
     function onTaskClick(task: Task, checked: boolean) {
         setTasks((tasks) =>
             tasks.map((existingTask) => {
                 if (existingTask.id === task.id) {
                     return { ...task, checked: checked };
+                } else {
+                    return existingTask;
+                }
+            })
+        );
+    }
+
+    function onTaskRename(task: Task, label: string) {
+        setTasks((tasks) =>
+            tasks.map((existingTask) => {
+                if (existingTask.id === task.id) {
+                    return { ...task, label: label };
                 } else {
                     return existingTask;
                 }
@@ -82,11 +98,17 @@ export default function Tasks() {
                 {/* Should this add button even be here?
                  Or do I only accept enter as a way to add? */}
                 <AddButton onClick={handleNewTaskClick} />
-                <TaskOptionsDropdown onTaskDelete={onTaskDelete} />
+                <TaskOptionsDropdown onTaskDelete={onTaskDelete} taskCount={tasks.length} />
             </div>
-            <div className='p-5 py-5 w-full'>
+            <div ref={tasksRef} className='p-5 py-5 w-full'>
                 {tasks.map((task, index) => (
-                    <TaskItem key={index} task={task} onClick={onTaskClick} />
+                    <TaskItem
+                        key={index}
+                        task={task}
+                        onClick={onTaskClick}
+                        onRename={onTaskRename}
+                        onDelete={onTaskDelete}
+                    />
                 ))}
             </div>
         </div>

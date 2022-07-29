@@ -46,7 +46,7 @@ export default function PomodoroSettingsForm({
         );
     }
 
-    function onChange(name: string, value: any) {
+    function onChange(name: string, value: string) {
         setSelectedPomodoroFormat({ ...selectedPomodoroFormat, [name]: value });
     }
 
