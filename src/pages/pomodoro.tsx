@@ -21,7 +21,7 @@ export default function Pomodoro(req: NextApiRequest, res: NextApiResponse) {
             <Head title='FeatureCreep - Pomodoro' />
             <PomodoroSettingsPopup show={show} handleClose={() => setShow((show) => !show)} />
             <div className='space-y-4'>
-                <PomodoroTimer setShow={() => setShow((show) => !show)} />
+                <PomodoroTimer show={show} setShow={() => setShow((show) => !show)} />
                 <Tasks />
             </div>
         </div>

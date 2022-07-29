@@ -9,12 +9,13 @@ import useGetSelectedPomodoroFormat from '../../hooks/pomodoro/format/useGetSele
 import usePomodoroDuration from '../../hooks/pomodoro/usePomodoroDuration';
 
 interface Props {
+    show: boolean;
     setShow: () => void;
 }
 
 // TODO: Make reducer for this component
 // Do something about this. This component is way too complex
-export default function PomodoroTimer({ setShow }: Props) {
+export default function PomodoroTimer({ show, setShow }: Props) {
     const { data: session } = useSession();
     const { create: createTimer } = useCreateTimer();
     const { selectedPomodoroFormat } = useGetSelectedPomodoroFormat({
@@ -73,7 +74,7 @@ export default function PomodoroTimer({ setShow }: Props) {
 
     return (
         <div className='flex flex-col items-center bg-white rounded-2xl border-2 border-neutral-800'>
-            <Topbar selectedMode={selectedMode} onClick={handleChangeSelectedMode} setShow={setShow} />
+            <Topbar selectedMode={selectedMode} onClick={handleChangeSelectedMode} show={show} setShow={setShow} />
             <audio ref={audioRef}>
                 <source src='/alarm.mp3' type='audio/mp3' />
             </audio>
