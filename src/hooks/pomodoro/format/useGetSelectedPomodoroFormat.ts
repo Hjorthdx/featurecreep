@@ -1,6 +1,5 @@
 import { trpc } from '../../../utils/trpc';
 import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME } from '../../../constants';
-import { PomodoroFormat } from 'prisma/prisma-client';
 
 interface Props {
     pomodoroFormatId: string;
@@ -14,7 +13,7 @@ export default function useGetSelectedPomodoroFormat({ pomodoroFormatId }: Props
         },
     ]);
 
-    if (selectedPomodoroFormat == null || selectedPomodoroFormat == undefined) {
+    if (!selectedPomodoroFormat) {
         return {
             selectedPomodoroFormat: {
                 workDuration: DEFAULT_WORK_TIME,

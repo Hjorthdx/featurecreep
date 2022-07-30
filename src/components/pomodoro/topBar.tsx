@@ -45,10 +45,6 @@ export default function Topbar({ selectedMode, onClick, show, setShow }: Props) 
         [selectedMode]: true,
     });
 
-    useEffect(() => {
-        dispatch({ type: 'updateLastClicked', payload: selectedMode });
-    }, [selectedMode]);
-
     function onPress(mode: PomodoroModes) {
         dispatch({ type: 'updateLastClicked', payload: mode });
         onClick(mode);
