@@ -19,11 +19,6 @@ export default function Sidebar({ show }: Props) {
                     Pomodoro
                 </button>
             </Link>
-            <Link href='/account'>
-                <button className='w-full flex flex-row justify-center items-center p-2 border-b-2 border-gray-300 hover:bg-gray-100 text-black'>
-                    Account
-                </button>
-            </Link>
         </div>
     );
 }

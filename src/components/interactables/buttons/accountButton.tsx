@@ -1,6 +1,7 @@
 import Router from 'next/router';
 import { useSession, signIn } from 'next-auth/react';
 import { LoginIcon, UserCircleIcon } from '@heroicons/react/solid';
+import Image from 'next/image';
 
 export default function AccountButton() {
     const { data: session } = useSession();
@@ -20,7 +21,19 @@ export default function AccountButton() {
             onClick={() => prompt('Not implemented yet')}
         >
             <p>{session.user.name}</p>
-            <UserCircleIcon className='h-12 w-12' aria-hidden='true' />
+            {session.user.image ? (
+                <div className='relative h-10 w-10 ml-2'>
+                    <Image
+                        className='rounded-full'
+                        src={session.user.image}
+                        alt='User profile picture'
+                        layout='fill'
+                        objectFit='contain'
+                    />
+                </div>
+            ) : (
+                <UserCircleIcon className='h-12 w-12' aria-hidden='true' />
+            )}
         </button>
     );
 }

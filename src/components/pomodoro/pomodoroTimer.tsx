@@ -19,7 +19,7 @@ export default function PomodoroTimer({ show, setShow }: Props) {
     const { data: session } = useSession();
     const { create: createTimer } = useCreateTimer();
     const { selectedPomodoroFormat } = useGetSelectedPomodoroFormat({
-        pomodoroFormatId: session?.user.selectedPomodoroFormatId,
+        pomodoroFormatId: session?.user?.selectedPomodoroFormatId ?? '',
     });
     const [selectedMode, setSelectedMode] = useState<PomodoroModes>('work');
     const [isPlaying, setIsPlaying] = useState(false);
