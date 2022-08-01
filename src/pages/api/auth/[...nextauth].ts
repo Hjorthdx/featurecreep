@@ -80,7 +80,7 @@ export const authOptions: NextAuthOptions = {
                 });
                 user.selectedPomodoroFormatId = newDefaultPomodoroFormat.id;
                 await prisma.user.updateMany({
-                    where: { id: session.user.id },
+                    where: { id: session.user?.id },
                     data: {
                         selectedPomodoroFormatId: newDefaultPomodoroFormat.id,
                     },

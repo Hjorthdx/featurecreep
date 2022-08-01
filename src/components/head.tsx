@@ -9,7 +9,7 @@ export default function Head({ title }: Props) {
         <NextHead>
             <title>{title}</title>
             <meta name='description' content='The place where all new features are welcome' />
-            <link rel='icon' href='/favicon.ico' />
+            <link rel='icon' href='/logoHead.png' />
         </NextHead>
     );
 }

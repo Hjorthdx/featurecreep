@@ -6,21 +6,16 @@ import type { User as PrismaUser } from 'prisma/prisma-client';
 declare module 'next-auth' {
     // How do I set this to be User type from Prisma.
     // Right now it's manually just pasted over...
-    // Does this work?
-    // If the generic User isn't passed, then second last line in jwt callback
-    // in [...nextauth].ts fails.
-    // This seems to work though.
-    interface User<PrismaUser> {
-        //id: string;
-        //name: string | null;
-        //email: string | null;
-        //emailVerified: Date | null;
-        //image: string | null;
-        //selectedPomodoroFormatId: string | null;
-        [Key in User]: PrismaUser[key];
+    interface User {
+        id: string;
+        name: string | null;
+        email: string | null;
+        emailVerified: Date | null;
+        image: string | null;
+        selectedPomodoroFormatId: string | null;
     }
     interface Session {
-        user?: User;
+        user: User;
     }
 }
 declare module 'next-auth/jwt' {
