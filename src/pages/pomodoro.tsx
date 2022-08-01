@@ -21,7 +21,7 @@ export default function Pomodoro(req: NextApiRequest, res: NextApiResponse) {
         <div className='bg-zinc-300'>
             <Head title='FeatureCreep - Pomodoro' />
             <Navbar />
-            <div className='flex flex-col items-center min-h-screen p-10 px-0 mx-auto md:py-20 md:p-10 md:px-0'>
+            <div className='flex flex-col items-center min-h-screen p-5'>
                 <PomodoroSettingsPopup show={show} handleClose={() => setShow((show) => !show)} />
                 <div className='space-y-4'>
                     <PomodoroTimer show={show} setShow={() => setShow((show) => !show)} />

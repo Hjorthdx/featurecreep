@@ -78,7 +78,7 @@ export default function PomodoroTimer({ show, setShow }: Props) {
             <audio ref={audioRef}>
                 <source src='/alarm.mp3' type='audio/mp3' />
             </audio>
-            <CountdownClock isPlaying={isPlaying} duration={duration} onComplete={onComplete} selectedMode={selectedMode} />
+            <CountdownClock isPlaying={isPlaying} duration={duration} onComplete={onComplete} />
             <BottomBar isPlaying={isPlaying} onClick={onClick} />
         </div>
     );
