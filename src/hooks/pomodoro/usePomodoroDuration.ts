@@ -11,7 +11,7 @@ interface Props {
 export default function usePomodoroDuration({ selectedMode }: Props) {
     const { data: session } = useSession();
     const { selectedPomodoroFormat } = useGetSelectedPomodoroFormat({
-        pomodoroFormatId: session?.user.selectedPomodoroFormatId,
+        pomodoroFormatId: session?.user.selectedPomodoroFormatId ?? '',
     });
     const [duration, setDuration] = useState(() =>
         selectedPomodoroFormat
