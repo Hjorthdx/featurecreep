@@ -5,3 +5,5 @@ export const DEFAULT_LONG_BREAK_TIME = 15;
 
 // Constants
 export const SECONDS_IN_A_MINUTE = 60;
+export const SECONDS_IN_AN_HOUR = SECONDS_IN_A_MINUTE * 60;
+export const SECONDS_IN_A_DAY = SECONDS_IN_AN_HOUR * 24;

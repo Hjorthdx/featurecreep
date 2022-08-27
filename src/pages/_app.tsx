@@ -6,6 +6,7 @@ import superjson from 'superjson';
 import { SessionProvider } from 'next-auth/react';
 import { Provider } from 'react-redux';
 import { store } from '../redux/store';
+import { SECONDS_IN_A_DAY } from '../constants';
 import '../styles/globals.css';
 
 const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {
@@ -18,6 +19,37 @@ const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => 
     );
 };
 
+export default withTRPC<AppRouter>({
+    config({ ctx }) {
+        if (typeof window !== 'undefined') {
+            // during client requests
+            return {
+                transformer: superjson, // optional - adds superjson serialization
+                url: '/api/trpc',
+            };
+        }
+        // during SSR below
+
+        // optional: use SSG-caching for each rendered page (see caching section for more details)
+        ctx?.res?.setHeader('Cache-Control', `s-maxage=1, stale-while-revalidate=${SECONDS_IN_A_DAY}`);
+
+        // The server needs to know your app's full url
+        // On render.com you can use `http://${process.env.RENDER_INTERNAL_HOSTNAME}:${process.env.PORT}/api/trpc`
+        const url = process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}/api/trpc` : 'http://localhost:3000/api/trpc';
+
+        return {
+            transformer: superjson, // optional - adds superjson serialization
+            url,
+            headers: {
+                // optional - inform server that it's an ssr request
+                'x-ssr': '1',
+            },
+        };
+    },
+    ssr: true,
+})(MyApp);
+
+/*
 const getBaseUrl = () => {
     if (typeof window !== 'undefined') {
         return '';
@@ -30,23 +62,24 @@ const getBaseUrl = () => {
 
 export default withTRPC<AppRouter>({
     config({ ctx }) {
-        /**
-         * If you want to use SSR, you need to use the server's full URL
-         * @link https://trpc.io/docs/ssr
-         */
-        const url = `${getBaseUrl()}/api/trpc`;
+        //
+        // If you want to use SSR, you need to use the server's full URL
+        // @link https://trpc.io/docs/ssr
+        //
+         const url = `${getBaseUrl()}/api/trpc`;
 
-        return {
-            url,
-            transformer: superjson,
-            /**
-             * @link https://react-query.tanstack.com/reference/QueryClient
-             */
-            // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
-        };
-    },
-    /**
-     * @link https://trpc.io/docs/ssr
-     */
-    ssr: false,
-})(MyApp);
+         return {
+             url,
+             transformer: superjson,
+             //
+             // @link https://react-query.tanstack.com/reference/QueryClient
+             //
+             // queryClientConfig: { defaultOptions: { queries: { staleTime: 60 } } },
+         };
+     },
+    //
+    // @link https://trpc.io/docs/ssr
+    //
+     ssr: false,
+ })(MyApp);
+*/
