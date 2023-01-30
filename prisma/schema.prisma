@@ -13,6 +13,28 @@ datasource db {
     referentialIntegrity = "prisma"
 }
 
+model DuneGame {
+    id        String   @id @default(cuid())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    name      String?
+    notes     String?
+
+    firstPositionLeader  String
+    secondPositionLeader String
+    thirdPositionLeader  String
+    fourthPositionLeader String
+
+    firstPlaceLeader  String
+    secondPlaceLeader String
+    thirdPlaceLeader  String
+    fourthPlaceLeader String
+
+    playedLeader String
+    userId       String
+    user         User   @relation(fields: [userId], references: [id])
+}
+
 model PomodoroTimer {
     id        String   @id @default(cuid())
     mode      String   @default("work")
@@ -72,6 +94,8 @@ model User {
     pomodoroFormats          PomodoroFormat[]
     selectedPomodoroFormatId String           @default("DEFAULT_POMODORO_FORMAT_ID")
     PomodoroTimers           PomodoroTimer[]
+
+    duneGames DuneGame[]
 }
 
 model VerificationToken {
