@@ -14,25 +14,22 @@ datasource db {
 }
 
 model DuneGame {
-    id        String   @id @default(cuid())
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-    name      String?
-    notes     String?
+    id         String @id @default(cuid())
+    user       User   @relation(fields: [userId], references: [id])
+    userId     String
+    userLeader String
 
-    firstPositionLeader  String
-    secondPositionLeader String
-    thirdPositionLeader  String
-    fourthPositionLeader String
+    firstPosition  String
+    secondPosition String
+    thirdPosition  String
+    fourthPosition String
 
-    firstPlaceLeader  String
-    secondPlaceLeader String
-    thirdPlaceLeader  String
-    fourthPlaceLeader String
+    firstPlacement  String
+    secondPlacement String
+    thirdPlacement  String
+    fourthPlacement String
 
-    playedLeader String
-    userId       String
-    user         User   @relation(fields: [userId], references: [id])
+    @@index([userId])
 }
 
 model PomodoroTimer {

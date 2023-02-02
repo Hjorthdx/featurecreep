@@ -17,11 +17,8 @@ export default function Dune(req: NextApiRequest, res: NextApiResponse) {
         <div className='bg-zinc-300'>
             <Head title='FeatureCreep - Dune' />
             <Navbar />
-            <div className='flex flex-col items-center min-h-screen p-5'>
-                {/* Not sure if this div actually does anything */}
-                <div className='space-y-4'>
-                    <LeaderGrid />
-                </div>
+            <div className='flex flex-col min-h-screen p-5'>
+                <LeaderGrid />
             </div>
         </div>
     );
