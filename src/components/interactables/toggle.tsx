@@ -9,7 +9,7 @@ interface Props {
 export default function Toggle({ enabled, label, onClick }: Props) {
     return (
         <div className='flex justify-between'>
-            <label>{label}: </label>
+            <label className='flex items-center'>{label}: </label>
             <Switch color='primary' checked={enabled} onChange={onClick} />
         </div>
     );
