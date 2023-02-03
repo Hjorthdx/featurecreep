@@ -46,11 +46,11 @@ export default function DuneCreateGameForm({ game, setGame, onSubmit }: Props) {
                 </div>
 
                 {/* Positions */}
-                <DuneDropdownRow game={game} setGame={setGame} name='Placement' label='placement' />
+                <DuneDropdownRow game={game} setGame={setGame} name='Position' label='position' />
 
                 {/* Placements */}
                 {/* TODO: Could I do something smart here with only showing the leaders that have been shown for the positions above? */}
-                <DuneDropdownRow game={game} setGame={setGame} name='Position' label='position' />
+                <DuneDropdownRow game={game} setGame={setGame} name='Placement' label='placement' />
             </Form>
         </Formik>
     );
