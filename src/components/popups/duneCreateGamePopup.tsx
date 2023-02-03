@@ -6,6 +6,7 @@ import PopupHeader from './popupHeader';
 import useCreateDuneGame from '../../hooks/dune/useCreateDuneGame';
 import { DuneGame } from 'prisma/prisma-client';
 import DuneCreateGameForm from '../forms/duneGameForm';
+import useGetUsersSelectedExpansions from '../../hooks/dune/useGetUsersSelectedExpansions';
 
 interface Props {
     show: boolean;
@@ -15,13 +16,13 @@ interface Props {
 export default function DuneCreateGamePopup({ show, handleClose }: Props) {
     const { data: session } = useSession();
     const { create } = useCreateDuneGame();
-
-    const [game, setGame] = useState<DuneGame>({
+    const { selectedExpansions } = useGetUsersSelectedExpansions();
+    const initialGame: DuneGame = {
         id: '',
         userId: session?.user.id ?? '',
         userLeader: '',
-        riseOfIX: false,
-        immortality: false,
+        riseOfIX: selectedExpansions.riseOfIX,
+        immortality: selectedExpansions.immortality,
         name: '',
         note: '',
 
@@ -34,7 +35,8 @@ export default function DuneCreateGamePopup({ show, handleClose }: Props) {
         secondPlacement: '',
         thirdPlacement: '',
         fourthPlacement: '',
-    });
+    };
+    const [game, setGame] = useState<DuneGame>(initialGame);
 
     function handleSave() {
         create({

@@ -53,7 +53,7 @@ export const BASE_LEADERS: DuneLeader[] = [
     },
 ];
 
-export const BASE_RISE_OF_IX_LEADERS: DuneLeader[] = [
+export const RISE_OF_IX_LEADERS: DuneLeader[] = [
     {
         name: '"Princess" Yuna Moritani',
         image: '/Princess-Yuna-Moritani.png',

@@ -1,11 +1,12 @@
 import { Formik, Form } from 'formik';
-import FormSelectField from './formSelectField';
 import FormTextField from './formTextField';
 import { DuneGame } from 'prisma/prisma-client';
-import { BASE_LEADERS, BASE_RISE_OF_IX_LEADERS } from '../../constants';
+import { BASE_LEADERS, RISE_OF_IX_LEADERS } from '../../constants';
+import DuneDropdownRow from './duneDropdownRow';
+import FormToggleField from './formToggleField';
 
 // What to do about creating expansion specific game?
-const leaders = [...BASE_LEADERS, ...BASE_RISE_OF_IX_LEADERS];
+const leaders = [...BASE_LEADERS, ...RISE_OF_IX_LEADERS];
 
 interface Props {
     game: DuneGame;
@@ -14,17 +15,17 @@ interface Props {
 }
 
 // TODO: Validation schema
-// TODO: Import leaders from that other file and map them here
-// TODO: onChange functions
+// TODO: Should reset the form after submitting
 
 // The same leader cannot be chosen in two spaces at the same time. Unless ofcourse it's position and placement.
+// Something with expansions
 export default function DuneCreateGameForm({ game, setGame, onSubmit }: Props) {
     function onChange(name: string, value: string): void {
         setGame({ ...game, [name]: value });
     }
 
-    function onOptionChange(label: string, value: string): void {
-        setGame({ ...game, [label]: value });
+    function onToggleClick(name: keyof DuneGame): void {
+        setGame({ ...game, [name]: !game[name] });
     }
 
     return (
@@ -33,93 +34,26 @@ export default function DuneCreateGameForm({ game, setGame, onSubmit }: Props) {
                 <div className='flex'>
                     <FormTextField name='name' label='Name' onChange={onChange} />
                     <FormTextField name='note' label='Note' onChange={onChange} />
+                    <FormToggleField
+                        name='riseOfIX'
+                        label='Rise of IX'
+                        enabled={game.riseOfIX}
+                        onChange={() => onToggleClick('riseOfIX')}
+                    />
+                    <FormToggleField
+                        name='immortality'
+                        label='Immortality'
+                        enabled={game.immortality}
+                        onChange={() => onToggleClick('immortality')}
+                    />
                 </div>
+
                 {/* Positions */}
-                <div className='flex'>
-                    <FormSelectField name='firstPosition' label='First position' onChange={onOptionChange}>
-                        {/* Import leaders from that other file and map them here */}
-                        {['1', '2', '3', '4', '5'].map((option, index) => {
-                            return (
-                                <option key={index} value={option}>
-                                    {option}
-                                </option>
-                            );
-                        })}
-                    </FormSelectField>
+                <DuneDropdownRow game={game} setGame={setGame} name='Placement' label='placement' />
 
-                    <FormSelectField name='secondPosition' label='Second position' onChange={onOptionChange}>
-                        {/* Import leaders from that other file and map them here */}
-                        <option key='1' value='1'>
-                            1
-                        </option>
-                        <option key='2' value='2'>
-                            2
-                        </option>
-                    </FormSelectField>
-
-                    <FormSelectField name='thirdPosition' label='Third position' onChange={onOptionChange}>
-                        {/* Import leaders from that other file and map them here */}
-                        <option key='1' value='1'>
-                            1
-                        </option>
-                        <option key='2' value='2'>
-                            2
-                        </option>
-                    </FormSelectField>
-
-                    <FormSelectField name='fourthPosition' label='Fourth position' onChange={onOptionChange}>
-                        {/* Import leaders from that other file and map them here */}
-                        <option key='1' value='1'>
-                            1
-                        </option>
-                        <option key='2' value='2'>
-                            2
-                        </option>
-                    </FormSelectField>
-                </div>
                 {/* Placements */}
                 {/* Could I do something smart here with only showing the leaders that have been shown for the positions above? */}
-                <div className='flex'>
-                    <FormSelectField name='firstPlacement' label='First placement' onChange={onOptionChange}>
-                        {/* Import leaders from that other file and map them here */}
-                        <option key='1' value='1'>
-                            1
-                        </option>
-                        <option key='2' value='2'>
-                            2
-                        </option>
-                    </FormSelectField>
-
-                    <FormSelectField name='secondPlacement' label='Second placement' onChange={onOptionChange}>
-                        {/* Import leaders from that other file and map them here */}
-                        <option key='1' value='1'>
-                            1
-                        </option>
-                        <option key='2' value='2'>
-                            2
-                        </option>
-                    </FormSelectField>
-
-                    <FormSelectField name='thirdPlacement' label='Third placement' onChange={onOptionChange}>
-                        {/* Import leaders from that other file and map them here */}
-                        <option key='1' value='1'>
-                            1
-                        </option>
-                        <option key='2' value='2'>
-                            2
-                        </option>
-                    </FormSelectField>
-
-                    <FormSelectField name='fourthPlacement' label='Fourth placement' onChange={onOptionChange}>
-                        {/* Import leaders from that other file and map them here */}
-                        <option key='1' value='1'>
-                            1
-                        </option>
-                        <option key='2' value='2'>
-                            2
-                        </option>
-                    </FormSelectField>
-                </div>
+                <DuneDropdownRow game={game} setGame={setGame} name='Position' label='position' />
             </Form>
         </Formik>
     );

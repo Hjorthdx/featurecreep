@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import LeaderCell from './leaderCell';
-import { BASE_LEADERS, BASE_RISE_OF_IX_LEADERS } from '../../constants';
+import { BASE_LEADERS, RISE_OF_IX_LEADERS } from '../../constants';
 import { DuneLeader, Expansions } from '../../types/dune';
 import useUpdateUsersSelectedExpansions from '../../hooks/dune/useUpdateUsersSelectedExpansions';
 import useGetUsersSelectedExpansions from '../../hooks/dune/useGetUsersSelectedExpansions';
@@ -28,7 +28,7 @@ export default function LeaderGrid() {
     let leaders: DuneLeader[] = BASE_LEADERS;
 
     if (expansions.riseOfIX) {
-        leaders = [...leaders, ...BASE_RISE_OF_IX_LEADERS];
+        leaders = [...leaders, ...RISE_OF_IX_LEADERS];
     }
 
     // Needs to do something about this checkbox area probably...

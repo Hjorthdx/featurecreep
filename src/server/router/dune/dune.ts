@@ -62,7 +62,7 @@ export const duneRouter = createProtectedRouter()
             const user = await ctx.prisma.user.findFirst({
                 where: { id: ctx.session.user.id },
             });
-            return { riseOfIX: user?.riseOfIX, immortality: user?.immortality };
+            return { riseOfIX: user?.riseOfIX ?? false, immortality: user?.immortality ?? false };
         },
     })
     .mutation('updateUsersSelectedExpansions', {
