@@ -5,6 +5,7 @@ import FormSelectField from './formSelectField';
 import FormTextField from './formTextField';
 import FormToggleField from './formToggleField';
 import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME } from '../../constants';
+import { z } from 'zod';
 
 interface Props {
     pomodoroFormats: PomodoroFormat[];
@@ -21,9 +22,16 @@ export default function PomodoroSettingsForm({
 }: Props) {
     const { data: session } = useSession();
 
-    // TODO: Figure out how to use zod to validate the user input
+    const pomodoroFormatSchema = z.object({
+        name: z.string(),
+        workDuration: z.string().regex(new RegExp('^[0-9]*$')),
+        breakDuration: z.string(),
+        longBreakDuration: z.string(),
+        autoStartTimer: z.boolean(),
+    });
+
     function validationSchema() {
-        return true;
+        return pomodoroFormatSchema;
     }
 
     function onOptionChange(label: string, id: string) {

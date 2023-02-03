@@ -39,7 +39,7 @@ export default function LeaderCell({ name, image }: Props) {
                             Games won:
                             {gamesWon}
                         </p>
-                        <p className='text-white font-bold text-xl'>WR: {winrate}</p>
+                        <p className='text-white font-bold text-xl'>WR: {winrate} %</p>
                         <p className='text-white font-bold text-xl'>Average placement: {averagePlacement}</p>
                         <p className='text-white font-bold text-xl'>
                             1st: {averagePlacementFirstPosition}, 2nd: {averagePlacementSecondPosition}, 3rd :

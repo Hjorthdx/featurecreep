@@ -27,6 +27,7 @@ export default function useLeaderStats({ games, name }: Props) {
             }
         }, 0) / games.length;
 
+    // First position
     const firstPositionGames = games.reduce((acc, game) => {
         return game.firstPosition == name ? acc + 1 : acc;
     }, 0);
@@ -35,6 +36,7 @@ export default function useLeaderStats({ games, name }: Props) {
             return game.firstPlacement == name && game.firstPosition == name ? acc + 1 : acc;
         }, 0) / firstPositionGames;
 
+    // Second position
     const secondPositionGames = games.reduce((acc, game) => {
         return game.secondPosition == name ? acc + 1 : acc;
     }, 0);
@@ -43,6 +45,7 @@ export default function useLeaderStats({ games, name }: Props) {
             return game.firstPlacement == name && game.secondPosition == name ? acc + 1 : acc;
         }, 0) / secondPositionGames;
 
+    // Third position
     const thirdPositionGames = games.reduce((acc, game) => {
         return game.thirdPosition == name ? acc + 1 : acc;
     }, 0);
@@ -51,6 +54,7 @@ export default function useLeaderStats({ games, name }: Props) {
             return game.firstPlacement == name && game.thirdPosition == name ? acc + 1 : acc;
         }, 0) / thirdPositionGames;
 
+    // Fourth position
     const fourthPositionGames = games.reduce((acc, game) => {
         return game.fourthPosition == name ? acc + 1 : acc;
     }, 0);
