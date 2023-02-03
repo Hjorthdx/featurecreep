@@ -18,6 +18,9 @@ model DuneGame {
     userId     String
     userLeader String
 
+    name String?
+    note String?
+
     firstPosition  String
     secondPosition String
     thirdPosition  String

@@ -28,27 +28,36 @@ export default function useLeaderStats({ games, name }: Props) {
         }, 0) / games.length;
 
     const firstPositionGames = games.reduce((acc, game) => {
-        return game.firstPlacement == name ? acc + 1 : acc;
+        return game.firstPosition == name ? acc + 1 : acc;
     }, 0);
-
-    const averagePlacementFirstPosition = firstPositionGames / games.length;
+    const averagePlacementFirstPosition =
+        games.reduce((acc, game) => {
+            return game.firstPlacement == name && game.firstPosition == name ? acc + 1 : acc;
+        }, 0) / firstPositionGames;
 
     const secondPositionGames = games.reduce((acc, game) => {
-        return game.secondPlacement == name ? acc + 1 : acc;
+        return game.secondPosition == name ? acc + 1 : acc;
     }, 0);
-
-    const averagePlacementSecondPosition = secondPositionGames / games.length;
+    const averagePlacementSecondPosition =
+        games.reduce((acc, game) => {
+            return game.firstPlacement == name && game.secondPosition == name ? acc + 1 : acc;
+        }, 0) / secondPositionGames;
 
     const thirdPositionGames = games.reduce((acc, game) => {
-        return game.thirdPlacement == name ? acc + 1 : acc;
+        return game.thirdPosition == name ? acc + 1 : acc;
     }, 0);
-
-    const averagePlacementThirdPosition = thirdPositionGames / games.length;
+    const averagePlacementThirdPosition =
+        games.reduce((acc, game) => {
+            return game.firstPlacement == name && game.thirdPosition == name ? acc + 1 : acc;
+        }, 0) / thirdPositionGames;
 
     const fourthPositionGames = games.reduce((acc, game) => {
-        return game.fourthPlacement == name ? acc + 1 : acc;
+        return game.fourthPosition == name ? acc + 1 : acc;
     }, 0);
-    const averagePlacementFourthPosition = fourthPositionGames / games.length;
+    const averagePlacementFourthPosition =
+        games.reduce((acc, game) => {
+            return game.firstPlacement == name && game.fourthPosition == name ? acc + 1 : acc;
+        }, 0) / fourthPositionGames;
 
     return {
         gamesWon,

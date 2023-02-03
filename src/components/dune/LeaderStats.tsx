@@ -40,15 +40,15 @@ export default function LeaderStats({ leader, image }: Props) {
                     <p className='text-sm font-medium'>Games won: {gamesWon}</p>
                     <p className='text-sm font-medium'>Win rate: {winrate}%</p>
                     <p className='text-sm font-medium'>Average placement: {averagePlacement}</p>
-                    <p className='text-sm font-medium'>Games won first position: {firstPositionGames}</p>
+                    <p className='text-sm font-medium'>Number of first position games: {firstPositionGames}</p>
                     <p className='text-sm font-medium'>Average placement first position: {averagePlacementFirstPosition}</p>
-                    <p className='text-sm font-medium'>Games won second position: {secondPositionGames}</p>
+                    <p className='text-sm font-medium'>Number of second position games: {secondPositionGames}</p>
                     <p className='text-sm font-medium'>
                         Average placement second position: {averagePlacementSecondPosition}
                     </p>
-                    <p className='text-sm font-medium'>Games won third position: {thirdPositionGames}</p>
+                    <p className='text-sm font-medium'>Number of third position games: {thirdPositionGames}</p>
                     <p className='text-sm font-medium'>Average placement third position: {averagePlacementThirdPosition}</p>
-                    <p className='text-sm font-medium'>Games won fourth position: {fourthPositionGames}</p>
+                    <p className='text-sm font-medium'>Number of fourth position games: {fourthPositionGames}</p>
                     <p className='text-sm font-medium'>
                         Average placement fourth position: {averagePlacementFourthPosition}
                     </p>

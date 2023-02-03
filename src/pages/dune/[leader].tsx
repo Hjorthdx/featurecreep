@@ -3,8 +3,8 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import Head from '../../components/head';
 import Navbar from '../../components/navbar';
-import LeaderStats from '../../components/dune/LeaderStats';
-import MatchHistory from '../../components/dune/MatchHistory';
+import LeaderStats from '../../components/dune/leaderStats';
+import MatchHistory from '../../components/dune/matchHistory';
 
 export default function Leader(req: NextApiRequest, res: NextApiResponse) {
     const { status } = useSession({
