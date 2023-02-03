@@ -46,16 +46,20 @@ export default function LeaderCell({ name, image, expansions }: Props) {
                     style={{ backgroundImage: `url(${image})`, height: '100%', width: '100%' }}
                 >
                     <div className='text-center'>
-                        <p className='text-white font-bold text-xl'>Total games: {games.length}</p>
-                        <p className='text-white font-bold text-xl'>
+                        <p className='text-yellow-500 font-bold text-2xl font-outline-1'>Total games: {games.length}</p>
+                        <p className='text-yellow-500 font-bold text-2xl font-outline-1'>
                             Games won:
                             {gamesWon}
                         </p>
-                        <p className='text-white font-bold text-xl'>WR: {winrate} %</p>
-                        <p className='text-white font-bold text-xl'>Average placement: {averagePlacement}</p>
-                        <p className='text-white font-bold text-xl'>
-                            1st: {averagePlacementFirstPosition}, 2nd: {averagePlacementSecondPosition}, 3rd :
-                            {averagePlacementThirdPosition}, 4th: {averagePlacementFourthPosition}
+                        <p className='text-yellow-500 font-bold text-2xl font-outline-1'>WR: {winrate} %</p>
+                        <p className='text-yellow-500 font-bold text-2xl font-outline-1'>
+                            Average placement: {averagePlacement}
+                        </p>
+                        <p className='text-yellow-500 font-bold text-2xl font-outline-1'>
+                            1st: {averagePlacementFirstPosition}, 2nd: {averagePlacementSecondPosition},
+                        </p>
+                        <p className='text-yellow-500 font-bold text-2xl font-outline-1'>
+                            3rd :{averagePlacementThirdPosition}, 4th: {averagePlacementFourthPosition}
                         </p>
                     </div>
                 </div>
