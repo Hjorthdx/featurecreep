@@ -13,7 +13,7 @@ declare module 'next-auth' {
         email: string | null;
         emailVerified: Date | null;
         image: string | null;
-        selectedPomodoroFormatId: string | null;
+        selectedPomodoroFormatId: string;
         riseOfIX: boolean;
         immortality: boolean;
     }
