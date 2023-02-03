@@ -1,17 +1,21 @@
 import { useSession } from 'next-auth/react';
-import useGetGamesWithLeaderForUser from '../../hooks/dune/useGetGamesWithLeaderForUser';
+import useGetGames from '../../hooks/dune/useGetGames';
 import useLeaderStats from '../../hooks/dune/useLeaderStats';
+import { Expansions } from '../../types/dune';
 
 interface Props {
     leader: string;
     image: string;
+    expansions: Expansions;
 }
 
-export default function LeaderStats({ leader, image }: Props) {
+export default function LeaderStats({ leader, image, expansions }: Props) {
     const { data: session } = useSession();
-    const { games } = useGetGamesWithLeaderForUser({
+    const { games } = useGetGames({
         userId: session?.user?.id ?? '',
         leader: leader,
+        riseOfIX: expansions.IX,
+        immortality: expansions.Immortality,
     });
 
     const {

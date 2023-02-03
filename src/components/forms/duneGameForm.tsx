@@ -2,6 +2,10 @@ import { Formik, Form } from 'formik';
 import FormSelectField from './formSelectField';
 import FormTextField from './formTextField';
 import { DuneGame } from 'prisma/prisma-client';
+import { BASE_LEADERS, BASE_RISE_OF_IX_LEADERS } from '../../constants';
+
+// What to do about creating expansion specific game?
+const leaders = [...BASE_LEADERS, ...BASE_RISE_OF_IX_LEADERS];
 
 interface Props {
     game: DuneGame;

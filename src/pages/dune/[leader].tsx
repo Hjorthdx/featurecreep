@@ -18,6 +18,8 @@ export default function Leader(req: NextApiRequest, res: NextApiResponse) {
     const router = useRouter();
     const leader = router.query.leader ? String(router.query.leader) : '';
     const image = router.query.image ? String(router.query.image) : '';
+    const riseOfIX = router.query.riseOfIX == 'true';
+    const immortality = router.query.riseOfIX == router.query.immortality;
 
     if (status === 'loading') {
         return <div>loading</div>;
@@ -30,8 +32,13 @@ export default function Leader(req: NextApiRequest, res: NextApiResponse) {
             <div className='min-h-screen p-5'>
                 <DuneCreateGamePopup show={show} handleClose={() => setShow((show) => !show)} />
                 <div className='space-y-4'>
-                    <LeaderStats leader={leader} image={image} />
-                    <MatchHistory leader={leader} show={show} setShow={() => setShow((show) => !show)} />
+                    <LeaderStats leader={leader} image={image} expansions={{ IX: riseOfIX, Immortality: immortality }} />
+                    <MatchHistory
+                        leader={leader}
+                        show={show}
+                        setShow={() => setShow((show) => !show)}
+                        expansions={{ IX: riseOfIX, Immortality: immortality }}
+                    />
                 </div>
             </div>
         </div>

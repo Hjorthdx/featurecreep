@@ -1,19 +1,23 @@
 import { useSession } from 'next-auth/react';
-import useGetGamesWithLeaderForUser from '../../hooks/dune/useGetGamesWithLeaderForUser';
+import useGetGames from '../../hooks/dune/useGetGames';
 import Game from './game';
 import AddButton from '../interactables/buttons/addButton';
+import { Expansions } from '../../types/dune';
 
 interface Props {
     leader: string;
     show: boolean;
     setShow: () => void;
+    expansions: Expansions;
 }
 
-export default function MatchHistory({ leader, show, setShow }: Props) {
+export default function MatchHistory({ leader, show, setShow, expansions }: Props) {
     const { data: session } = useSession();
-    const { games } = useGetGamesWithLeaderForUser({
+    const { games } = useGetGames({
         userId: session?.user?.id ?? '',
         leader: leader,
+        riseOfIX: expansions.IX,
+        immortality: expansions.Immortality,
     });
 
     return (

@@ -2,28 +2,20 @@ import { z } from 'zod';
 import { createProtectedRouter } from '../protectedRouter';
 
 export const duneRouter = createProtectedRouter()
-    .query('getGamesForUser', {
+    .query('getGames', {
         input: z.object({
-            userId: z.string(),
+            userId: z.string().optional(),
+            leader: z.string().optional(),
+            riseOfIX: z.boolean().optional(),
+            immortality: z.boolean().optional(),
         }),
         async resolve({ input, ctx }) {
             return await ctx.prisma.duneGame.findMany({
                 where: {
-                    userId: input.userId,
-                },
-            });
-        },
-    })
-    .query('getGamesWithLeaderForUser', {
-        input: z.object({
-            userId: z.string(),
-            leader: z.string(),
-        }),
-        async resolve({ input, ctx }) {
-            return await ctx.prisma.duneGame.findMany({
-                where: {
-                    userId: input.userId,
-                    userLeader: input.leader,
+                    userId: input.userId ?? undefined,
+                    userLeader: input.leader ?? undefined,
+                    riseOfIX: input.riseOfIX ?? undefined,
+                    immortality: input.immortality ?? undefined,
                 },
             });
         },
