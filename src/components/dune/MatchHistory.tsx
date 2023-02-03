@@ -2,22 +2,22 @@ import { useSession } from 'next-auth/react';
 import useGetGames from '../../hooks/dune/useGetGames';
 import Game from './game';
 import AddButton from '../interactables/buttons/addButton';
-import { Expansions } from '../../types/dune';
+import useGetUsersSelectedExpansions from '../../hooks/dune/useGetUsersSelectedExpansions';
 
 interface Props {
     leader: string;
     show: boolean;
     setShow: () => void;
-    expansions: Expansions;
 }
 
-export default function MatchHistory({ leader, show, setShow, expansions }: Props) {
+export default function MatchHistory({ leader, show, setShow }: Props) {
     const { data: session } = useSession();
+    const { selectedExpansions } = useGetUsersSelectedExpansions();
     const { games } = useGetGames({
         userId: session?.user?.id ?? '',
         leader: leader,
-        riseOfIX: expansions.IX,
-        immortality: expansions.Immortality,
+        riseOfIX: selectedExpansions?.riseOfIX,
+        immortality: selectedExpansions?.immortality,
     });
 
     return (

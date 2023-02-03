@@ -5,6 +5,6 @@ export interface DuneLeader {
 }
 
 export interface Expansions {
-    IX: boolean;
-    Immortality: boolean;
+    riseOfIX: boolean;
+    immortality: boolean;
 }

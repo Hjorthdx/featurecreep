@@ -16,8 +16,8 @@ export default function LeaderCell({ name, image, expansions }: Props) {
     const { games } = useGetGames({
         userId: session?.user?.id ?? '',
         leader: name,
-        riseOfIX: expansions.IX,
-        immortality: expansions.Immortality,
+        riseOfIX: expansions.riseOfIX,
+        immortality: expansions.immortality,
     });
 
     const {
@@ -38,7 +38,7 @@ export default function LeaderCell({ name, image, expansions }: Props) {
             <Link
                 href={{
                     pathname: `/dune/${name}`,
-                    query: { name: name, image: image, riseOfIX: expansions.IX, immortality: expansions.Immortality },
+                    query: { name: name, image: image, riseOfIX: expansions.riseOfIX, immortality: expansions.immortality },
                 }}
             >
                 <div

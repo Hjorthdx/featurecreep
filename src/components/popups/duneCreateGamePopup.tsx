@@ -20,6 +20,8 @@ export default function DuneCreateGamePopup({ show, handleClose }: Props) {
         id: '',
         userId: session?.user.id ?? '',
         userLeader: '',
+        riseOfIX: false,
+        immortality: false,
         name: '',
         note: '',
 
@@ -37,6 +39,8 @@ export default function DuneCreateGamePopup({ show, handleClose }: Props) {
     function handleSave() {
         create({
             userLeader: game.userLeader,
+            riseOfIX: game.riseOfIX,
+            immortality: game.immortality,
             name: game.name ?? '',
             note: game.note ?? '',
             firstPosition: game.firstPosition,

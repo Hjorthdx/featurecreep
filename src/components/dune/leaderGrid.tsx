@@ -2,25 +2,32 @@ import React, { useState } from 'react';
 import LeaderCell from './leaderCell';
 import { BASE_LEADERS, BASE_RISE_OF_IX_LEADERS } from '../../constants';
 import { DuneLeader, Expansions } from '../../types/dune';
+import useUpdateUsersSelectedExpansions from '../../hooks/dune/useUpdateUsersSelectedExpansions';
+import useGetUsersSelectedExpansions from '../../hooks/dune/useGetUsersSelectedExpansions';
 
-type Expansion = 'IX' | 'Immortality';
+type Expansion = keyof Expansions;
 
 export default function LeaderGrid() {
+    const { updateUsersSelectedExpansions } = useUpdateUsersSelectedExpansions();
+    const { selectedExpansions } = useGetUsersSelectedExpansions();
     const [expansions, setExpansions] = useState<Expansions>({
-        IX: true,
-        Immortality: true,
+        riseOfIX: selectedExpansions?.riseOfIX ?? false,
+        immortality: selectedExpansions?.immortality ?? false,
     });
 
-    const handleExpansionChange = (expansion: Expansion) => {
+    const handleExpansionChange = (checked: boolean, expansion: Expansion) => {
         setExpansions({
             ...expansions,
-            [expansion]: !expansions[expansion],
+            [expansion]: checked,
+        });
+        updateUsersSelectedExpansions({
+            [expansion]: checked,
         });
     };
 
     let leaders: DuneLeader[] = BASE_LEADERS;
 
-    if (expansions.IX) {
+    if (expansions.riseOfIX) {
         leaders = [...leaders, ...BASE_RISE_OF_IX_LEADERS];
     }
 
@@ -30,14 +37,18 @@ export default function LeaderGrid() {
         <>
             <div className='flex mb-5'>
                 <label className='mr-5'>
-                    <input type='checkbox' checked={expansions.IX} onChange={() => handleExpansionChange('IX')} />
+                    <input
+                        type='checkbox'
+                        checked={expansions.riseOfIX}
+                        onChange={(e) => handleExpansionChange(e.target.checked, 'riseOfIX')}
+                    />
                     Rise of IX
                 </label>
                 <label>
                     <input
                         type='checkbox'
-                        checked={expansions.Immortality}
-                        onChange={() => handleExpansionChange('Immortality')}
+                        checked={expansions.immortality}
+                        onChange={(e) => handleExpansionChange(e.target.checked, 'immortality')}
                     />
                     Immortality
                 </label>

@@ -1,21 +1,21 @@
 import { useSession } from 'next-auth/react';
 import useGetGames from '../../hooks/dune/useGetGames';
 import useLeaderStats from '../../hooks/dune/useLeaderStats';
-import { Expansions } from '../../types/dune';
+import useGetUsersSelectedExpansions from '../../hooks/dune/useGetUsersSelectedExpansions';
 
 interface Props {
     leader: string;
     image: string;
-    expansions: Expansions;
 }
 
-export default function LeaderStats({ leader, image, expansions }: Props) {
+export default function LeaderStats({ leader, image }: Props) {
+    const { selectedExpansions } = useGetUsersSelectedExpansions();
     const { data: session } = useSession();
     const { games } = useGetGames({
         userId: session?.user?.id ?? '',
         leader: leader,
-        riseOfIX: expansions.IX,
-        immortality: expansions.Immortality,
+        riseOfIX: selectedExpansions?.riseOfIX,
+        immortality: selectedExpansions?.immortality,
     });
 
     const {
@@ -39,7 +39,17 @@ export default function LeaderStats({ leader, image, expansions }: Props) {
                 style={{ backgroundImage: `url(${image})`, height: '400px', width: '600px' }}
             />
             <div className='w-1/2 p-5 py-10 flex flex-col justify-center'>
-                <h3 className='text-xl font-bold'>{leader}</h3>
+                <h3 className='text-xl font-bold'>
+                    {leader} - (
+                    {selectedExpansions?.riseOfIX && selectedExpansions?.immortality
+                        ? 'Rise of IX + Immortality'
+                        : selectedExpansions?.riseOfIX
+                        ? 'Rise of IX'
+                        : selectedExpansions?.immortality
+                        ? 'Immortality'
+                        : 'Base'}
+                    )
+                </h3>
                 <div className='mt-4'>
                     <p className='text-sm font-medium'>Games won: {gamesWon}</p>
                     <p className='text-sm font-medium'>Win rate: {winrate}%</p>

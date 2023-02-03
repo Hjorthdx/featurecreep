@@ -103,7 +103,9 @@ model User {
     selectedPomodoroFormatId String           @default("DEFAULT_POMODORO_FORMAT_ID")
     PomodoroTimers           PomodoroTimer[]
 
-    duneGames DuneGame[]
+    duneGames   DuneGame[]
+    riseOfIX    Boolean    @default(false)
+    immortality Boolean    @default(false)
 }
 
 model VerificationToken {

@@ -23,6 +23,8 @@ export const duneRouter = createProtectedRouter()
     .mutation('createDuneGameForLeader', {
         input: z.object({
             userLeader: z.string(),
+            riseOfIX: z.boolean(),
+            immortality: z.boolean(),
             name: z.string().optional(),
             note: z.string().optional(),
             firstPosition: z.string(),
@@ -39,6 +41,8 @@ export const duneRouter = createProtectedRouter()
                 data: {
                     userId: ctx.session.user.id,
                     userLeader: input.userLeader,
+                    riseOfIX: input.riseOfIX,
+                    immortality: input.immortality,
                     name: input.name,
                     note: input.note,
                     firstPosition: input.firstPosition,
@@ -49,6 +53,29 @@ export const duneRouter = createProtectedRouter()
                     secondPlacement: input.secondPlacement,
                     thirdPlacement: input.thirdPlacement,
                     fourthPlacement: input.fourthPlacement,
+                },
+            });
+        },
+    })
+    .query('getUsersSelectedExpansions', {
+        async resolve({ ctx }) {
+            const user = await ctx.prisma.user.findFirst({
+                where: { id: ctx.session.user.id },
+            });
+            return { riseOfIX: user?.riseOfIX, immortality: user?.immortality };
+        },
+    })
+    .mutation('updateUsersSelectedExpansions', {
+        input: z.object({
+            riseOfIX: z.boolean().optional(),
+            immortality: z.boolean().optional(),
+        }),
+        async resolve({ input, ctx }) {
+            return await ctx.prisma.user.updateMany({
+                where: { id: ctx.session.user.id },
+                data: {
+                    riseOfIX: input.riseOfIX ?? ctx.session.user.riseOfIX,
+                    immortality: input.immortality ?? ctx.session.user.riseOfIX,
                 },
             });
         },
