@@ -28,7 +28,7 @@ export default function Leader(req: NextApiRequest, res: NextApiResponse) {
             <Head title={'FeatureCreep - ' + leader} />
             <Navbar />
             <div className='min-h-screen p-5'>
-                <DuneCreateGamePopup show={show} handleClose={() => setShow((show) => !show)} />
+                <DuneCreateGamePopup show={show} handleClose={() => setShow((show) => !show)} leader={leader} />
                 <div className='space-y-4'>
                     <LeaderStats leader={leader} image={image} />
                     <MatchHistory leader={leader} show={show} setShow={() => setShow((show) => !show)} />

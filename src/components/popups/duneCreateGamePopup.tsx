@@ -11,16 +11,17 @@ import useGetUsersSelectedExpansions from '../../hooks/dune/useGetUsersSelectedE
 interface Props {
     show: boolean;
     handleClose: () => void;
+    leader: string;
 }
 
-export default function DuneCreateGamePopup({ show, handleClose }: Props) {
+export default function DuneCreateGamePopup({ show, handleClose, leader }: Props) {
     const { data: session } = useSession();
     const { create } = useCreateDuneGame();
     const { selectedExpansions } = useGetUsersSelectedExpansions();
     const initialGame: DuneGame = {
         id: '',
         userId: session?.user.id ?? '',
-        userLeader: '',
+        userLeader: leader,
         riseOfIX: selectedExpansions.riseOfIX,
         immortality: selectedExpansions.immortality,
         name: '',
