@@ -10,8 +10,8 @@ export default function Game({ game }: Props) {
         <div className='flex flex-col w-full mb-4 bg-white rounded-2xl border-2 border-neutral-800'>
             <div className='px-6 py-4'>
                 <div>
-                    {game.name && <div className='font-bold text-xl mb-2'>{game.name}</div>}
-                    {game.note && <div className='text-sm mb-2'>{game.note}</div>}
+                    {game.name && <div className='font-medium text-3xl mb-2'>{game.name}</div>}
+                    {game.note && <div className='text-lg mb-2'>{game.note}</div>}
                 </div>
                 <ResultRow
                     heading1='First Position:'

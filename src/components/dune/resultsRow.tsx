@@ -24,20 +24,20 @@ export default function ResultRow({
     return (
         <div className='flex'>
             <div className='w-1/4'>
-                <div className='text-sm font-medium'>{heading1}</div>
-                <div>{value1}</div>
+                <div className='text-xl font-medium underline'>{heading1}</div>
+                <div className='text-lg'>{value1}</div>
             </div>
             <div className='w-1/4'>
-                <div className='text-sm font-medium'>{heading2}</div>
-                <div>{value2}</div>
+                <div className='text-xl font-medium underline'>{heading2}</div>
+                <div className='text-lg'>{value2}</div>
             </div>
             <div className='w-1/4'>
-                <div className='text-sm font-medium'>{heading3}</div>
-                <div>{value3}</div>
+                <div className='text-xl font-medium underline'>{heading3}</div>
+                <div className='text-lg'>{value3}</div>
             </div>
             <div className='w-1/4'>
-                <div className='text-sm font-medium'>{heading4}</div>
-                <div>{value4}</div>
+                <div className='text-xl font-medium underline'>{heading4}</div>
+                <div className='text-lg'>{value4}</div>
             </div>
         </div>
     );

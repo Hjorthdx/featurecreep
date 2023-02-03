@@ -23,7 +23,7 @@ export default function MatchHistory({ leader, show, setShow }: Props) {
     return (
         <div className='flex flex-col bg-white rounded-2xl border-2 border-neutral-800 p-4'>
             <div className='flex pb-4'>
-                <h2 className='text-center text-3xl w-full'>Match history</h2>
+                <h2 className='text-center text-4xl font-medium w-full'>Match history</h2>
                 <AddButton onClick={setShow} />
             </div>
             {games?.map((game) => (

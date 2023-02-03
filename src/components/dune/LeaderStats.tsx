@@ -35,12 +35,12 @@ export default function LeaderStats({ leader, image }: Props) {
     return (
         <div className='flex'>
             <div
-                className={`w-1/2 p-5 py-10 h-80 bg-no-repeat bg-center bg-contain`}
+                className='w-1/2 p-5 py-10 h-80 bg-no-repeat bg-center bg-contain'
                 style={{ backgroundImage: `url(${image})`, height: '400px', width: '600px' }}
             />
-            <div className='w-1/2 p-5 py-10 flex flex-col justify-center'>
-                <h3 className='text-xl font-bold'>
-                    {leader} - (
+            <div className='w-2/3 p-5 py-10 flex flex-col justify-center h-full'>
+                <p className='text-6xl font-bold underline mb-4'>{leader}</p>
+                <p className='text-2xl italic'>
                     {selectedExpansions?.riseOfIX && selectedExpansions?.immortality
                         ? 'Rise of IX + Immortality'
                         : selectedExpansions?.riseOfIX
@@ -48,24 +48,35 @@ export default function LeaderStats({ leader, image }: Props) {
                         : selectedExpansions?.immortality
                         ? 'Immortality'
                         : 'Base'}
-                    )
-                </h3>
-                <div className='mt-4'>
-                    <p className='text-sm font-medium'>Games won: {gamesWon}</p>
-                    <p className='text-sm font-medium'>Win rate: {winrate}%</p>
-                    <p className='text-sm font-medium'>Average placement: {averagePlacement}</p>
-                    <p className='text-sm font-medium'>Number of first position games: {firstPositionGames}</p>
-                    <p className='text-sm font-medium'>Average placement first position: {averagePlacementFirstPosition}</p>
-                    <p className='text-sm font-medium'>Number of second position games: {secondPositionGames}</p>
-                    <p className='text-sm font-medium'>
-                        Average placement second position: {averagePlacementSecondPosition}
-                    </p>
-                    <p className='text-sm font-medium'>Number of third position games: {thirdPositionGames}</p>
-                    <p className='text-sm font-medium'>Average placement third position: {averagePlacementThirdPosition}</p>
-                    <p className='text-sm font-medium'>Number of fourth position games: {fourthPositionGames}</p>
-                    <p className='text-sm font-medium'>
-                        Average placement fourth position: {averagePlacementFourthPosition}
-                    </p>
+                </p>
+                <div className='mb-4'>
+                    <div className='mb-4'>
+                        <p className='text-2xl font-medium mt-4'>Games won: {gamesWon}</p>
+                        <p className='text-2xl font-medium'>Win rate: {winrate}%</p>
+                        <p className='text-2xl font-medium'>Average placement: {averagePlacement}</p>
+                    </div>
+                    <div className='flex'>
+                        <div className='w-1/4'>
+                            <p className='text-2xl font-medium underline'>First Position</p>
+                            <p className='text-xl font-small'>Games: {firstPositionGames}</p>
+                            <p className='text-xl font-small'>Average Placement: {averagePlacementFirstPosition}</p>
+                        </div>
+                        <div className='w-1/4'>
+                            <p className='text-2xl font-medium underline'>Second Position</p>
+                            <p className='text-xl font-small'>Games: {secondPositionGames}</p>
+                            <p className='text-xl font-small'>Average Placement: {averagePlacementSecondPosition}</p>
+                        </div>
+                        <div className='w-1/4'>
+                            <p className='text-2xl font-medium underline'>Third Position</p>
+                            <p className='text-xl font-small'>Games: {thirdPositionGames}</p>
+                            <p className='text-xl font-small'>Average Placement: {averagePlacementThirdPosition}</p>
+                        </div>
+                        <div className='w-1/4'>
+                            <p className='text-2xl font-medium underline'>Fourth Position</p>
+                            <p className='text-xl font-small'>Games: {fourthPositionGames}</p>
+                            <p className='text-xl font-small'>Average Placement: {averagePlacementFourthPosition}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
