@@ -2,7 +2,6 @@ import { NextApiRequest, NextApiResponse } from 'next';
 import { useSession } from 'next-auth/react';
 import Head from '../components/head';
 import Navbar from '../components/navbar';
-import LeaderGrid from '../components/dune/leaderGrid';
 
 export default function Dune(req: NextApiRequest, res: NextApiResponse) {
     const { status } = useSession({
@@ -14,12 +13,13 @@ export default function Dune(req: NextApiRequest, res: NextApiResponse) {
     }
 
     return (
-        <div className='bg-zinc-300'>
+        <body>
+        <div className='bg-blue-2'>
             <Head title='FeatureCreep - Dune' />
             <Navbar />
-            <div className='flex flex-col min-h-screen p-5'>
-                <LeaderGrid />
+            <div className='flex-col min-h-screen p-5 w-full flex'>
             </div>
-        </div>
+            </div>
+        </body>
     );
 }

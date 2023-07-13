@@ -1,15 +1,16 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { useState } from 'react';
-import PomodoroTimer from '../components/pomodoro/pomodoroTimer';
-import PomodoroSettingsPopup from '../components/popups/pomodoroSettingsPopup';
 import { useSession } from 'next-auth/react';
-import Tasks from '../components/pomodoro/tasks';
+import { useState } from 'react';
 import Head from '../components/head';
 import Navbar from '../components/navbar';
+import PomodoroTimer from '../components/pomodoro/pomodoroTimer';
+import Tasks from '../components/pomodoro/tasks';
+import PomodoroSettingsPopup from '../components/popups/pomodoroSettingsPopup';
 
+// TODO: Change all the popups to make use of Radix
 export default function Pomodoro(req: NextApiRequest, res: NextApiResponse) {
     const { status } = useSession({
-        required: true,
+        required: false, // TEMP was true
     });
     const [show, setShow] = useState(false);
 
@@ -18,7 +19,7 @@ export default function Pomodoro(req: NextApiRequest, res: NextApiResponse) {
     }
 
     return (
-        <div className='bg-zinc-300'>
+        <div className='bg-amber-2'>
             <Head title='FeatureCreep - Pomodoro' />
             <Navbar />
             <div className='flex flex-col items-center min-h-screen p-5'>

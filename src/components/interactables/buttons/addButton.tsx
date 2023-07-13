@@ -1,4 +1,4 @@
-import { PlusIcon } from '@heroicons/react/solid';
+import { PlusIcon } from '@radix-ui/react-icons';
 
 interface Props {
     onClick: () => void;
@@ -7,7 +7,7 @@ interface Props {
 export default function AddButton({ onClick }: Props) {
     return (
         <button
-            className='mr-3 bg-white hover:bg-gray-100 text-gray-800 font-semibold px-2 border border-gray-400 rounded shadow inline-flex items-center'
+            className='mr-3 bg-amber-3 hover:bg-amber-4 text-amber-12 font-semibold px-2 border border-amber-7 hover:border-amber-8 rounded shadow inline-flex items-center'
             onClick={onClick}
         >
             <PlusIcon className='h-5 w-5' aria-hidden='true' />

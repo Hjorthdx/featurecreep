@@ -9,9 +9,8 @@ interface Props {
 export default function SettingsButton({ enabled, onClick }: Props) {
     return (
         <button
-            className={`m-2 ${
-                enabled ? 'bg-gray-300' : 'bg-white hover:bg-gray-100'
-            } text-gray-800 font-semibold px-2 border border-gray-400 rounded shadow inline-flex items-center`}
+            className={`m-2 ${enabled ? 'bg-amber-5 border-amber-8' : 'bg-amber-3 hover:bg-amber-4'
+                } text-amber-12 font-semibold px-2 border border-amber-7 hover:border-amber-8 rounded shadow inline-flex items-center`}
             onClick={onClick}
         >
             <Image src={settingIcon} alt='settings icon' height={40} width={40}></Image> Settings

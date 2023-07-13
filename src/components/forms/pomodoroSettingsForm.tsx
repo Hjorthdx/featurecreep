@@ -1,106 +1,47 @@
-import { Formik, Form } from 'formik';
-import { useSession } from 'next-auth/react';
-import { PomodoroFormat } from 'prisma/prisma-client';
-import FormSelectField from './formSelectField';
-import FormTextField from './formTextField';
-import FormToggleField from './formToggleField';
-import { DEFAULT_WORK_TIME, DEFAULT_BREAK_TIME, DEFAULT_LONG_BREAK_TIME } from '../../constants';
-import { z } from 'zod';
+import * as Form from '@radix-ui/react-form';
 
-interface Props {
-    pomodoroFormats: PomodoroFormat[];
-    selectedPomodoroFormat: PomodoroFormat;
-    setSelectedPomodoroFormat: (newPomodoroFormat: PomodoroFormat) => void;
-    onSubmit: () => void;
-}
-
-export default function PomodoroSettingsForm({
-    pomodoroFormats,
-    selectedPomodoroFormat,
-    setSelectedPomodoroFormat,
-    onSubmit,
-}: Props) {
-    const { data: session } = useSession();
-
-    const pomodoroFormatSchema = z.object({
-        name: z.string(),
-        workDuration: z.string().regex(new RegExp('^[0-9]*$')),
-        breakDuration: z.string(),
-        longBreakDuration: z.string(),
-        autoStartTimer: z.boolean(),
-    });
-
-    function validationSchema() {
-        return pomodoroFormatSchema;
-    }
-
-    function onOptionChange(label: string, id: string) {
-        const foundFormat = pomodoroFormats.find((option) => {
-            if (option.id === id) {
-                return option;
-            }
-        });
-
-        setSelectedPomodoroFormat(
-            foundFormat ?? {
-                id: 'NEW_POMODORO_FORMAT_ID',
-                userId: '-1',
-                name: 'New Pomodoro Format',
-                workDuration: `${DEFAULT_WORK_TIME}`,
-                breakDuration: `${DEFAULT_BREAK_TIME}`,
-                longBreakDuration: `${DEFAULT_LONG_BREAK_TIME}`,
-                autoStartTimer: false,
-            }
-        );
-    }
-
-    function onChange(name: string, value: string) {
-        setSelectedPomodoroFormat({ ...selectedPomodoroFormat, [name]: value });
-    }
-
-    function onToggleClick() {
-        setSelectedPomodoroFormat({ ...selectedPomodoroFormat, autoStartTimer: !selectedPomodoroFormat.autoStartTimer });
-    }
-
+export default function PomodoroSettingsForm() {
     return (
-        <Formik
-            enableReinitialize={true}
-            initialValues={selectedPomodoroFormat}
-            valudationSchema={validationSchema}
-            onSubmit={onSubmit}
-        >
-            <Form>
-                <FormSelectField name='savedPomodoroFormats' label='Pre-saved formats' onChange={onOptionChange}>
-                    {pomodoroFormats.map((option: PomodoroFormat, index) => {
-                        if (option.id === session?.user?.selectedPomodoroFormatId) {
-                            return (
-                                <option key={index} value={option.id} selected>
-                                    {option.name}
-                                </option>
-                            );
-                        } else {
-                            return (
-                                <option key={index} value={option.id}>
-                                    {option.name}
-                                </option>
-                            );
-                        }
-                    })}
-                    <option key='newPomodoroFormat' value='new'>
-                        New Pomodoro Format
-                    </option>
-                </FormSelectField>
-                <FormTextField name='name' label='Format name' onChange={onChange} />
-                <FormTextField name='workDuration' label='Work duration' onChange={onChange} />
-                <FormTextField name='breakDuration' label='Break duration' onChange={onChange} />
-                <FormTextField name='longBreakDuration' label='Long break duration' onChange={onChange} />
-                <FormToggleField
-                    name='autoStartTimer'
-                    label='Auto start next timer'
-                    enabled={selectedPomodoroFormat.autoStartTimer}
-                    onChange={onToggleClick}
-                />
-            </Form>
-        </Formik>
+        <Form.Root className="w-[260px]">
+            <Form.Field className="grid mb-[10px]" name="email">
+                <div className="flex items-baseline justify-between">
+                    <Form.Label className="text-[15px] font-medium leading-[35px] text-white">Email</Form.Label>
+                    <Form.Message className="text-[13px] text-white opacity-[0.8]" match="valueMissing">
+                        Please enter your email
+                    </Form.Message>
+                    <Form.Message className="text-[13px] text-white opacity-[0.8]" match="typeMismatch">
+                        Please provide a valid email
+                    </Form.Message>
+                </div>
+                <Form.Control asChild>
+                    <input
+                        className="box-border w-full bg-blackA5 shadow-blackA9 inline-flex h-[35px] appearance-none items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none text-white shadow-[0_0_0_1px] outline-none hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black] selection:color-white selection:bg-blackA9"
+                        type="email"
+                        required
+                    />
+                </Form.Control>
+            </Form.Field>
+            <Form.Field className="grid mb-[10px]" name="question">
+                <div className="flex items-baseline justify-between">
+                    <Form.Label className="text-[15px] font-medium leading-[35px] text-white">
+                        Question
+                    </Form.Label>
+                    <Form.Message className="text-[13px] text-white opacity-[0.8]" match="valueMissing">
+                        Please enter a question
+                    </Form.Message>
+                </div>
+                <Form.Control asChild>
+                    <textarea
+                        className="box-border w-full bg-blackA5 shadow-blackA9 inline-flex appearance-none items-center justify-center rounded-[4px] p-[10px] text-[15px] leading-none text-white shadow-[0_0_0_1px] outline-none hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black] selection:color-white selection:bg-blackA9 resize-none"
+                        required
+                    />
+                </Form.Control>
+            </Form.Field>
+            <Form.Submit asChild>
+                <button className="box-border w-full text-violet11 shadow-blackA7 hover:bg-mauve3 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-white px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none mt-[10px]">
+                    Post question
+                </button>
+            </Form.Submit>
+        </Form.Root>
     );
 }

@@ -2,6 +2,7 @@ import { useEffect, useReducer } from 'react';
 import ElevatedButton from '../interactables/buttons/elevatedButton';
 import SettingsButton from '../interactables/buttons/settingsButton';
 import { PomodoroModes } from '../../types/pomodoroModes';
+import PomodoroSettingsDialog from '../dialogs/pomodoroSettingsDialog';
 
 type TopbarModes = PomodoroModes | 'settings';
 
@@ -63,6 +64,7 @@ export default function Topbar({ selectedMode, onClick, show, setShow }: Props) 
 
     return (
         <div className='p-5 py-5 inline-flex'>
+            <PomodoroSettingsDialog enabled={state.settings} />
             <SettingsButton enabled={state.settings} onClick={() => onSettingsPress('settings')} />
             <ElevatedButton enabled={state.work} onClick={() => onPress('work')}>
                 Work button

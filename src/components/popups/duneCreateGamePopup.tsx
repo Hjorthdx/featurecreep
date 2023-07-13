@@ -5,7 +5,7 @@ import PopupFooter from './popupFooter';
 import PopupHeader from './popupHeader';
 import useCreateDuneGame from '../../hooks/dune/useCreateDuneGame';
 import { DuneGame } from 'prisma/prisma-client';
-import DuneCreateGameForm from '../forms/duneGameForm';
+import DuneCreateGameForm from '../forms2/duneGameForm';
 import useGetUsersSelectedExpansions from '../../hooks/dune/useGetUsersSelectedExpansions';
 
 interface Props {

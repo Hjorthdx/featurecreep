@@ -73,7 +73,7 @@ export default function PomodoroTimer({ show, setShow }: Props) {
     }
 
     return (
-        <div className='flex flex-col items-center bg-white rounded-2xl border-2 border-neutral-800'>
+        <div className='flex flex-col items-center'>
             <Topbar selectedMode={selectedMode} onClick={handleChangeSelectedMode} show={show} setShow={setShow} />
             <audio ref={audioRef}>
                 <source src='/alarm.mp3' type='audio/mp3' />
