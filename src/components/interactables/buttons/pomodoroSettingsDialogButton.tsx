@@ -3,13 +3,14 @@ import { GearIcon } from '@radix-ui/react-icons';
 import ElevatedButton from "./elevatedButton";
 
 interface Props {
-    enabled: boolean
+    enabled: boolean;
+    onClick: () => void;
 }
 
-export default function PomodoroSettingsDialogButton({ enabled }: Props) {
+export default function PomodoroSettingsDialogButton({ enabled, onClick }: Props) {
     return (
         <Dialog.Trigger asChild>
-            <ElevatedButton>
+            <ElevatedButton enabled={enabled} onClick={onClick}>
                 <GearIcon /> Settings
             </ElevatedButton>
         </Dialog.Trigger>

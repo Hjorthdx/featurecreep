@@ -1,15 +1,15 @@
 import { useEffect, useReducer } from 'react';
-import ElevatedButton from '../interactables/buttons/elevatedButton';
-import SettingsButton from '../interactables/buttons/settingsButton';
 import { PomodoroModes } from '../../types/pomodoroModes';
 import PomodoroSettingsDialog from '../dialogs/pomodoroSettingsDialog';
+import ElevatedButton from '../interactables/buttons/elevatedButton';
+import SettingsButton from '../interactables/buttons/settingsButton';
 
 type TopbarModes = PomodoroModes | 'settings';
 
 // Could this be done in a nicer way? Currently just setting all booleans everytime a button is clicked...
 
 interface PomodoroMethodAction {
-    type: 'updateLastClicked';
+    type: 'updateLastClicked' | 'flipSettingsDialog';
     payload: TopbarModes;
 }
 
@@ -24,7 +24,10 @@ function pomodoroMethodReducer(state: TopbarState, action: PomodoroMethodAction)
     switch (action.type) {
         case 'updateLastClicked':
             const temp = { work: false, break: false, longBreak: false, settings: false };
-            return { ...temp, [action.payload]: true };
+            return { ...temp, [action.payload]: !state[action.payload] };
+        case 'flipSettingsDialog':
+            console.log('state settings', state.settings);
+            return { ...state, settings: !state.settings }
         default:
             return state;
     }
@@ -53,7 +56,6 @@ export default function Topbar({ selectedMode, onClick, show, setShow }: Props) 
 
     function onSettingsPress(mode: TopbarModes) {
         dispatch({ type: 'updateLastClicked', payload: mode });
-        setShow();
     }
 
     useEffect(() => {
@@ -64,7 +66,7 @@ export default function Topbar({ selectedMode, onClick, show, setShow }: Props) 
 
     return (
         <div className='p-5 py-5 inline-flex'>
-            <PomodoroSettingsDialog enabled={state.settings} />
+            <PomodoroSettingsDialog enabled={state.settings} closeDialog={() => onSettingsPress('settings')} />
             <SettingsButton enabled={state.settings} onClick={() => onSettingsPress('settings')} />
             <ElevatedButton enabled={state.work} onClick={() => onPress('work')}>
                 Work button

@@ -16,3 +16,12 @@
     -webkit-text-stroke: 4px black;
   }
 }
+
+/* TODO: Fix this. I need to figure out how to make use of tailwind for these dynamic classes. Only found solutions for data-state that can then be open or closed for instance.
+          Not sure how to make it work for data-invalid and valid when they are just that I guess (?) */
+.formLabel[data-invalid] {
+  color: red;
+}
+.formControl[data-invalid] {
+  --tw-shadow-color: red;
+}

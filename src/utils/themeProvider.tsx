@@ -2,7 +2,7 @@ import React, { ReactNode, useState } from 'react';
 
 const initialState = {
   theme: true,
-  toggleTheme: () => {},
+  toggleTheme: () => { },
 };
 
 interface Theme {
@@ -12,8 +12,8 @@ interface Theme {
 
 export const ThemeContext = React.createContext<Theme>(initialState);
 
-export const ThemeProvider = ({ children }: { children: ReactNode}) => {
-  const [theme, setTheme] = useState(true);
+export const ThemeProvider = ({ children }: { children: ReactNode }) => {
+  const [theme, setTheme] = useState(false);
 
   const toggleTheme = () => {
     setTheme(prevTheme => !prevTheme);

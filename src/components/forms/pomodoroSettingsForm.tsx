@@ -1,45 +1,36 @@
 import * as Form from '@radix-ui/react-form';
+import { PomodoroFormat } from 'prisma/prisma-client';
+import { FormEvent } from 'react';
+import PomodoroFormField from './pomodoroFormField';
 
-export default function PomodoroSettingsForm() {
+interface Props {
+    handleSave: (newPomodoroFormat: Omit<Omit<PomodoroFormat, 'id'>, 'userId'>) => void;
+}
+
+export default function PomodoroSettingsForm({ handleSave }: Props) {
+    function handleSubmit(event: FormEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const data: Omit<Omit<PomodoroFormat, 'id'>, 'userId'> = {
+            // How do I get these better typed?
+            name: event.currentTarget.formatName.value,
+            workDuration: event.currentTarget.workDuration.value,
+            breakDuration: event.currentTarget.breakDuration.value,
+            longBreakDuration: event.currentTarget.longBreakDuration.value,
+            autoStartTimer: false // event.currentTarget.autoStartTimer,
+        }
+        console.log('Data: ', data);
+        handleSave(data);
+    }
+
     return (
-        <Form.Root className="w-[260px]">
-            <Form.Field className="grid mb-[10px]" name="email">
-                <div className="flex items-baseline justify-between">
-                    <Form.Label className="text-[15px] font-medium leading-[35px] text-white">Email</Form.Label>
-                    <Form.Message className="text-[13px] text-white opacity-[0.8]" match="valueMissing">
-                        Please enter your email
-                    </Form.Message>
-                    <Form.Message className="text-[13px] text-white opacity-[0.8]" match="typeMismatch">
-                        Please provide a valid email
-                    </Form.Message>
-                </div>
-                <Form.Control asChild>
-                    <input
-                        className="box-border w-full bg-blackA5 shadow-blackA9 inline-flex h-[35px] appearance-none items-center justify-center rounded-[4px] px-[10px] text-[15px] leading-none text-white shadow-[0_0_0_1px] outline-none hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black] selection:color-white selection:bg-blackA9"
-                        type="email"
-                        required
-                    />
-                </Form.Control>
-            </Form.Field>
-            <Form.Field className="grid mb-[10px]" name="question">
-                <div className="flex items-baseline justify-between">
-                    <Form.Label className="text-[15px] font-medium leading-[35px] text-white">
-                        Question
-                    </Form.Label>
-                    <Form.Message className="text-[13px] text-white opacity-[0.8]" match="valueMissing">
-                        Please enter a question
-                    </Form.Message>
-                </div>
-                <Form.Control asChild>
-                    <textarea
-                        className="box-border w-full bg-blackA5 shadow-blackA9 inline-flex appearance-none items-center justify-center rounded-[4px] p-[10px] text-[15px] leading-none text-white shadow-[0_0_0_1px] outline-none hover:shadow-[0_0_0_1px_black] focus:shadow-[0_0_0_2px_black] selection:color-white selection:bg-blackA9 resize-none"
-                        required
-                    />
-                </Form.Control>
-            </Form.Field>
+        <Form.Root onSubmit={handleSubmit} className="w-full">
+            <PomodoroFormField name='formatName' label='Format name' valueMissing='Please ente a format name' />
+            <PomodoroFormField name='workDuration' label='Work duration (minutes)' valueMissing='Please enter a work duration' type='number' />
+            <PomodoroFormField name='breakDuration' label='Break duration (minutes)' valueMissing='Please enter a break duration' type='number' />
+            <PomodoroFormField name='longBreakDuration' label='Long break duration (minutes)' valueMissing='Please enter a long break duration' type='number' />
             <Form.Submit asChild>
-                <button className="box-border w-full text-violet11 shadow-blackA7 hover:bg-mauve3 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-white px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-[0_0_0_2px] focus:shadow-black focus:outline-none mt-[10px]">
-                    Post question
+                <button className="box-border w-full text-amber-11 shadow-amber-7 hover:bg-amber-4 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-amber-3 px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-amber-8 hover:shadow-amber-8 focus:outline-none mt-[10px]">
+                    Save
                 </button>
             </Form.Submit>
         </Form.Root>
