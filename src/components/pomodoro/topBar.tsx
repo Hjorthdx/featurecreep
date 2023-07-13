@@ -9,7 +9,7 @@ type TopbarModes = PomodoroModes | 'settings';
 // Could this be done in a nicer way? Currently just setting all booleans everytime a button is clicked...
 
 interface PomodoroMethodAction {
-    type: 'updateLastClicked' | 'flipSettingsDialog';
+    type: 'updateLastClicked';
     payload: TopbarModes;
 }
 
@@ -25,9 +25,6 @@ function pomodoroMethodReducer(state: TopbarState, action: PomodoroMethodAction)
         case 'updateLastClicked':
             const temp = { work: false, break: false, longBreak: false, settings: false };
             return { ...temp, [action.payload]: !state[action.payload] };
-        case 'flipSettingsDialog':
-            console.log('state settings', state.settings);
-            return { ...state, settings: !state.settings }
         default:
             return state;
     }
