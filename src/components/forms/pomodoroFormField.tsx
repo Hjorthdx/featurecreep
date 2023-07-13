@@ -10,7 +10,7 @@ interface Props {
 export default function PomodoroFormField({ name, label, valueMissing, type }: Props) {
     return <Form.Field className="grid mb-[10px]" name={name}>
         <div className="flex items-baseline justify-between">
-            <Form.Label className="text-[15px] font-medium leading-[35px] text-amber-12 data-invalid:border-greenA-12">
+            <Form.Label className="text-[15px] font-medium leading-[35px] text-amber-12 data-invalid:border-greenA-12 data-[invalid]:text-red-12">
                 {label}
             </Form.Label>
             <Form.Message className="text-[13px] text-amber-12 opacity-[0.8]" match="valueMissing">
