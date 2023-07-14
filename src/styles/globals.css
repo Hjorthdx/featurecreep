@@ -23,3 +23,9 @@
 .formControl[data-invalid] {
   --tw-shadow-color: red;
 }
+.formControl[data-invalid]:focus {
+  --tw-shadow-color: red;
+}
+.formControl[data-invalid]:hover {
+  --tw-shadow-color: red;
+}

@@ -86,10 +86,10 @@ export default function Tasks() {
 
     return (
         <div className='flex flex-col items-center'>
-            <div className='p-5 py-5 inline-flex justify-between w-full'>
+            <div className='pb-5 inline-flex justify-between w-full'>
                 <input
                     ref={inputRef}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-amber-12 bg-amber-3 focus:bg-amber-4 leading-tight focus:outline-none focus:shadow-outline mx-3 border-amber-7 focus:border-amber-8 placeholder-amber-11'
+                    className='shadow appearance-none border rounded w-full py-2 px-3 text-amber-12 bg-amber-3 focus:bg-amber-4 leading-tight focus:outline-none focus:shadow-outline mr-3 border-amber-7 focus:border-amber-8 placeholder-amber-11'
                     type='text'
                     onChange={onChange}
                     onKeyDown={handleKeyDown}
@@ -98,7 +98,7 @@ export default function Tasks() {
                 <AddButton onClick={handleNewTaskClick} />
                 <TaskDropdown onTaskDelete={onTaskDelete} taskCount={tasks.length} />
             </div>
-            <div ref={tasksRef} className='p-5 py-5 w-full'>
+            <div ref={tasksRef} className='w-full'>
                 {tasks.map((task, index) => (
                     <TaskItem
                         key={index}

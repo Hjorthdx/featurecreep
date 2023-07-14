@@ -22,7 +22,7 @@ export default function PomodoroSettingsDialog({ enabled, closeDialog }: Props) 
     const { formats } = useGetAllOfUsersPomodoroFormats({
         userId: session?.user.id ?? '',
     });
-    const { selectedPomodoroFormat } = useSelectedPomodoroFormat({
+    const { selectedPomodoroFormat, setSelectedPomodoroFormat } = useSelectedPomodoroFormat({
         formats: formats,
         selectedId: session?.user?.selectedPomodoroFormatId ?? '',
     });
@@ -56,7 +56,9 @@ export default function PomodoroSettingsDialog({ enabled, closeDialog }: Props) 
                 <Dialog.Overlay className="bg-sandA-9 data-[state=open]:animate-overlayShow fixed inset-0" />
                 <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-amber-2 p-[25px] focus:outline-none">
                     <DialogHeader title='Pomodoro settings' text="Make changes to your pomodoro format here or create a completely new one. Click save when you're done." />
-                    <PomodoroSettingsForm handleSave={handleSave} />
+                    <PomodoroSettingsForm pomodoroFormats={formats ?? []}
+                        selectedPomodoroFormat={selectedPomodoroFormat}
+                        setSelectedPomodoroFormat={setSelectedPomodoroFormat} handleSave={handleSave} />
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>

@@ -1,8 +1,8 @@
-import { useEffect, useReducer } from 'react';
+import { useReducer } from 'react';
 import { PomodoroModes } from '../../types/pomodoroModes';
 import PomodoroSettingsDialog from '../dialogs/pomodoroSettingsDialog';
 import ElevatedButton from '../interactables/buttons/elevatedButton';
-import SettingsButton from '../interactables/buttons/settingsButton';
+import { GearIcon } from '@radix-ui/react-icons';
 
 type TopbarModes = PomodoroModes | 'settings';
 
@@ -33,11 +33,9 @@ function pomodoroMethodReducer(state: TopbarState, action: PomodoroMethodAction)
 interface Props {
     selectedMode: TopbarModes;
     onClick: (mode: PomodoroModes) => void;
-    show: boolean;
-    setShow: () => void;
 }
 
-export default function Topbar({ selectedMode, onClick, show, setShow }: Props) {
+export default function Topbar({ selectedMode, onClick }: Props) {
     const [state, dispatch] = useReducer(pomodoroMethodReducer, {
         work: false,
         break: false,
@@ -55,16 +53,12 @@ export default function Topbar({ selectedMode, onClick, show, setShow }: Props) 
         dispatch({ type: 'updateLastClicked', payload: mode });
     }
 
-    useEffect(() => {
-        if (!show) {
-            dispatch({ type: 'updateLastClicked', payload: selectedMode });
-        }
-    }, [selectedMode, show]);
-
     return (
-        <div className='p-5 py-5 inline-flex'>
+        <div className='flex space-x-2 pb-5'>
             <PomodoroSettingsDialog enabled={state.settings} closeDialog={() => onSettingsPress('settings')} />
-            <SettingsButton enabled={state.settings} onClick={() => onSettingsPress('settings')} />
+            <ElevatedButton enabled={state.settings} onClick={() => onSettingsPress('settings')}>
+                <GearIcon />
+            </ElevatedButton>
             <ElevatedButton enabled={state.work} onClick={() => onPress('work')}>
                 Work button
             </ElevatedButton>

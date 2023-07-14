@@ -1,7 +1,7 @@
 import { useState } from 'react';
+import PomodoroTaskItemDialog from '../dialogs/pomodoroTaskItemDialog';
 import Checkbox from '../interactables/checkbox';
 import TaskItemDropdown from '../interactables/dropdowns/taskItemDropdown';
-import PomodoroTaskItemPopup from '../popups/pomodoroTaskItemPopup';
 import { Task } from './tasks';
 
 interface Props {
@@ -16,14 +16,9 @@ export default function TaskItem({ task, onClick, onRename, onDelete }: Props) {
 
     return (
         <div className='flex flex-row px-2 py-1 mb-4 justify-between bg-amber-3 rounded-lg border border-amber-7'>
-            <PomodoroTaskItemPopup
-                show={show}
-                handleClose={() => setShow(false)}
-                task={task}
-                onSave={(label: string) => onRename(task, label)}
-            />
+            <PomodoroTaskItemDialog task={task} enabled={show} closeDialog={() => setShow(false)} onRename={onRename} />
             <Checkbox label={task.label} onClick={(checked: boolean) => onClick(task, checked)} checked={task.checked} />
-            <TaskItemDropdown onRename={() => setShow(!show)} onDelete={() => onDelete((t) => t.id !== task.id)} />
+            <TaskItemDropdown onRename={() => setShow(true)} onDelete={() => onDelete((t) => t.id !== task.id)} />
         </div>
     );
 }

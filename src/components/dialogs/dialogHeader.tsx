@@ -13,7 +13,6 @@ export default function DialogHeader({ title, text }: Props) {
             <Dialog.Title className="text-amber-12 m-0 text-[24px] font-medium">
                 {title}
             </Dialog.Title>
-            <Separator.Root className="bg-amber-12 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full data-[orientation=vertical]:w-px my-[15px]" />
 
             <Dialog.Description className="text-amber-11 mt-[10px] mb-5 text-[15px] leading-normal italic">
                 {text}
