@@ -5,8 +5,8 @@ export default function FeatureGrid() {
         <>
             <main className='grid items-start grid-cols-1 gap-10 p-5 md:p-0 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                 <GridCell path='/pomodoro' title='Pomodoro' description='Stay focused and finish tasks effectively.' />
-                <GridCell path='/dune' title='Dune' description='Manage stats for the board game Dune.' />
-                <GridCell path='/movies' title='Movies' description='Track movies you would like to see and rate the movies you have seen.' />
+                <GridCell path='/dune' title='Dune' description='Manage stats for the board game Dune. NOT UPDATED UI' />
+                <GridCell path='/movies' title='Movies' description='Track movies you would like to see and rate the movies you have seen. NOT IMPLEMENTED YET' />
             </main>
             <h3 className='items-center m-5 text-3xl text-amber-12'>Demos of my semester projects during bachelor and master at AAU:</h3>
             <main className='grid items-start grid-cols-1 gap-10 p-5 md:p-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
