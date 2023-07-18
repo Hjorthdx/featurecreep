@@ -29,3 +29,34 @@
 .formControl[data-invalid]:hover {
   --tw-shadow-color: red;
 }
+
+
+/* TODO: Is there a nicer way to do this than force style with !important?*/
+@import '../../node_modules/@radix-ui/colors/amber.css';
+
+.thumb {
+  background-color: var(--amber-3);
+  border: 3px solid var(--amber-3) !important;
+  border-radius: 0.25rem;
+}
+
+.thumb.selected {
+  background-color: var(--amber-5);
+  border: 3px solid var(--amber-8) !important;
+  border-radius: 0.25rem;
+}
+
+.thumb:hover {
+  background-color: var(--amber-4);
+  border: 3px solid var(--amber-7) !important;
+  border-radius: 0.25rem;
+}
+
+.carousel {
+  display: flex;
+  justify-content: center;
+}
+
+.imageSlide {
+  width: auto !important;
+}

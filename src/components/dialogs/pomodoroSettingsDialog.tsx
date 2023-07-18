@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { PomodoroFormat } from '.prisma/client';
 import * as Dialog from '@radix-ui/react-dialog';
 import { useSession } from 'next-auth/react';
@@ -8,6 +9,7 @@ import useUpdatePomodoroFormat from '../../hooks/pomodoro/format/useUpdatePomodo
 import useUpdateUsersSelectedPomodoroFormat from '../../hooks/pomodoro/format/useUpdateUsersSelectedPomodoroFormat';
 import PomodoroSettingsForm from '../forms/pomodoroSettingsForm';
 import DialogHeader from './dialogHeader';
+import { AppContext } from '../../pages/_app';
 
 interface Props {
     enabled: boolean;
@@ -15,6 +17,7 @@ interface Props {
 }
 
 export default function PomodoroSettingsDialog({ enabled, closeDialog }: Props) {
+    const context = useContext(AppContext);
     const { create } = useCreatePomodoroFormat();
     const { update } = useUpdatePomodoroFormat();
     const { updateUsersSelectedPomodoroFormat } = useUpdateUsersSelectedPomodoroFormat();
@@ -52,7 +55,7 @@ export default function PomodoroSettingsDialog({ enabled, closeDialog }: Props) 
 
     return (
         <Dialog.Root open={enabled} onOpenChange={closeDialog}>
-            <Dialog.Portal>
+            <Dialog.Portal container={context.appRef?.current ?? document.body}>
                 <Dialog.Overlay className="bg-sandA-9 data-[state=open]:animate-overlayShow fixed inset-0" />
                 <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-amber-2 p-[25px] focus:outline-none">
                     <DialogHeader title='Pomodoro settings' text="Make changes to your pomodoro format here or create a completely new one. Click save when you're done." />
