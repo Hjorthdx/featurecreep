@@ -1,15 +1,12 @@
-import { TRPCError } from '@trpc/server';
-import { createRouter } from '../context';
 import { z } from 'zod';
-import { createProtectedRouter } from '../protectedRouter';
+import { router, protectedProcedure } from '../../trpc';
 
-export const timerRouter = createProtectedRouter().mutation('createTimer', {
-    input: z.object({
+export const timerRouter = router({
+    createTimer: protectedProcedure.input(z.object({
         mode: z.string(), // How can I make this my custom type? 'work' | 'break' | 'longBreak'
         createdAt: z.date(),
         duration: z.number(),
-    }),
-    async resolve({ input, ctx }) {
+    })).mutation(async ({ input, ctx }) => {
         return await ctx.prisma.pomodoroTimer.create({
             data: {
                 mode: input.mode,
@@ -18,5 +15,5 @@ export const timerRouter = createProtectedRouter().mutation('createTimer', {
                 userId: ctx.session.user.id,
             },
         });
-    },
+    }),
 });

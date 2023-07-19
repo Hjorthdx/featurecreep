@@ -6,8 +6,7 @@ interface Props {
 }
 
 export default function useGetSemestersInRange({ lower, upper }: Props) {
-    const { data } = trpc.useQuery(['university.getSemesterInRange',
-        { lower: lower, upper: upper }]);
+    const { data } = trpc.university.getSemesterInRange.useQuery({ lower: lower, upper: upper });
 
     return { semesters: data ?? [] }
 }

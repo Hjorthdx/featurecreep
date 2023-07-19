@@ -1,5 +1,6 @@
 // src/server/router/context.ts
 import * as trpc from "@trpc/server";
+import { initTRPC } from '@trpc/server'
 import * as trpcNext from "@trpc/server/adapters/next";
 import { unstable_getServerSession as getServerSession } from "next-auth";
 
@@ -25,4 +26,4 @@ export const createContext = async (
 
 type Context = trpc.inferAsyncReturnType<typeof createContext>;
 
-export const createRouter = () => trpc.router<Context>();
+export const createRouter = () => initTRPC.context<Context>();

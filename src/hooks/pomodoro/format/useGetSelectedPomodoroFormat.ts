@@ -6,12 +6,9 @@ interface Props {
 }
 
 export default function useGetSelectedPomodoroFormat({ pomodoroFormatId }: Props) {
-    const { data: selectedPomodoroFormat } = trpc.useQuery([
-        'pomodoro.format.getSelectedPomodoroFormat',
-        {
-            pomodoroFormatId: pomodoroFormatId,
-        },
-    ]);
+    const { data: selectedPomodoroFormat } = trpc.pomodoro.format.getSelectedPomodoroFormat.useQuery({
+                    pomodoroFormatId: pomodoroFormatId,
+                });
 
     if (!selectedPomodoroFormat) {
         return {

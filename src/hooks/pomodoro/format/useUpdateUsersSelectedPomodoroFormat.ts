@@ -2,11 +2,10 @@ import { trpc } from '../../../utils/trpc';
 
 export default function useUpdateUsersSelectedPomodoroFormat() {
     const context = trpc.useContext();
-    const { mutate: updateUsersSelectedPomodoroFormat } = trpc.useMutation(
-        'pomodoro.format.updateUsersSelectedPomodoroFormat',
+    const { mutate: updateUsersSelectedPomodoroFormat } = trpc.pomodoro.format.updateUsersSelectedPomodoroFormat.useMutation(
         {
             onSuccess() {
-                context.invalidateQueries(['pomodoro.format.getSelectedPomodoroFormat']);
+                context.pomodoro.format.getSelectedPomodoroFormat.invalidate();
             },
         }
     );

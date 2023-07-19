@@ -1,34 +1,27 @@
 import { z } from 'zod';
-import { createRouter } from '../context';
+import { router, protectedProcedure } from '../../trpc';
 
-export const universityRouter = createRouter().query('getSemester', {
-    input: z.object({
+export const universityRouter = router({
+    getSemester: protectedProcedure.input(z.object({
         semester: z.number(),
-    }),
-    async resolve({ input, ctx }) {
+    })).query(async ({ input, ctx }) => {
         return await ctx.prisma.semester.findFirst({
             where: {
                 number: input.semester
             }
         });
-    }
-}).query('getSemesterInRange', {
-    input: z.object({
+    }),
+    getSemesterInRange: protectedProcedure.input(z.object({
         lower: z.number(),
         upper: z.number(),
-    }),
-    async resolve({ input, ctx }) {
-        const x = await ctx.prisma.semester.findMany({
+    })).query(async ({ input, ctx }) => {
+        return await ctx.prisma.semester.findMany({
             where: {
                 number: {
                     gte: input.lower,
                     lte: input.upper,
                 },
             }
-        })
-        x.map((semester) => {
-            console.log('semester.projectName', semester.projectName)
-        })
-        return x;
-    }
-})
+        });
+    }),
+});
