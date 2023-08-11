@@ -1,13 +1,15 @@
 import NextHead from 'next/head';
 
-function Head() {
+interface Props {
+    title: string;
+}
+
+export default function Head({ title }: Props) {
     return (
         <NextHead>
-            <title>FeatureCreep</title>
+            <title>{title}</title>
             <meta name='description' content='The place where all new features are welcome' />
-            <link rel='icon' href='/favicon.ico' />
+            <link rel='icon' href='/logoHead.png' />
         </NextHead>
     );
 }
-
-export default Head;

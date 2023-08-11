@@ -2,20 +2,55 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-    provider        = "prisma-client-js"
-    previewFeatures = ["referentialIntegrity"]
+    provider = "prisma-client-js"
 }
 
 datasource db {
-    provider             = "mysql"
+    provider     = "mysql"
     //url      = "file:./db.sqlite"
-    url                  = env("DATABASE_URL")
-    referentialIntegrity = "prisma"
+    url          = env("DATABASE_URL")
+    relationMode = "prisma"
 }
 
-model Example {
-    id   String  @id @default(cuid())
-    text String?
+model Semester {
+    number Int @id
+    degreeType String @default("")
+    projectName String
+    projectArea String
+    authors String
+    description String @db.LongText
+    tags String @db.LongText
+    images String @db.LongText // Stored as a single string with ',' as the delimiter because I cannot use a String[]...
+    imageDescriptions String @db.LongText // Stored as a single string with ',' as the delimiter because I cannot use a String[]...
+    
+    // Should these really just be combined with the images into something along the lines of media?
+    // This would require logic for the frontend to seperate them though, where now they are just in their own seperate columns...
+    videos String @db.LongText @default("") // Stored as a single string with ',' as the delimiter because I cannot use a String[]...
+    videoDescriptions String @db.LongText @default("") // Stored as a single string with ',' as the delimiter because I cannot use a String[]...
+}
+
+model DuneGame {
+    id          String  @id @default(cuid())
+    user        User    @relation(fields: [userId], references: [id])
+    userId      String
+    userLeader  String
+    riseOfIX    Boolean @default(false)
+    immortality Boolean @default(false)
+
+    name String?
+    note String?
+
+    firstPosition  String
+    secondPosition String
+    thirdPosition  String
+    fourthPosition String
+
+    firstPlacement  String
+    secondPlacement String
+    thirdPlacement  String
+    fourthPlacement String
+
+    @@index([userId])
 }
 
 model PomodoroTimer {
@@ -23,17 +58,24 @@ model PomodoroTimer {
     mode      String   @default("work")
     createdAt DateTime @default(now())
     duration  Int      @default(25)
+    userId    String
+    user      User     @relation(fields: [userId], references: [id])
+
+    @@index([userId])
 }
 
-//model PomodoroFormat {
-//    id                String @id @default(cuid())
-//    userId            String
-//    name              String
-//    workDuration      Int
-//    breakDuration     Int
-//    longBreakDuration Int
-//    user              User   @relation(fields: [userId], references: [id])
-// }
+model PomodoroFormat {
+    id                String  @id @default(cuid())
+    userId            String
+    name              String
+    workDuration      String
+    breakDuration     String
+    longBreakDuration String
+    autoStartTimer    Boolean @default(false)
+    user              User    @relation(fields: [userId], references: [id])
+
+    @@index([userId])
+}
 
 // Necessary for Next auth
 model Account {
@@ -52,6 +94,7 @@ model Account {
     user              User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 
     @@unique([provider, providerAccountId])
+    @@index([userId])
 }
 
 model Session {
@@ -60,6 +103,8 @@ model Session {
     userId       String
     expires      DateTime
     user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+    @@index([userId])
 }
 
 model User {
@@ -70,7 +115,14 @@ model User {
     image         String?
     accounts      Account[]
     sessions      Session[]
-    //PomodoroFormat PomodoroFormat[]
+
+    pomodoroFormats          PomodoroFormat[]
+    selectedPomodoroFormatId String           @default("DEFAULT_POMODORO_FORMAT_ID")
+    PomodoroTimers           PomodoroTimer[]
+
+    duneGames   DuneGame[]
+    riseOfIX    Boolean    @default(false)
+    immortality Boolean    @default(false)
 }
 
 model VerificationToken {
