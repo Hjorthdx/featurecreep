@@ -34,7 +34,7 @@ export default function PomodoroSettingsDialog({ enabled, closeDialog }: Props) 
         if (session?.user) {
             if (selectedPomodoroFormat.id === 'NEW_POMODORO_FORMAT_ID') {
                 create(newPomodoroFormat, {
-                    onSuccess: (data) => {
+                    onSuccess: (data: PomodoroFormat) => {
                         updateUsersSelectedPomodoroFormat({ pomodoroFormatId: data.id });
                         session.user.selectedPomodoroFormatId = data.id;
                     },
@@ -43,7 +43,7 @@ export default function PomodoroSettingsDialog({ enabled, closeDialog }: Props) 
                 update(
                     { ...newPomodoroFormat, id: selectedPomodoroFormat.id },
                     {
-                        onSuccess(data) {
+                        onSuccess(data: PomodoroFormat) {
                             updateUsersSelectedPomodoroFormat({ pomodoroFormatId: data.id });
                             session.user.selectedPomodoroFormatId = data.id;
                         },

@@ -34,7 +34,7 @@
     "@trpc/server": "^10.34.0",
     "formik": "^2.2.9",
     "hamburger-react": "^2.5.0",
-    "next": "12.2.0",
+    "next": "^13.4.13",
     "next-auth": "^4.8.0",
     "nodemailer": "^6.7.7",
     "react": "18.2.0",

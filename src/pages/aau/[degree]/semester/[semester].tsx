@@ -1,18 +1,17 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import ImageCarousel from "../../../../components/interactables/imageCarousel";
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/router';
+import ImageCarousel from '../../../../components/interactables/imageCarousel';
 import Head from '../../../../components/head';
 import Navbar from '../../../../components/navbar';
-import useGetSemester from "../../../../hooks/university/useGetSemester";
-
+import useGetSemester from '../../../../hooks/university/useGetSemester';
 
 export default function Semester() {
     const { status } = useSession({
-        required: true,
+        required: false,
     });
 
     const router = useRouter();
-    const semesterNumber = router.query.semester ? Number(router.query.semester) : 0
+    const semesterNumber = router.query.semester ? Number(router.query.semester) : 0;
 
     const { semester } = useGetSemester({ semester: semesterNumber });
 
@@ -32,9 +31,12 @@ export default function Semester() {
                     <p className='text-amber-11 font-bold'>{semester.tags}</p>
                 </div>
                 <div className='flex flex-col justify-center p-5 w-2/3 max-h-screen'>
-                    <ImageCarousel images={semester.images.split(',')} imageDescriptions={semester.imageDescriptions.split(',')} />
+                    <ImageCarousel
+                        images={semester.images.split(',')}
+                        imageDescriptions={semester.imageDescriptions.split(',')}
+                    />
                 </div>
             </div>
         </div>
-    )
+    );
 }

@@ -1,5 +1,5 @@
 import { Carousel } from 'react-responsive-carousel';
-import "react-responsive-carousel/lib/styles/carousel.min.css";
+import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import ReactPlayer from 'react-player';
 
 interface Props {
@@ -14,22 +14,22 @@ export default function ImageCarousel({ images, imageDescriptions, videos, video
     return (
         <Carousel swipeable emulateTouch useKeyboardArrows autoFocus showStatus={false} showIndicators={false}>
             {[
-                ...(videos &&
-                    videoDescriptions ?
-                    videos.map((video, index) => (
-                        <div key={index}>
-                            <ReactPlayer width="100%" url={video} playing />
-                            <p className="text-amber-11 italic">{videoDescriptions[index]}</p>
-                        </div>
-                    )) : []),
-                ...(images &&
-                    imageDescriptions ?
-                    images.map((image, index) => (
-                        <div className='max-h-4/5' key={index}>
-                            <img className='h-full imageSlide' src={image} />
-                            <p className="text-amber-11 italic">{imageDescriptions[index]}</p>
-                        </div>
-                    )) : [])
+                ...(videos && videoDescriptions
+                    ? videos.map((video, index) => (
+                          <div key={index}>
+                              <ReactPlayer width='100%' url={video} playing />
+                              <p className='text-amber-11 italic'>{videoDescriptions[index]}</p>
+                          </div>
+                      ))
+                    : []),
+                ...(images && imageDescriptions
+                    ? images.map((image, index) => (
+                          <div className='max-h-4/5' key={index}>
+                              <img className='h-full imageSlide' src={image} />
+                              <p className='text-amber-11 italic'>{imageDescriptions[index]}</p>
+                          </div>
+                      ))
+                    : []),
             ]}
         </Carousel>
     );

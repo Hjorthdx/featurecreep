@@ -6,7 +6,6 @@ import { useState } from 'react';
 export default function UniversityGrid() {
     const { semesters, refetch, isSuccess } = useGetSemestersInRange({ lower: 1, upper: 10 });
     const [test, setTest] = useState(false);
-    console.log('Semesters, ', semesters);
 
     // Not sure why I have to do this right now...
     // It will not re-render if I do not have this.

@@ -5,17 +5,17 @@ import { ThemeProvider } from '../utils/themeProvider';
 import '../styles/globals.css';
 import React, { createContext, useRef } from 'react';
 import { trpc } from '../utils/trpc';
+import type { AppProps } from 'next/app';
 
 interface AppContextType {
     appRef: React.RefObject<HTMLDivElement> | null;
 }
 
 export const AppContext = createContext<AppContextType>({
-    appRef: null
+    appRef: null,
 });
 
-
-const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {
+const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
     const appRef = useRef<HTMLDivElement>(null);
     return (
         <SessionProvider session={session}>
@@ -26,7 +26,7 @@ const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => 
                     </AppContext.Provider>
                 </div>
             </ThemeProvider>
-        </SessionProvider >
+        </SessionProvider>
     );
 };
 
