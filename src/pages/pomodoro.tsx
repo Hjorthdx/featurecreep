@@ -8,7 +8,7 @@ import Tasks from '../components/pomodoro/tasks';
 // TODO: Change all the popups to make use of Radix
 export default function Pomodoro(req: NextApiRequest, res: NextApiResponse) {
     const { status } = useSession({
-        required: false, // TEMP was true
+        required: true,
     });
 
     if (status === 'loading') {
