@@ -1,7 +1,8 @@
-import { useEffect, useReducer } from 'react';
-import ElevatedButton from '../interactables/buttons/elevatedButton';
-import SettingsButton from '../interactables/buttons/settingsButton';
+import { useReducer } from 'react';
 import { PomodoroModes } from '../../types/pomodoroModes';
+import PomodoroSettingsDialog from '../dialogs/pomodoroSettingsDialog';
+import ElevatedButton from '../interactables/buttons/elevatedButton';
+import { GearIcon } from '@radix-ui/react-icons';
 
 type TopbarModes = PomodoroModes | 'settings';
 
@@ -23,7 +24,7 @@ function pomodoroMethodReducer(state: TopbarState, action: PomodoroMethodAction)
     switch (action.type) {
         case 'updateLastClicked':
             const temp = { work: false, break: false, longBreak: false, settings: false };
-            return { ...temp, [action.payload]: true };
+            return { ...temp, [action.payload]: !state[action.payload] };
         default:
             return state;
     }
@@ -32,11 +33,9 @@ function pomodoroMethodReducer(state: TopbarState, action: PomodoroMethodAction)
 interface Props {
     selectedMode: TopbarModes;
     onClick: (mode: PomodoroModes) => void;
-    show: boolean;
-    setShow: () => void;
 }
 
-export default function Topbar({ selectedMode, onClick, show, setShow }: Props) {
+export default function Topbar({ selectedMode, onClick }: Props) {
     const [state, dispatch] = useReducer(pomodoroMethodReducer, {
         work: false,
         break: false,
@@ -52,18 +51,14 @@ export default function Topbar({ selectedMode, onClick, show, setShow }: Props) 
 
     function onSettingsPress(mode: TopbarModes) {
         dispatch({ type: 'updateLastClicked', payload: mode });
-        setShow();
     }
 
-    useEffect(() => {
-        if (!show) {
-            dispatch({ type: 'updateLastClicked', payload: selectedMode });
-        }
-    }, [selectedMode, show]);
-
     return (
-        <div className='p-5 py-5 inline-flex'>
-            <SettingsButton enabled={state.settings} onClick={() => onSettingsPress('settings')} />
+        <div className='flex space-x-2 pb-5'>
+            <PomodoroSettingsDialog enabled={state.settings} closeDialog={() => onSettingsPress('settings')} />
+            <ElevatedButton enabled={state.settings} onClick={() => onSettingsPress('settings')}>
+                <GearIcon />
+            </ElevatedButton>
             <ElevatedButton enabled={state.work} onClick={() => onPress('work')}>
                 Work button
             </ElevatedButton>

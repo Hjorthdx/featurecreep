@@ -12,6 +12,23 @@ datasource db {
     relationMode = "prisma"
 }
 
+model Semester {
+    number Int @id
+    degreeType String @default("")
+    projectName String
+    projectArea String
+    authors String
+    description String @db.LongText
+    tags String @db.LongText
+    images String @db.LongText // Stored as a single string with ',' as the delimiter because I cannot use a String[]...
+    imageDescriptions String @db.LongText // Stored as a single string with ',' as the delimiter because I cannot use a String[]...
+    
+    // Should these really just be combined with the images into something along the lines of media?
+    // This would require logic for the frontend to seperate them though, where now they are just in their own seperate columns...
+    videos String @db.LongText @default("") // Stored as a single string with ',' as the delimiter because I cannot use a String[]...
+    videoDescriptions String @db.LongText @default("") // Stored as a single string with ',' as the delimiter because I cannot use a String[]...
+}
+
 model DuneGame {
     id          String  @id @default(cuid())
     user        User    @relation(fields: [userId], references: [id])

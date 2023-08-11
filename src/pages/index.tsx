@@ -5,11 +5,11 @@ import FeatureGrid from '../components/grids/featureGrid';
 
 const Home: NextPage = () => {
     return (
-        <div className='bg-zinc-300'>
+        <div className='bg-amber-2'>
             <Head title='FeatureCreep' />
             <div className='container flex flex-col items-center justify-center min-h-screen p-10 px-0 mx-auto md:py-20 md:p-10 md:px-0'>
-                <h1 className='font-extrabold text-center text-7xl'>Welcome!</h1>
-                <h3 className='items-center m-5 text-3xl'>FeatureCreep presents:</h3>
+                <h1 className='font-extrabold text-center text-7xl text-amber-12'>Welcome!</h1>
+                <h3 className='items-center m-5 text-3xl text-amber-12'>FeatureCreep presents:</h3>
                 <FeatureGrid />
             </div>
             <button onClick={() => signOut()}>Sign out</button>

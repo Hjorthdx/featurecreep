@@ -1,5 +1,8 @@
-import { createRouter } from '../context';
 import { timerRouter } from './timer';
 import { pomodoroFormatRouter } from './pomodoroFormat';
+import { router } from '../../trpc';
 
-export const pomodoroRouter = createRouter().merge('timer.', timerRouter).merge('format.', pomodoroFormatRouter);
+export const pomodoroRouter = router({
+    timer: timerRouter,
+    format: pomodoroFormatRouter,
+});

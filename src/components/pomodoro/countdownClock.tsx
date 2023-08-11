@@ -5,15 +5,15 @@ interface Props {
     duration: number;
     onComplete: () => void;
 }
-
+// TODO: Figure out why it is not changing colors properly
 export default function CountdownClock({ isPlaying, duration, onComplete }: Props) {
     return (
         <CountdownCircleTimer
             key={duration.toString()}
             isPlaying={isPlaying}
             duration={duration}
-            colors={['#004777', '#F7B801', '#A30000', '#A30000']}
-            colorsTime={[7, 5, 2, 0]}
+            colors={['#25a30b', '#ffdd00', '#ff0800']}
+            colorsTime={[5, 4, 3]}
             onComplete={onComplete}
             size={270}
         >
@@ -26,7 +26,7 @@ export default function CountdownClock({ isPlaying, duration, onComplete }: Prop
                 if (minutesLeft.toString().length == 1) {
                     minutesLeft = '0' + minutesLeft;
                 }
-                return <div className='text-7xl'>{minutesLeft + ':' + secondsLeft}</div>;
+                return <div className='text-7xl text-amber-11'>{minutesLeft + ':' + secondsLeft}</div>;
             }}
         </CountdownCircleTimer>
     );

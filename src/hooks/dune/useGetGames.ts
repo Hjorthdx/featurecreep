@@ -8,14 +8,11 @@ interface Props {
 }
 
 export default function useGetGames({ userId, leader, riseOfIX, immortality }: Props) {
-    const { data } = trpc.useQuery([
-        'dune.getGames',
-        {
-            userId: userId,
-            leader: leader,
-            riseOfIX: riseOfIX,
-            immortality: immortality,
-        },
-    ]);
+    const { data } = trpc.dune.getGames.useQuery({
+                    userId: userId,
+                    leader: leader,
+                    riseOfIX: riseOfIX,
+                    immortality: immortality,
+                });
     return { games: data ?? [] };
 }

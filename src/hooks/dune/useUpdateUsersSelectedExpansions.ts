@@ -2,10 +2,9 @@ import { trpc } from '../../utils/trpc';
 
 export default function useUpdateUsersSelectedExpansions() {
     const context = trpc.useContext();
-    const { mutate: updateUsersSelectedExpansions } = trpc.useMutation('dune.updateUsersSelectedExpansions', {
+    const { mutate: updateUsersSelectedExpansions } = trpc.dune.updateUsersSelectedExpansions.useMutation({
         onSuccess() {
-            context.invalidateQueries(['dune.getGames']);
-            context.invalidateQueries(['dune.getUsersSelectedExpansions']);
+            context.dune.invalidate();
         },
     });
 

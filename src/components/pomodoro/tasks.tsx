@@ -4,8 +4,8 @@ import { useAutoAnimate } from '@formkit/auto-animate/react';
 // import { useCreateTask, useGetTasks } from '../../hooks/pomodoro';
 import TaskItem from './taskItem';
 import useLocalStorage from '../../hooks/useLocalStorage';
-import TaskOptionsDropdown from '../interactables/dropdowns/taskOptionsDropdown';
 import AddButton from '../interactables/buttons/addButton';
+import TaskDropdown from '../interactables/dropdowns/taskDropdown';
 
 export interface Task {
     id: string;
@@ -85,22 +85,20 @@ export default function Tasks() {
     }
 
     return (
-        <div className='flex flex-col items-center bg-white rounded-2xl border-2 border-neutral-800'>
-            <div className='p-5 py-5 inline-flex justify-between w-full'>
+        <div className='flex flex-col items-center'>
+            <div className='pb-5 inline-flex justify-between w-full'>
                 <input
                     ref={inputRef}
-                    className='shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline mx-3 border-gray-400'
+                    className='shadow appearance-none border rounded w-full py-2 px-3 text-amber-12 bg-amber-3 focus:bg-amber-4 leading-tight focus:outline-none focus:shadow-outline mr-3 border-amber-7 focus:border-amber-8 placeholder-amber-11'
                     type='text'
                     onChange={onChange}
                     onKeyDown={handleKeyDown}
                     placeholder='Please insert task name'
                 />
-                {/* Should this add button even be here?
-                 Or do I only accept enter as a way to add? */}
                 <AddButton onClick={handleNewTaskClick} />
-                <TaskOptionsDropdown onTaskDelete={onTaskDelete} taskCount={tasks.length} />
+                <TaskDropdown onTaskDelete={onTaskDelete} taskCount={tasks.length} />
             </div>
-            <div ref={tasksRef} className='p-5 py-5 w-full'>
+            <div ref={tasksRef} className='w-full'>
                 {tasks.map((task, index) => (
                     <TaskItem
                         key={index}

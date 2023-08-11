@@ -1,24 +1,38 @@
 // src/pages/_app.tsx
-import { withTRPC } from '@trpc/next';
-import type { AppRouter } from '../server/router';
 import type { AppType } from 'next/dist/shared/lib/utils';
-import superjson from 'superjson';
 import { SessionProvider } from 'next-auth/react';
-import { Provider } from 'react-redux';
-import { store } from '../redux/store';
-import { SECONDS_IN_A_DAY } from '../constants';
+import { ThemeProvider } from '../utils/themeProvider';
 import '../styles/globals.css';
+import React, { createContext, useRef } from 'react';
+import { trpc } from '../utils/trpc';
+import type { AppProps } from 'next/app';
 
-const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }) => {
+interface AppContextType {
+    appRef: React.RefObject<HTMLDivElement> | null;
+}
+
+export const AppContext = createContext<AppContextType>({
+    appRef: null,
+});
+
+const MyApp: AppType = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
+    const appRef = useRef<HTMLDivElement>(null);
     return (
         <SessionProvider session={session}>
-            <Provider store={store}>
-                <Component {...pageProps} />
-            </Provider>
+            <ThemeProvider>
+                <div ref={appRef}>
+                    <AppContext.Provider value={{ appRef }}>
+                        <Component {...pageProps} />
+                    </AppContext.Provider>
+                </div>
+            </ThemeProvider>
         </SessionProvider>
     );
 };
 
+export default trpc.withTRPC(MyApp);
+
+/* TODO: Husk atfå de der headers med...
 export default withTRPC<AppRouter>({
     config({ ctx }) {
         if (typeof window !== 'undefined') {
@@ -48,7 +62,7 @@ export default withTRPC<AppRouter>({
     },
     ssr: true,
 })(MyApp);
-
+*/
 /*
 const getBaseUrl = () => {
     if (typeof window !== 'undefined') {

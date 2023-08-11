@@ -1,32 +1,40 @@
 import { z } from 'zod';
-import { createProtectedRouter } from '../protectedRouter';
+import { router, protectedProcedure } from '../../trpc';
 
-export const pomodoroFormatRouter = createProtectedRouter()
-    .query('getAllOfUsersPomodoroFormats', {
-        input: z.object({
-            userId: z.string(),
+export const pomodoroFormatRouter = router({
+    getAllOfUsersPomodoroFormats: protectedProcedure
+        .input(
+            z.object({
+                userId: z.string(),
+            })
+        )
+        .query(async ({ input, ctx }) => {
+            return await ctx.prisma.pomodoroFormat.findMany({
+                where: {
+                    userId: input.userId,
+                },
+            });
         }),
-        async resolve({ input, ctx }) {
-            return await ctx.prisma.pomodoroFormat.findMany({ where: { userId: input.userId } });
-        },
-    })
-    .query('getSelectedPomodoroFormat', {
-        input: z.object({
-            pomodoroFormatId: z.string(),
-        }),
-        async resolve({ input, ctx }) {
+    getSelectedPomodoroFormat: protectedProcedure
+        .input(
+            z.object({
+                pomodoroFormatId: z.string(),
+            })
+        )
+        .query(async ({ input, ctx }) => {
             return await ctx.prisma.pomodoroFormat.findFirst({ where: { id: input.pomodoroFormatId } });
-        },
-    })
-    .mutation('createPomodoroFormat', {
-        input: z.object({
-            name: z.string(),
-            workDuration: z.string(),
-            breakDuration: z.string(),
-            longBreakDuration: z.string(),
-            autoStartTimer: z.boolean(),
         }),
-        async resolve({ input, ctx }) {
+    createPomodoroFormat: protectedProcedure
+        .input(
+            z.object({
+                name: z.string(),
+                workDuration: z.string(),
+                breakDuration: z.string(),
+                longBreakDuration: z.string(),
+                autoStartTimer: z.boolean(),
+            })
+        )
+        .mutation(async ({ input, ctx }) => {
             return await ctx.prisma.pomodoroFormat.create({
                 data: {
                     userId: ctx.session.user.id,
@@ -37,18 +45,19 @@ export const pomodoroFormatRouter = createProtectedRouter()
                     autoStartTimer: input.autoStartTimer,
                 },
             });
-        },
-    })
-    .mutation('updatePomodoroFormat', {
-        input: z.object({
-            id: z.string(),
-            name: z.string(),
-            workDuration: z.string(),
-            breakDuration: z.string(),
-            longBreakDuration: z.string(),
-            autoStartTimer: z.boolean(),
         }),
-        async resolve({ input, ctx }) {
+    updatePomodoroFormat: protectedProcedure
+        .input(
+            z.object({
+                id: z.string(),
+                name: z.string(),
+                workDuration: z.string(),
+                breakDuration: z.string(),
+                longBreakDuration: z.string(),
+                autoStartTimer: z.boolean(),
+            })
+        )
+        .mutation(async ({ input, ctx }) => {
             return await ctx.prisma.pomodoroFormat.update({
                 where: { id: input.id },
                 data: {
@@ -59,18 +68,19 @@ export const pomodoroFormatRouter = createProtectedRouter()
                     autoStartTimer: input.autoStartTimer,
                 },
             });
-        },
-    })
-    .mutation('updateUsersSelectedPomodoroFormat', {
-        input: z.object({
-            pomodoroFormatId: z.string(),
         }),
-        async resolve({ input, ctx }) {
-            return await ctx.prisma.user.updateMany({
+    updateUsersSelectedPomodoroFormat: protectedProcedure
+        .input(
+            z.object({
+                pomodoroFormatId: z.string(),
+            })
+        )
+        .mutation(async ({ input, ctx }) => {
+            return await ctx.prisma.user.update({
                 where: { id: ctx.session.user.id },
                 data: {
                     selectedPomodoroFormatId: input.pomodoroFormatId,
                 },
             });
-        },
-    });
+        }),
+});
