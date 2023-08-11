@@ -13,7 +13,12 @@ interface Props {
     handleSave: (newPomodoroFormat: Omit<Omit<PomodoroFormat, 'id'>, 'userId'>) => void;
 }
 
-export default function PomodoroSettingsForm({ pomodoroFormats, selectedPomodoroFormat, setSelectedPomodoroFormat, handleSave }: Props) {
+export default function PomodoroSettingsForm({
+    pomodoroFormats,
+    selectedPomodoroFormat,
+    setSelectedPomodoroFormat,
+    handleSave,
+}: Props) {
     const { data: session } = useSession();
 
     function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -24,8 +29,8 @@ export default function PomodoroSettingsForm({ pomodoroFormats, selectedPomodoro
             workDuration: event.currentTarget.workDuration.value,
             breakDuration: event.currentTarget.breakDuration.value,
             longBreakDuration: event.currentTarget.longBreakDuration.value,
-            autoStartTimer: false // event.currentTarget.autoStartTimer,
-        }
+            autoStartTimer: false, // event.currentTarget.autoStartTimer,
+        };
         console.log('Data: ', data);
         handleSave(data);
     }
@@ -50,16 +55,43 @@ export default function PomodoroSettingsForm({ pomodoroFormats, selectedPomodoro
     }
 
     return (
-        <Form.Root onSubmit={handleSubmit} className="w-full">
-            <PomodoroSelectFormField selectedPomodoroFormatId={session?.user.selectedPomodoroFormatId ?? ''} pomodoroFormats={pomodoroFormats} onOptionChange={onOptionChange} />
+        <Form.Root onSubmit={handleSubmit} className='w-full'>
+            <PomodoroSelectFormField
+                selectedPomodoroFormatId={session?.user.selectedPomodoroFormatId ?? ''}
+                pomodoroFormats={pomodoroFormats}
+                onOptionChange={onOptionChange}
+            />
 
-            <PomodoroInputFormField name='formatName' label='Format name' valueMissing='Please enter a format name' placeholder={selectedPomodoroFormat.name} />
-            <PomodoroInputFormField name='workDuration' label='Work duration (minutes)' valueMissing='Please enter a work duration' type='number' placeholder={selectedPomodoroFormat.workDuration} />
-            <PomodoroInputFormField name='breakDuration' label='Break duration (minutes)' valueMissing='Please enter a break duration' type='number' placeholder={selectedPomodoroFormat.breakDuration} />
-            <PomodoroInputFormField name='longBreakDuration' label='Long break duration (minutes)' valueMissing='Please enter a long break duration' type='number' placeholder={selectedPomodoroFormat.longBreakDuration} />
+            <PomodoroInputFormField
+                name='formatName'
+                label='Format name'
+                valueMissing='Please enter a format name'
+                placeholder={selectedPomodoroFormat.name}
+            />
+            <PomodoroInputFormField
+                name='workDuration'
+                label='Work duration (minutes)'
+                valueMissing='Please enter a work duration'
+                type='number'
+                placeholder={selectedPomodoroFormat.workDuration}
+            />
+            <PomodoroInputFormField
+                name='breakDuration'
+                label='Break duration (minutes)'
+                valueMissing='Please enter a break duration'
+                type='number'
+                placeholder={selectedPomodoroFormat.breakDuration}
+            />
+            <PomodoroInputFormField
+                name='longBreakDuration'
+                label='Long break duration (minutes)'
+                valueMissing='Please enter a long break duration'
+                type='number'
+                placeholder={selectedPomodoroFormat.longBreakDuration}
+            />
 
             <Form.Submit asChild>
-                <button className="box-border w-full text-amber-11 shadow-amber-7 hover:bg-amber-4 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-amber-3 px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-amber-8 hover:shadow-amber-8 focus:outline-none mt-[10px]">
+                <button className='box-border w-full text-amber-11 shadow-amber-7 hover:bg-amber-4 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-amber-3 px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-amber-8 hover:shadow-amber-8 focus:outline-none mt-[10px]'>
                     Save
                 </button>
             </Form.Submit>

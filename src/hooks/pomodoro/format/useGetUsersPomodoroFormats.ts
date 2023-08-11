@@ -6,7 +6,7 @@ interface Props {
 
 export default function useGetAllOfUsersPomodoroFormats({ userId }: Props) {
     const { data: formats } = trpc.pomodoro.format.getAllOfUsersPomodoroFormats.useQuery({
-                    userId: userId,
-                });
+        userId: userId,
+    });
     return { formats: formats ?? [] };
 }

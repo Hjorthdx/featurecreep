@@ -31,7 +31,10 @@ export default function Checkbox({ label, onClick, checked = false }: Props) {
                 checked={isChecked}
                 onClick={handleClick}
             />
-            <label htmlFor='default-checkbox' className={`${checked ? 'line-through' : ''} ml-2 text-amber-11 font-semibold text-xl'`}>
+            <label
+                htmlFor='default-checkbox'
+                className={`${isChecked ? 'line-through' : ''} ml-2 text-amber-11 font-semibold text-xl'`}
+            >
                 {label}
             </label>
         </div>

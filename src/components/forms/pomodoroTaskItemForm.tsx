@@ -19,10 +19,15 @@ export default function PomodoroTaskItemForm({ taskName, handleSave }: Props) {
     }
 
     return (
-        <Form.Root onSubmit={handleSubmit} className="w-full">
-            <PomodoroInputFormField name='label' label='Task name' valueMissing='Please enter a name' placeholder={taskName} />
+        <Form.Root onSubmit={handleSubmit} className='w-full'>
+            <PomodoroInputFormField
+                name='label'
+                label='Task name'
+                valueMissing='Please enter a name'
+                placeholder={taskName}
+            />
             <Form.Submit asChild>
-                <button className="box-border w-full text-amber-11 shadow-amber-7 hover:bg-amber-4 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-amber-3 px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-amber-8 hover:shadow-amber-8 focus:outline-none mt-[10px]">
+                <button className='box-border w-full text-amber-11 shadow-amber-7 hover:bg-amber-4 inline-flex h-[35px] items-center justify-center rounded-[4px] bg-amber-3 px-[15px] font-medium leading-none shadow-[0_2px_10px] focus:shadow-amber-8 hover:shadow-amber-8 focus:outline-none mt-[10px]'>
                     Save
                 </button>
             </Form.Submit>

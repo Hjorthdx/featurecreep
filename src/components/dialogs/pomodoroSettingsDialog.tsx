@@ -33,21 +33,22 @@ export default function PomodoroSettingsDialog({ enabled, closeDialog }: Props) 
     function handleSave(newPomodoroFormat: Omit<Omit<PomodoroFormat, 'id'>, 'userId'>) {
         if (session?.user) {
             if (selectedPomodoroFormat.id === 'NEW_POMODORO_FORMAT_ID') {
-                create(newPomodoroFormat,
-                    {
-                        onSuccess: (data) => {
-                            updateUsersSelectedPomodoroFormat({ pomodoroFormatId: data.id });
-                            session.user.selectedPomodoroFormatId = data.id;
-                        },
-                    }
-                );
-            } else {
-                update({ ...newPomodoroFormat, id: selectedPomodoroFormat.id }, {
+                create(newPomodoroFormat, {
                     onSuccess: (data) => {
                         updateUsersSelectedPomodoroFormat({ pomodoroFormatId: data.id });
                         session.user.selectedPomodoroFormatId = data.id;
                     },
                 });
+            } else {
+                update(
+                    { ...newPomodoroFormat, id: selectedPomodoroFormat.id },
+                    {
+                        onSuccess(data) {
+                            updateUsersSelectedPomodoroFormat({ pomodoroFormatId: data.id });
+                            session.user.selectedPomodoroFormatId = data.id;
+                        },
+                    }
+                );
             }
         }
         closeDialog();
@@ -56,12 +57,18 @@ export default function PomodoroSettingsDialog({ enabled, closeDialog }: Props) 
     return (
         <Dialog.Root open={enabled} onOpenChange={closeDialog}>
             <Dialog.Portal container={context.appRef?.current ?? document.body}>
-                <Dialog.Overlay className="bg-sandA-9 data-[state=open]:animate-overlayShow fixed inset-0" />
-                <Dialog.Content className="data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-amber-2 p-[25px] focus:outline-none">
-                    <DialogHeader title='Pomodoro settings' text="Make changes to your pomodoro format here or create a completely new one. Click save when you're done." />
-                    <PomodoroSettingsForm pomodoroFormats={formats ?? []}
+                <Dialog.Overlay className='bg-sandA-9 data-[state=open]:animate-overlayShow fixed inset-0' />
+                <Dialog.Content className='data-[state=open]:animate-contentShow fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%] rounded-[6px] bg-amber-2 p-[25px] focus:outline-none'>
+                    <DialogHeader
+                        title='Pomodoro settings'
+                        text="Make changes to your pomodoro format here or create a completely new one. Click save when you're done."
+                    />
+                    <PomodoroSettingsForm
+                        pomodoroFormats={formats ?? []}
                         selectedPomodoroFormat={selectedPomodoroFormat}
-                        setSelectedPomodoroFormat={setSelectedPomodoroFormat} handleSave={handleSave} />
+                        setSelectedPomodoroFormat={setSelectedPomodoroFormat}
+                        handleSave={handleSave}
+                    />
                 </Dialog.Content>
             </Dialog.Portal>
         </Dialog.Root>

@@ -4,7 +4,7 @@ export default function useUpdateUsersSelectedPomodoroFormat() {
     const context = trpc.useContext();
     const { mutate: updateUsersSelectedPomodoroFormat } = trpc.pomodoro.format.updateUsersSelectedPomodoroFormat.useMutation(
         {
-            onSuccess() {
+            onSuccess: (input) => {
                 context.pomodoro.format.getSelectedPomodoroFormat.invalidate();
             },
         }

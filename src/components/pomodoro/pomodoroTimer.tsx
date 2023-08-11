@@ -19,7 +19,7 @@ export default function PomodoroTimer() {
     const [selectedMode, setSelectedMode] = useState<PomodoroModes>('work');
     const [isPlaying, setIsPlaying] = useState(false);
     const [startedAt, setStartedAt] = useState<Date>();
-    const { duration } = usePomodoroDuration({ selectedMode: selectedMode });
+    const { duration } = usePomodoroDuration({ selectedPomodoroFormat: selectedPomodoroFormat, selectedMode: selectedMode });
 
     const [pomodoroCount, setPomodoroCount] = useState(1);
     const audioRef = useRef<HTMLAudioElement>(null);

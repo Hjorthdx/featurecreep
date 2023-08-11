@@ -8,10 +8,15 @@ export default function FeatureGrid() {
                     <p className='mb-5 italic text-amber-11'>Stay focused and finish tasks effectively.</p>
                 </GridCell>
                 <GridCell path='/dune' title='Dune'>
-                    <p className='mb-5 italic text-amber-11'>Manage stats for the board game Dune. NOT UPDATED UI</p>
+                    <p className='mb-5 italic text-amber-11'>
+                        Manage stats for the board game Dune. <strong>NOT UPDATED UI</strong>
+                    </p>
                 </GridCell>
                 <GridCell path='/movies' title='Movies'>
-                    <p className='mb-5 italic text-amber-11'>Track movies you would like to see and rate the movies you have seen. NOT IMPLEMENTED YET</p>
+                    <p className='mb-5 italic text-amber-11'>
+                        Track movies you would like to see and rate the movies you have seen.
+                        <strong>NOT IMPLEMENTED YET</strong>
+                    </p>
                 </GridCell>
             </main>
             <UniversityGrid />
