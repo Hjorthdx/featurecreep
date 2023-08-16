@@ -32,10 +32,14 @@ export default function Semester() {
                 </div>
                 <div className='flex flex-col justify-center p-5 w-2/3 max-h-screen'>
                     <ImageCarousel
-                        images={semester.images.split(',')}
-                        imageDescriptions={semester.imageDescriptions.split(',')}
-                        videos={semester.videos.split(',')}
-                        videoDescriptions={semester.videoDescriptions.split(',')}
+                        images={semester.images !== '' ? semester.images.split(',') : undefined}
+                        imageDescriptions={
+                            semester.imageDescriptions !== '' ? semester.imageDescriptions.split(',') : undefined
+                        }
+                        videos={semester.videos !== '' ? semester.videos.split(',') : undefined}
+                        videoDescriptions={
+                            semester.videoDescriptions !== '' ? semester.videoDescriptions.split(',') : undefined
+                        }
                     />
                 </div>
             </div>
