@@ -6,7 +6,7 @@ import LeaderGrid from '../components/dune/leaderGrid';
 
 export default function Dune(req: NextApiRequest, res: NextApiResponse) {
     const { status } = useSession({
-        required: false, // TEMP was true
+        required: true,
     });
 
     if (status === 'loading') {
