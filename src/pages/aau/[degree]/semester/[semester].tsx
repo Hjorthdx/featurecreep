@@ -34,6 +34,8 @@ export default function Semester() {
                     <ImageCarousel
                         images={semester.images.split(',')}
                         imageDescriptions={semester.imageDescriptions.split(',')}
+                        videos={semester.videos.split(',')}
+                        videoDescriptions={semester.videoDescriptions.split(',')}
                     />
                 </div>
             </div>
