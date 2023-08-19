@@ -1,21 +1,44 @@
 # FeatureCreep
-FeatureCreep is the project where all features are welcome!
 
-## Currently implemented features
-* Pomodoro
-* Dune tracker
+Welcome to FeatureCreep, a project where all features are welcome!
 
+## Currently Implemented Features
+
+-   Pomodoro
+-   Dune Tracker
 
 ## Pomodoro
-The Pomodoro Technique is a time management method for students, perfectionists, and procrastinators of all kinds. Work in focused, 25-minute intervals.
 
-Three different timer modes according to the Pomodoro technique (work, break & long break).
+The Pomodoro Technique is a time management method for students, perfectionists, and procrastinators of all kinds. It involves working in focused, 25-minute intervals.
 
-Different pomodoro format can be customized to the specific users needs. For instance perhabs a format of (50/10/30) is preferable compared to (25/5/15) for some work activities.
+There are three timer modes based on the Pomodoro technique: work, break, and long break.
 
-Tasks can be created to keep organized of what to focus on during work time. These can be checked off once they are completed.
+Users can customize the pomodoro format to suit their specific needs. For example, a format like (50/10/30) might be preferable for certain work activities compared to the standard (25/5/15).
+
+Tasks can be created to stay organized and focused during work time. Completed tasks can be checked off the list.
 
 ## Dune
-Dune: Imperium is a game that finds inspiration in elements and characters from the Dune legacy, both the new film from Legendary Pictures and the seminal literary series from Frank Herbert, Brian Herbert, and Kevin J. Anderson.
 
-Competetive playing of this board game can benefit from keeping track of stats for the specific leaders in the game. The leaders of the game are placed in a grid with overall stats of each leader for a player shown. Each leader can be clicked for a more detailed stat breakdown for that specific leader. This page also contains a match history of all the games the user have played on that leader in that expansion. Adding games can also be added from here.
+Dune: Imperium is a game that draws inspiration from elements and characters in the Dune legacy, including the new film from Legendary Pictures and the original literary series by Frank Herbert, Brian Herbert, and Kevin J. Anderson.
+
+For competitive gameplay of this board game, tracking statistics for specific leaders can be beneficial. The leaders are displayed in a grid with their overall stats for each player. Clicking on a leader provides a detailed breakdown of their stats. Additionally, the page includes a match history of games played with that leader in that expansion. New games can also be added from this page.
+
+# Demos of My Semester Projects at AAU
+
+In addition to the implemented features, the FeatureCreep website includes demos for each semester project from my time at Aalborg University. They are listed ascending from the first semester project.
+
+### Bachelor's Degree
+
+-   Intelligent insurances - Automatic trip registration
+-   Automated playtest with AI
+-   Elogic - A Quotation management tool
+-   CLUBS - Card Language Using Better Syntax
+-   Map Matching and Weight Completion
+-   Digitization of whiteboards and papers in real time using a mobile device
+
+### Master's Degree
+
+-   InciPort - Incident Report Service
+-   Meals on Wheels (MoW) - On-Wheel Meal Ordering System using Spatial Crowdsourcing
+-   GroupMap - Leveraging Spatial Context to Predict Interactive Multi-Agent Behavior
+-   NCLTP - Non Contrastive Learning for Trajectory Prediction

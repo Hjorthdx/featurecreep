@@ -33,35 +33,59 @@ export default function UniversityGrid() {
                         >
                             {/* TODO: Fix this... Please help me. I have stared myself blind on this and can't seem to grasp right now how to solve this in a better way. The trouble is that I can't store the short description in the database because some of the text needs to be styled.*/}
                             {semester.number === 1 && (
-                                <p className='mb-5 italic text-amber-11'>First semester project. NOT IMPLMENTED YET</p>
+                                <p className='mb-5 italic text-amber-11'>
+                                    <strong>First semester project.</strong> <br />
+                                    <strong>NOT IMPLMENTED YET</strong>
+                                </p>
                             )}
 
                             {semester.number === 2 && (
-                                <p className='mb-5 italic text-amber-11'>Second semester project. NOT IMPLMENTED YET</p>
+                                <p className='mb-5 italic text-amber-11'>
+                                    <strong>Second semester project.</strong> <br />
+                                    <strong>NOT IMPLMENTED YET</strong>
+                                </p>
                             )}
 
                             {semester.number === 3 && (
-                                <p className='mb-5 italic text-amber-11'>Third semester project. NOT IMPLMENTED YET</p>
+                                <p className='mb-5 italic text-amber-11'>
+                                    <strong>Third semester project.</strong> <br />
+                                    <strong>NOT IMPLMENTED YET</strong>
+                                </p>
                             )}
 
                             {semester.number === 4 && (
-                                <p className='mb-5 italic text-amber-11'>Fourth semester project. NOT IMPLMENTED YET</p>
+                                <p className='mb-5 italic text-amber-11'>
+                                    <strong>Fourth semester project.</strong> <br />
+                                    <strong>NOT IMPLMENTED YET</strong>
+                                </p>
                             )}
 
                             {semester.number === 5 && (
-                                <p className='mb-5 italic text-amber-11'>Fifth semester project. NOT IMPLMENTED YET</p>
+                                <p className='mb-5 italic text-amber-11'>
+                                    <strong>Fifth semester project.</strong> <br />
+                                    <strong>NOT IMPLMENTED YET</strong>
+                                </p>
                             )}
 
                             {semester.number === 6 && (
-                                <p className='mb-5 italic text-amber-11'>Bachelor project. NOT IMPLMENTED YET</p>
+                                <p className='mb-5 italic text-amber-11'>
+                                    <strong>Bachelor project.</strong> <br />
+                                    <strong>NOT IMPLMENTED YET</strong>
+                                </p>
                             )}
 
                             {semester.number === 7 && (
-                                <p className='mb-5 italic text-amber-11'>Seventh semester project. NOT IMPLMENTED YET</p>
+                                <p className='mb-5 italic text-amber-11'>
+                                    <strong>Seventh semester project.</strong> <br />
+                                    <strong>NOT IMPLMENTED YET</strong>
+                                </p>
                             )}
 
                             {semester.number === 8 && (
-                                <p className='mb-5 italic text-amber-11'>Eigth semester project. NOT IMPLMENTED YET</p>
+                                <p className='mb-5 italic text-amber-11'>
+                                    <strong>Eigth semester project.</strong> <br />
+                                    <strong>NOT IMPLMENTED YET</strong>
+                                </p>
                             )}
 
                             {semester.number === 9 && (

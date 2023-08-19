@@ -9,12 +9,14 @@ export default function FeatureGrid() {
                 </GridCell>
                 <GridCell path='/dune' title='Dune'>
                     <p className='mb-5 italic text-amber-11'>
-                        Manage stats for the board game Dune. <strong>NOT UPDATED UI</strong>
+                        Manage stats for the board game Dune. <br />
+                        <strong>NOT UPDATED UI</strong>
                     </p>
                 </GridCell>
                 <GridCell path='/movies' title='Movies'>
                     <p className='mb-5 italic text-amber-11'>
                         Track movies you would like to see and rate the movies you have seen.
+                        <br />
                         <strong>NOT IMPLEMENTED YET</strong>
                     </p>
                 </GridCell>
