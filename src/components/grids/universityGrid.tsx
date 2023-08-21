@@ -21,7 +21,7 @@ export default function UniversityGrid() {
     return (
         <>
             <h3 className='items-center m-5 text-3xl text-amber-12'>
-                Demos of my semester projects during bachelor and master at AAU:
+                {"Demonstrations of the semester projects completed throughout my bachelor's and master's degrees at AAU:"}
             </h3>
             <main className='grid items-start grid-cols-1 gap-10 p-5 md:p-0 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'>
                 {semesters.map((semester) => {
@@ -90,15 +90,19 @@ export default function UniversityGrid() {
 
                             {semester.number === 9 && (
                                 <p className='mb-5 italic text-amber-11'>
-                                    <strong>9th semester project.</strong> Enhances state-of-the-art (<strong>SOTA</strong>)
-                                    trajectory prediction models using <strong>spatial context</strong>.
+                                    <strong>9th semester project.</strong>
+                                    <br />
+                                    Enhances state-of-the-art (<strong>SOTA</strong>) trajectory prediction models using
+                                    <strong>spatial context</strong>.
                                 </p>
                             )}
 
                             {semester.number === 10 && (
                                 <p className='mb-5 italic text-amber-11'>
-                                    <strong>Master thesis.</strong> Enhances state-of-the-art (<strong>SOTA</strong>)
-                                    trajectory prediction models using my <strong>pre-trained framework</strong>.
+                                    <strong>Master thesis.</strong>
+                                    <br />
+                                    Enhances state-of-the-art (<strong>SOTA</strong>) trajectory prediction models using my
+                                    <strong>pre-trained framework</strong>.
                                 </p>
                             )}
                         </GridCell>

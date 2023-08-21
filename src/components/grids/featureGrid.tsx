@@ -1,5 +1,6 @@
 import GridCell from './gridCell';
 import UniversityGrid from './universityGrid';
+
 export default function FeatureGrid() {
     return (
         <>
@@ -15,7 +16,7 @@ export default function FeatureGrid() {
                 </GridCell>
                 <GridCell path='/movies' title='Movies'>
                     <p className='mb-5 italic text-amber-11'>
-                        Track movies you would like to see and rate the movies you have seen.
+                        Track movies you would like to watch and rate the movies you have seen.
                         <br />
                         <strong>NOT IMPLEMENTED YET</strong>
                     </p>
