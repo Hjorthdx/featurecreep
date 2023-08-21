@@ -12,7 +12,6 @@ interface Props {
 }
 
 function YoutubeSlide({ url, isSelected }: { url: string; isSelected?: boolean }) {
-    console.log('isSelected', isSelected);
     return <ReactPlayer width='100%' url={url} playing={isSelected} />;
 }
 
@@ -38,7 +37,7 @@ export default function ImageCarousel({ images, imageDescriptions, videos, video
                         if (reactPlayerElement) {
                             const getVideoThumb = (videoId: string) => `https://img.youtube.com/vi/${videoId}/default.jpg`;
                             const getVideoId = (url: string) =>
-                                url.substring('https://www.youtube.com/embed/'.length, url.length);
+                                url.substring('https://www.youtube.com/watch?v='.length, url.length);
                             const videoId = getVideoId(reactPlayerElement.props.url);
                             img = (
                                 <img key={item.props.url} src={getVideoThumb(videoId)} alt={reactPlayerElement.props.url} />
