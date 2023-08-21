@@ -17,7 +17,6 @@ function YoutubeSlide({ url, isSelected }: { url: string; isSelected?: boolean }
 
 // TODO: Idea (?) Perhaps should have autoplay until the first time you interact with the carousel?
 // TODO: Should use Next/Image instead of img, but I think this breaks the library right now...
-// TODO: Figure out a way to format the slides better (Varying height for all the elements, which makes the thumbnails not be directly below...)
 export default function ImageCarousel({ images, imageDescriptions, videos, videoDescriptions }: Props) {
     // What a monstrosity I've created... Please help me...
     const customRenderThumbnail = (children: ReactChild[]): ReactChild[] => {
